@@ -79,56 +79,33 @@ header {
   justify-content: center;
 }
 
-.balloon-logo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-  box-shadow: 0 4px 10px rgba(110, 27, 50, 0.25);
-  animation: balloonFloat 3.5s ease-in-out infinite alternate;
-  transition: transform 0.15s ease-out;
-  transform-origin: center center;
-  display: block;
+/* Logo Static Base Style */
+.logo-balloon-wrapper {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  min-width: 50px;
+  cursor: grab; /* মাউস নিলে হাতের আইকন দেখাবে */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  touch-action: none; /* মোবাইলেও টেনে ধরার জন্য */
 }
 
-/* Jellyfish / Ping-Pong Squish Bounce Animation */
-@keyframes jellyBounce {
-  0% {
-    transform: translateY(0) scale(1, 1);
-  }
-  35% {
-    /* একদম স্পিডে নিচে এসে পড়বে (Thas করে পড়া) */
-    transform: translateY(18px) scale(1.1, 0.8);
-  }
-  45% {
-    /* নিচে পড়ে চ্যাপ্টা/গলে যাওয়ার মতো ইফেক্ট (Squish & Melt) */
-    transform: translateY(22px) scale(1.35, 0.65);
-  }
-  60% {
-    /* চ্যাপ্টা হওয়ার পর জেলিফিশের মতো উপরে লাফ দেবে (Bounce Up) */
-    transform: translateY(-8px) scale(0.85, 1.2);
-  }
-  75% {
-    /* আবার স্বাভাবিক গোল আকারে ফিরতে থাকবে */
-    transform: translateY(3px) scale(1.05, 0.95);
-  }
-  100% {
-    /* আগের জায়গায় গোল হয়ে থামবে */
-    transform: translateY(0) scale(1, 1);
-  }
+.logo-balloon-wrapper:active {
+  cursor: grabbing; /* টান দেওয়ার সময় ধরা হাত দেখাবে */
 }
 
-/* Balloon Logo Styling update */
 .balloon-logo {
   width: 100%;
   height: 100%;
   object-fit: contain;
   border-radius: 50%;
   box-shadow: 0 4px 10px rgba(110, 27, 50, 0.2);
-  /* ২ সেকেন্ড পরপর এই জেলিফিশ বাউন্স অ্যানিমেশনটি চলবে */
-  animation: jellyBounce 2.2s cubic-bezier(0.28, 0.84, 0.42, 1) infinite;
-  transform-origin: bottom center; /* নিচ থেকে চ্যাপ্টা হওয়ার জন্য */
   display: block;
+  pointer-events: none; /* টেনে নেওয়ার সময় ইমেজ ড্র্যাগ ইস্যু বন্ধ রাখতে */
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* রবার স্প্রিং ব্যাক ইফেক্ট */
 }
 
 .brand-name {
