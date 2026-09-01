@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Jost:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Jost:wght@300;400;500;600&family=Noto+Serif+Bengali:wght@400;500;600&family=Noto+Sans+Bengali:wght@300;400;500;600&display=swap');
 
 :root {
   --maroon: #6E1B32;
@@ -20,13 +20,13 @@ body {
   margin: 0;
   background: var(--cream);
   color: var(--ink);
-  font-family: 'Jost', sans-serif;
+  font-family: 'Noto Sans Bengali', 'Jost', sans-serif;
   font-weight: 300;
-  line-height: 1.6;
+  line-height: 1.7;
 }
 
 h1, h2, h3, .display {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Noto Serif Bengali', 'Cormorant Garamond', serif;
   font-weight: 500;
   color: var(--maroon-deep);
   margin: 0;
@@ -138,8 +138,7 @@ header {
 .hero-content .kicker {
   font-size: 15px;
   color: var(--maroon-soft);
-  font-style: italic;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Noto Serif Bengali', serif;
   margin-bottom: 14px;
 }
 
@@ -199,7 +198,7 @@ header {
 }
 
 .section-head h2 { font-size: 34px; }
-.section-head p { color: var(--maroon-soft); font-size: 14px; font-style: italic; font-family: 'Cormorant Garamond', serif; }
+.section-head p { color: var(--maroon-soft); font-size: 14px; font-family: 'Noto Serif Bengali', serif; }
 
 /* ---------- Product grid ---------- */
 .products-section { padding: 70px 0 90px; }
@@ -258,8 +257,9 @@ header {
 }
 
 .price {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 22px;
+  font-family: 'Noto Serif Bengali', serif;
+  font-size: 21px;
+  font-weight: 600;
   color: var(--maroon-deep);
 }
 
@@ -383,8 +383,9 @@ header {
 }
 
 .summary-row.total {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 22px;
+  font-family: 'Noto Serif Bengali', serif;
+  font-weight: 600;
+  font-size: 19px;
   color: var(--maroon-deep);
   border-top: 1px solid var(--rose-line);
   padding-top: 10px;
