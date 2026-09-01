@@ -2,9 +2,12 @@ document.getElementById('year').textContent = new Date().getFullYear();
 
 let currentProduct = null;
 
-// ---------- Load products from Supabase ----------
+// ---------- Load products from Supabase & Build Grid + 3D Slider ----------
 async function loadProducts() {
   const grid = document.getElementById('product-grid');
+  const sliderContainer = document.getElementById('hero3dSlider');
+  const dotsContainer = document.getElementById('dotsContainer');
+
   const { data, error } = await supabaseClient
     .from('products')
     .select('*')
@@ -18,9 +21,11 @@ async function loadProducts() {
 
   if (!data || data.length === 0) {
     grid.innerHTML = `<div class="empty-state">এই মুহূর্তে কোনো প্রোডাক্ট নেই। শীঘ্রই নতুন সংগ্রহ আসছে।</div>`;
+    sliderContainer.innerHTML = `<div class="slider-loading">শীঘ্রই নতুন সংগ্রহ আসছে...</div>`;
     return;
   }
 
+  // Render Product Grid
   grid.innerHTML = data.map(p => `
     <div class="card">
       <div class="card-image">
@@ -36,6 +41,100 @@ async function loadProducts() {
       </div>
     </div>
   `).join('');
+
+  // ---------- Generate 3D Slider from Database Products ----------
+  const bestSellers = data.slice(0, 5); // Take top 5 products for 3D Banner
+  
+  sliderContainer.innerHTML = bestSellers.map((p, index) => `
+    <div class="card-3d ${index === 0 ? 'active' : index === 1 ? 'next' : index === bestSellers.length - 1 ? 'prev' : ''}" data-title="${escapeHtml(p.name)}">
+      <div class="card-img-wrapper">
+        <img src="${p.image_url || 'assets/logo.jpg'}" alt="${escapeHtml(p.name)}">
+      </div>
+      <div class="card-info">
+        <span class="card-tag">BEST SELLING</span>
+        <h3>${escapeHtml(p.name)}</h3>
+        <button class="card-3d-btn" onclick='openModal(${JSON.stringify(p).replace(/'/g, "&apos;")})'>অর্ডার করুন ৳${Number(p.price).toLocaleString('en-BD')}</button>
+      </div>
+    </div>
+  `).join('');
+
+  dotsContainer.innerHTML = bestSellers.map((_, idx) => `<span class="dot ${idx === 0 ? 'active' : ''}"></span>`).join('');
+
+  init3DSliderLogic();
+}
+
+// ---------- 3D Slider Dynamic Logic ----------
+function init3DSliderLogic() {
+  const cards = document.querySelectorAll('.card-3d');
+  const bgTitle = document.getElementById('bgTitle');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const dots = document.querySelectorAll('#dotsContainer .dot');
+
+  if (!cards.length) return;
+
+  let currentIndex = 0;
+
+  function updateSlider() {
+    cards.forEach((card, index) => {
+      card.classList.remove('active', 'prev', 'next');
+      
+      if (index === currentIndex) {
+        card.classList.add('active');
+        if (bgTitle) bgTitle.innerText = card.getAttribute('data-title');
+      } else if (index === (currentIndex - 1 + cards.length) % cards.length) {
+        card.classList.add('prev');
+      } else if (index === (currentIndex + 1) % cards.length) {
+        card.classList.add('next');
+      }
+    });
+
+    dots.forEach((dot, idx) => {
+      dot.classList.toggle('active', idx === currentIndex);
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.onclick = () => {
+      currentIndex = (currentIndex + 1) % cards.length;
+      updateSlider();
+    };
+  }
+
+  if (prevBtn) {
+    prevBtn.onclick = () => {
+      currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+      updateSlider();
+    };
+  }
+
+  setInterval(() => {
+    currentIndex = (currentIndex + 1) % cards.length;
+    updateSlider();
+  }, 4500);
+
+  updateSlider();
+}
+
+// ---------- Water Balloon Soft Physics Logo Logic ----------
+const logoBox = document.getElementById('logoBalloon');
+if (logoBox) {
+  const logoImg = logoBox.querySelector('.balloon-logo');
+  
+  logoBox.addEventListener('mousemove', (e) => {
+    const rect = logoBox.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+
+    const stretchX = 1 + Math.abs(x) / 100;
+    const stretchY = 1 + Math.abs(y) / 100;
+
+    logoImg.style.transform = `translate3d(${x * 0.4}px, ${y * 0.4}px, 0) scale(${stretchX}, ${1 / stretchX}) rotate(${x * 0.2}deg)`;
+  });
+
+  logoBox.addEventListener('mouseleave', () => {
+    logoImg.style.transform = 'translate3d(0, 0, 0) scale(1, 1) rotate(0deg)';
+  });
 }
 
 function escapeHtml(str) {
@@ -44,7 +143,7 @@ function escapeHtml(str) {
   return d.innerHTML;
 }
 
-// ---------- Modal logic ----------
+// ---------- Modal & Order Logic ----------
 const overlay = document.getElementById('overlay');
 const orderFormWrap = document.getElementById('orderFormWrap');
 const confirmWrap = document.getElementById('confirmWrap');
