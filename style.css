@@ -595,3 +595,32 @@ footer .foot-note {
   .card-3d.prev { transform: translateX(-120px) scale(0.7) rotateY(20deg); }
   .card-3d.next { transform: translateX(120px) scale(0.7) rotateY(-20deg); }
 }
+/* Cart Badge Button Styling */
+.cart-icon-btn {
+  position: relative;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px 8px;
+  transition: transform 0.2s ease;
+}
+
+.cart-icon-btn:hover {
+  transform: scale(1.15);
+}
+
+.cart-count {
+  position: absolute;
+  top: -4px;
+  right: -6px;
+  background: var(--gold);
+  color: var(--maroon-deep);
+  font-size: 11px;
+  font-weight: 700;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
