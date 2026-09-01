@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sharee Craftline | Premium Handwoven Sarees</title>
+<link rel="icon" href="assets/logo.jpg">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <nav class="nav">
+    <a href="#" class="brand">
+      <img src="assets/logo.jpg" alt="Sharee Craftline">
+      <div class="brand-name">Sharee Craftline<span>HANDWOVEN &middot; ELEGANT &middot; TIMELESS</span></div>
+    </a>
+    <div class="nav-links">
+      <a href="#collection">Collection</a>
+      <a href="#track">Order ট্র্যাক</a>
+      <a href="#contact">যোগাযোগ</a>
+    </div>
+  </nav>
+</header>
+
+<section class="hero">
+  <svg class="hero-flourish" viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M120 40 C 60 160, 40 280, 110 380 C 160 450, 260 470, 320 430" stroke="#6E1B32" stroke-width="2"/>
+    <path d="M150 40 C 95 160, 78 280, 140 380 C 185 445, 270 460, 325 420" stroke="#6E1B32" stroke-width="2"/>
+    <path d="M180 45 C 130 160, 118 280, 172 375 C 210 438, 280 450, 330 412" stroke="#6E1B32" stroke-width="2"/>
+  </svg>
+  <div class="container hero-content">
+    <div class="kicker">আপনার আভিজাত্যের প্রতিচ্ছবি</div>
+    <h1>প্রতিটি শাড়ি, <br>একটি গল্প বোনে</h1>
+    <p>হাতে বোনা সুতোয়, নিখুঁত নকশায় তৈরি প্রতিটি শাড়ি। ঐতিহ্য আর আধুনিকতার মেলবন্ধনে Sharee Craftline নিয়ে এসেছে আপনার জন্য বিশেষ সংগ্রহ।</p>
+    <a href="#collection" class="btn">সংগ্রহ দেখুন</a>
+  </div>
+</section>
+
+<section class="products-section container" id="collection">
+  <div class="section-head">
+    <h2>আমাদের সংগ্রহ</h2>
+    <p>নতুন এসেছে</p>
+  </div>
+  <div class="grid" id="product-grid">
+    <div class="empty-state">প্রোডাক্ট লোড হচ্ছে...</div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="container">
+    <div class="brand-name">Sharee Craftline<span>HANDWOVEN &middot; ELEGANT &middot; TIMELESS</span></div>
+    <div class="foot-note">&copy; <span id="year"></span> Sharee Craftline. সর্বস্বত্ব সংরক্ষিত।</div>
+  </div>
+</footer>
+
+<!-- Buy Now Modal -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>অর্ডার করুন</h3>
+      <button class="close" id="closeModal">&times;</button>
+    </div>
+
+    <div id="orderFormWrap">
+      <div class="field">
+        <label>প্রোডাক্ট</label>
+        <input type="text" id="productNameField" disabled>
+      </div>
+
+      <div class="field">
+        <label>আপনার নাম</label>
+        <input type="text" id="custName" placeholder="যেমন: রাহেলা আক্তার">
+      </div>
+
+      <div class="field">
+        <label>মোবাইল নম্বর</label>
+        <input type="tel" id="custPhone" placeholder="01XXXXXXXXX">
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>জেলা</label>
+          <input type="text" id="custDistrict" placeholder="যেমন: টাঙ্গাইল">
+        </div>
+        <div class="field">
+          <label>উপজেলা</label>
+          <input type="text" id="custUpazila" placeholder="যেমন: সদর">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>সম্পূর্ণ ঠিকানা</label>
+        <textarea id="custAddress" rows="2" placeholder="বাড়ি নম্বর, রোড, গ্রাম/এলাকা"></textarea>
+      </div>
+
+      <div class="field">
+        <label>ডেলিভারি এলাকা</label>
+        <select id="deliveryZone">
+          <option value="dhaka">ঢাকা শহরের ভিতরে</option>
+          <option value="outside">ঢাকার বাইরে</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>প্রোমো কোড (থাকলে দিন)</label>
+        <input type="text" id="promoCode" placeholder="যেমন: WELCOME10">
+      </div>
+      <div class="error-text" id="promoError">এই প্রোমো কোডটি সঠিক নয়</div>
+
+      <div class="summary">
+        <div class="summary-row"><span>প্রোডাক্টের দাম</span><span id="sumPrice">৳0</span></div>
+        <div class="summary-row"><span>ডেলিভারি চার্জ</span><span id="sumDelivery">৳0</span></div>
+        <div class="summary-row" id="sumDiscountRow" style="display:none;"><span>ছাড়</span><span id="sumDiscount">-৳0</span></div>
+        <div class="summary-row total"><span>সর্বমোট</span><span id="sumTotal">৳0</span></div>
+      </div>
+
+      <div class="error-text" id="formError">নাম, মোবাইল, জেলা, উপজেলা ও ঠিকানা দেওয়া আবশ্যক</div>
+      <button class="btn btn-solid" id="confirmOrderBtn">অর্ডার কনফার্ম করুন</button>
+    </div>
+
+    <div id="confirmWrap" style="display:none;">
+      <div class="confirm-box">
+        <p>আপনার অর্ডারটি সফলভাবে গৃহীত হয়েছে!</p>
+        <div class="track-id" id="trackIdShow">SC-XXXXX</div>
+        <p style="font-size:13.5px;color:#6b4c56;">এই ট্র্যাকিং আইডি দিয়ে পরে আপনার অর্ডার খোঁজ করতে পারবেন। শীঘ্রই আমাদের প্রতিনিধি আপনার সাথে যোগাযোগ করবেন।</p>
+        <button class="btn btn-solid" id="closeConfirmBtn">ঠিক আছে</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
