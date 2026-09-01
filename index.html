@@ -142,11 +142,52 @@
         <button class="btn btn-solid" id="closeConfirmBtn">ঠিক আছে</button>
       </div>
     </div>
-  </div>
+</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 <script src="app.js"></script>
+
+<!-- লোগো রবার ড্র্যাগ ইফেক্টের কোড -->
+<script>
+  const logoWrapper = document.getElementById('logoBalloon');
+  const logoImg = logoWrapper ? logoWrapper.querySelector('.balloon-logo') : null;
+
+  let isDragging = false;
+  let startX, startY;
+
+  if (logoWrapper && logoImg) {
+    logoWrapper.addEventListener('pointerdown', (e) => {
+      isDragging = true;
+      startX = e.clientX;
+      startY = e.clientY;
+      logoImg.style.transition = 'none';
+      logoWrapper.setPointerCapture(e.pointerId);
+    });
+
+    logoWrapper.addEventListener('pointermove', (e) => {
+      if (!isDragging) return;
+      
+      // টেনে নেওয়ার সর্বোচ্চ সীমানা (৫০ পিক্সেল)
+      const deltaX = Math.max(-50, Math.min(50, e.clientX - startX));
+      const deltaY = Math.max(-50, Math.min(50, e.clientY - startY));
+      
+      logoImg.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(0.95)`;
+    });
+
+    const resetLogoPosition = () => {
+      if (!isDragging) return;
+      isDragging = false;
+      // রবারের মতো লাফিয়ে ফিরে আসার অ্যানিমেশন
+      logoImg.style.transition = 'transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+      logoImg.style.transform = 'translate(0px, 0px) scale(1)';
+    };
+
+    logoWrapper.addEventListener('pointerup', resetLogoPosition);
+    logoWrapper.addEventListener('pointercancel', resetLogoPosition);
+  }
+</script>
+
 </body>
 </html>
