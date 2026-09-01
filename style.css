@@ -104,20 +104,30 @@ header {
 
 .brand-name {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 26px;
+  font-size: 28px;
+  font-weight: 700; /* লেখা আরও Bold করা হয়েছে */
   letter-spacing: 0.5px;
   color: var(--maroon-deep);
+  transition: transform 0.3s ease, color 0.3s ease;
+  cursor: pointer;
+  display: inline-block;
+}
+
+/* মাউস নিলে বড় হওয়ার অ্যানিমেশন */
+.brand-name:hover {
+  transform: scale(1.05);
+  color: var(--maroon-soft);
 }
 
 .brand-name span {
   display: block;
-  font-family: 'Jost', sans-serif;
-  font-size: 10.5px;
-  letter-spacing: 3px;
+  font-family: 'Noto Serif Bengali', sans-serif;
+  font-size: 11px;
+  letter-spacing: 1px;
   color: var(--maroon-soft);
   margin-top: -2px;
+  font-weight: 500;
 }
-
 .nav-links {
   display: flex;
   gap: 34px;
