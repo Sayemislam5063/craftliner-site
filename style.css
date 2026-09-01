@@ -23,6 +23,7 @@ body {
   font-family: 'Noto Sans Bengali', 'Jost', sans-serif;
   font-weight: 300;
   line-height: 1.7;
+  overflow-x: hidden;
 }
 
 h1, h2, h3, .display {
@@ -40,12 +41,12 @@ a { color: inherit; text-decoration: none; }
   padding: 0 28px;
 }
 
-/* ---------- Header ---------- */
+/* ---------- Header & Water Balloon Logo ---------- */
 header {
   position: sticky;
   top: 0;
-  background: rgba(243, 234, 217, 0.92);
-  backdrop-filter: blur(6px);
+  background: rgba(243, 234, 217, 0.94);
+  backdrop-filter: blur(8px);
   z-index: 50;
   border-bottom: 1px solid var(--rose-line);
 }
@@ -54,7 +55,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 28px;
+  padding: 12px 28px;
   max-width: 1180px;
   margin: 0 auto;
 }
@@ -62,13 +63,43 @@ header {
 .brand {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
 }
 
-.brand img {
-  height: 46px;
-  width: auto;
-  display: block;
+/* Water Balloon Physics Logo */
+.logo-balloon-wrapper {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  cursor: pointer;
+  perspective: 500px;
+}
+
+.balloon-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  mix-blend-mode: multiply; /* Removes white background seamlessly */
+  filter: drop-shadow(0 6px 10px rgba(110, 27, 50, 0.35));
+  animation: balloonFloat 3.5s ease-in-out infinite alternate;
+  transition: transform 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-origin: center center;
+}
+
+@keyframes balloonFloat {
+  0% {
+    transform: translateY(0px) scale(1) rotate(0deg);
+    border-radius: 50% 50% 48% 52% / 52% 48% 52% 48%;
+  }
+  50% {
+    transform: translateY(-5px) scale(1.04, 0.96) rotate(3deg);
+    border-radius: 46% 54% 50% 50% / 50% 48% 52% 50%;
+  }
+  100% {
+    transform: translateY(3px) scale(0.97, 1.03) rotate(-2deg);
+    border-radius: 52% 48% 54% 46% / 48% 52% 48% 52%;
+  }
 }
 
 .brand-name {
@@ -114,78 +145,185 @@ header {
   transform-origin: left;
 }
 
-/* ---------- Hero ---------- */
-.hero {
+/* ---------- 3D Hero Banner Section ---------- */
+.hero-3d-section {
   position: relative;
+  width: 100%;
+  padding: 40px 0 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
-  padding: 90px 0 70px;
+  background: radial-gradient(circle at center, #6E1B32 0%, #3B0D1A 100%);
+  color: var(--cream);
+  box-shadow: inset 0 -10px 25px rgba(0, 0, 0, 0.4);
 }
 
-.hero-flourish {
+.bg-text-behind {
   position: absolute;
-  right: -120px;
-  top: -60px;
-  width: 620px;
-  opacity: 0.16;
-  pointer-events: none;
-}
-
-.hero-content {
-  position: relative;
-  max-width: 620px;
-}
-
-.hero-content .kicker {
-  font-size: 15px;
-  color: var(--maroon-soft);
+  top: 15px;
   font-family: 'Noto Serif Bengali', serif;
-  margin-bottom: 14px;
+  font-size: clamp(2.5rem, 8vw, 6.5rem);
+  font-weight: 700;
+  color: rgba(217, 191, 174, 0.12);
+  white-space: nowrap;
+  user-select: none;
+  z-index: 1;
+  transition: all 0.5s ease-in-out;
 }
 
-.hero-content h1 {
-  font-size: 58px;
-  line-height: 1.08;
-  letter-spacing: 0.2px;
+.slider-container {
+  position: relative;
+  width: 100%;
+  height: 430px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1000px;
+  z-index: 2;
 }
 
-.hero-content p {
-  margin-top: 22px;
-  font-size: 17px;
-  max-width: 460px;
-  color: #4a3038;
+.slider-loading {
+  color: var(--gold);
+  font-family: 'Noto Serif Bengali', serif;
+  font-size: 18px;
 }
 
-.btn {
-  display: inline-block;
-  border: 1px solid var(--maroon);
-  color: var(--maroon-deep);
-  padding: 14px 34px;
-  font-size: 14px;
-  letter-spacing: 1px;
-  border-radius: var(--radius);
-  cursor: pointer;
-  background: transparent;
-  transition: background 0.35s ease, color 0.35s ease, transform 0.15s ease;
-  font-family: 'Jost', sans-serif;
-}
-
-.btn:hover {
-  background: var(--maroon);
-  color: var(--cream-card);
-}
-
-.btn:active { transform: scale(0.98); }
-
-.btn-solid {
-  background: var(--maroon);
-  color: var(--cream-card);
-}
-
-.btn-solid:hover {
+.card-3d {
+  position: absolute;
+  width: 270px;
+  height: 380px;
+  border-radius: 16px;
   background: var(--maroon-deep);
+  border: 1px solid rgba(185, 138, 78, 0.4);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 16px;
+  transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.6) translateZ(-300px);
 }
 
-.hero .btn { margin-top: 34px; }
+.card-3d.active {
+  opacity: 1;
+  z-index: 10;
+  pointer-events: auto;
+  transform: translateX(0) scale(1) translateZ(0) rotateY(0deg);
+  border-color: var(--gold);
+  box-shadow: 0 15px 35px rgba(185, 138, 78, 0.35);
+}
+
+.card-3d.prev {
+  opacity: 0.4;
+  z-index: 5;
+  transform: translateX(-200px) scale(0.78) rotateY(22deg);
+}
+
+.card-3d.next {
+  opacity: 0.4;
+  z-index: 5;
+  transform: translateX(200px) scale(0.78) rotateY(-22deg);
+}
+
+.card-img-wrapper {
+  width: 100%;
+  height: 230px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.card-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-info {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.card-tag {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--gold);
+  text-transform: uppercase;
+  display: block;
+}
+
+.card-info h3 {
+  font-size: 17px;
+  color: var(--cream);
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-3d-btn {
+  width: 100%;
+  background: var(--gold);
+  color: var(--maroon-deep);
+  border: none;
+  padding: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  border-radius: 4px;
+  margin-top: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.card-3d-btn:hover {
+  background: #d4a76a;
+}
+
+.slider-controls {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 5px;
+  z-index: 10;
+}
+
+.nav-btn {
+  background: rgba(185, 138, 78, 0.15);
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+  background: var(--gold);
+  color: var(--maroon-deep);
+}
+
+.dots-wrapper {
+  display: flex;
+  gap: 8px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(243, 234, 217, 0.3);
+  transition: all 0.3s ease;
+}
+
+.dot.active {
+  background: var(--gold);
+  transform: scale(1.3);
+}
 
 /* ---------- Section heading ---------- */
 .section-head {
@@ -201,7 +339,7 @@ header {
 .section-head p { color: var(--maroon-soft); font-size: 14px; font-family: 'Noto Serif Bengali', serif; }
 
 /* ---------- Product grid ---------- */
-.products-section { padding: 70px 0 90px; }
+.products-section { padding: 50px 0 90px; }
 
 .grid {
   display: grid;
@@ -399,6 +537,13 @@ header {
   font-size: 15px;
 }
 
+.btn-solid {
+  background: var(--maroon);
+  color: var(--cream-card);
+  border: none;
+  cursor: pointer;
+}
+
 .error-text {
   color: #a12f2f;
   font-size: 13px;
@@ -433,11 +578,10 @@ footer .foot-note {
   color: #cbb2a8;
 }
 
-/* ---------- Utility / responsive ---------- */
 @media (max-width: 720px) {
   .nav-links { display: none; }
-  .hero-content h1 { font-size: 40px; }
-  .hero { padding: 60px 0 40px; }
   .section-head h2 { font-size: 26px; }
   .field-row { flex-direction: column; gap: 0; }
+  .card-3d.prev { transform: translateX(-120px) scale(0.7) rotateY(20deg); }
+  .card-3d.next { transform: translateX(120px) scale(0.7) rotateY(-20deg); }
 }
