@@ -12,7 +12,10 @@
 <header>
   <nav class="nav">
     <a href="#" class="brand">
-      <img src="assets/logo.jpg" alt="Sharee Craftline">
+      <!-- Interactive Water Balloon Floating Logo -->
+      <div class="logo-balloon-wrapper" id="logoBalloon">
+        <img src="assets/logo.jpg" alt="Sharee Craftline" class="balloon-logo">
+      </div>
       <div class="brand-name">Sharee Craftline<span>HANDWOVEN &middot; ELEGANT &middot; TIMELESS</span></div>
     </a>
     <div class="nav-links">
@@ -23,17 +26,21 @@
   </nav>
 </header>
 
-<section class="hero">
-  <svg class="hero-flourish" viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M120 40 C 60 160, 40 280, 110 380 C 160 450, 260 470, 320 430" stroke="#6E1B32" stroke-width="2"/>
-    <path d="M150 40 C 95 160, 78 280, 140 380 C 185 445, 270 460, 325 420" stroke="#6E1B32" stroke-width="2"/>
-    <path d="M180 45 C 130 160, 118 280, 172 375 C 210 438, 280 450, 330 412" stroke="#6E1B32" stroke-width="2"/>
-  </svg>
-  <div class="container hero-content">
-    <div class="kicker">আপনার আভিজাত্যের প্রতিচ্ছবি</div>
-    <h1>প্রতিটি শাড়ি, <br>একটি গল্প বোনে</h1>
-    <p>হাতে বোনা সুতোয়, নিখুঁত নকশায় তৈরি প্রতিটি শাড়ি। ঐতিহ্য আর আধুনিকতার মেলবন্ধনে Sharee Craftline নিয়ে এসেছে আপনার জন্য বিশেষ সংগ্রহ।</p>
-    <a href="#collection" class="btn">সংগ্রহ দেখুন</a>
+<!-- Dynamic 3D Best Selling Slider Section -->
+<section class="hero-3d-section">
+  <!-- Dynamic Background Bangla Title -->
+  <div id="bgTitle" class="bg-text-behind">বেস্ট সেলিং শাড়ি</div>
+
+  <!-- 3D Slider Container -->
+  <div class="slider-container" id="hero3dSlider">
+    <div class="slider-loading">সেরা শাড়ি কালেকশন লোড হচ্ছে...</div>
+  </div>
+
+  <!-- Navigation Controls -->
+  <div class="slider-controls">
+    <button id="prevBtn" class="nav-btn" aria-label="Previous">&larr;</button>
+    <div class="dots-wrapper" id="dotsContainer"></div>
+    <button id="nextBtn" class="nav-btn" aria-label="Next">&rarr;</button>
   </div>
 </section>
 
