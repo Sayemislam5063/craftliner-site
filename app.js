@@ -29,7 +29,7 @@ async function loadProducts() {
   grid.innerHTML = data.map(p => `
     <div class="card">
       <div class="card-image">
-        <img src="${p.image_url || 'assets/logo.jpg'}" alt="${escapeHtml(p.name)}">
+        <img src="${p.image_url || 'assets/logo.png'}" alt="${escapeHtml(p.name)}">
       </div>
       <div class="card-body">
         <h3>${escapeHtml(p.name)}</h3>
@@ -43,12 +43,12 @@ async function loadProducts() {
   `).join('');
 
   // ---------- Generate 3D Slider from Database Products ----------
-  const bestSellers = data.slice(0, 5); // Take top 5 products for 3D Banner
-  
+  const bestSellers = data.slice(0, 5);
+
   sliderContainer.innerHTML = bestSellers.map((p, index) => `
     <div class="card-3d ${index === 0 ? 'active' : index === 1 ? 'next' : index === bestSellers.length - 1 ? 'prev' : ''}" data-title="${escapeHtml(p.name)}">
       <div class="card-img-wrapper">
-        <img src="${p.image_url || 'assets/logo.jpg'}" alt="${escapeHtml(p.name)}">
+        <img src="${p.image_url || 'assets/logo.png'}" alt="${escapeHtml(p.name)}">
       </div>
       <div class="card-info">
         <span class="card-tag">BEST SELLING</span>
@@ -78,7 +78,7 @@ function init3DSliderLogic() {
   function updateSlider() {
     cards.forEach((card, index) => {
       card.classList.remove('active', 'prev', 'next');
-      
+
       if (index === currentIndex) {
         card.classList.add('active');
         if (bgTitle) bgTitle.innerText = card.getAttribute('data-title');
@@ -116,18 +116,17 @@ function init3DSliderLogic() {
   updateSlider();
 }
 
-// ---------- Water Balloon Soft Physics Logo Logic ----------
+// ---------- Water Balloon Soft Physics Logo Logic (desktop hover) ----------
 const logoBox = document.getElementById('logoBalloon');
 if (logoBox) {
   const logoImg = logoBox.querySelector('.balloon-logo');
-  
+
   logoBox.addEventListener('mousemove', (e) => {
     const rect = logoBox.getBoundingClientRect();
     const x = e.clientX - rect.left - rect.width / 2;
     const y = e.clientY - rect.top - rect.height / 2;
 
     const stretchX = 1 + Math.abs(x) / 100;
-    const stretchY = 1 + Math.abs(y) / 100;
 
     logoImg.style.transform = `translate3d(${x * 0.4}px, ${y * 0.4}px, 0) scale(${stretchX}, ${1 / stretchX}) rotate(${x * 0.2}deg)`;
   });
@@ -160,6 +159,11 @@ function openModal(product) {
   document.getElementById('deliveryZone').value = 'dhaka';
   document.getElementById('promoError').style.display = 'none';
   document.getElementById('formError').style.display = 'none';
+
+  // প্রোডাক্টে প্রোমো কোড অনুমতি না থাকলে ঘরটাই লুকিয়ে ফেলা হচ্ছে
+  const promoWrap = document.getElementById('promoWrap');
+  promoWrap.style.display = (product.promo_allowed === false) ? 'none' : 'block';
+
   orderFormWrap.style.display = 'block';
   confirmWrap.style.display = 'none';
   updateSummary();
@@ -180,6 +184,7 @@ overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(
 });
 
 function getDiscountPercent() {
+  if (currentProduct && currentProduct.promo_allowed === false) return 0;
   const code = document.getElementById('promoCode').value.trim().toUpperCase();
   const errEl = document.getElementById('promoError');
   if (!code) { errEl.style.display = 'none'; return 0; }
@@ -227,7 +232,8 @@ document.getElementById('confirmOrderBtn').addEventListener('click', async () =>
   const upazila = document.getElementById('custUpazila').value.trim();
   const address = document.getElementById('custAddress').value.trim();
   const zone = document.getElementById('deliveryZone').value;
-  const promo = document.getElementById('promoCode').value.trim().toUpperCase();
+  const promoAllowed = currentProduct.promo_allowed !== false;
+  const promo = promoAllowed ? document.getElementById('promoCode').value.trim().toUpperCase() : '';
 
   const formError = document.getElementById('formError');
   if (!name || !phone || !district || !upazila || !address) {
