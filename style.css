@@ -64,37 +64,24 @@ header {
   display: flex;
   align-items: center;
   gap: 16px;
+  min-width: 0;
 }
 
-/* Water Balloon Physics Logo Fix */
-.logo-balloon-wrapper {
-  position: relative;
-  width: 50px;
-  height: 50px;
-  min-width: 50px; /* লোগো যেন চ্যাপ্টা না হয়ে যায় */
-  cursor: pointer;
-  perspective: 500px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Logo Static Base Style */
 .logo-balloon-wrapper {
   position: relative;
   width: 50px;
   height: 50px;
   min-width: 50px;
-  cursor: grab; /* মাউস নিলে হাতের আইকন দেখাবে */
+  cursor: grab;
   display: flex;
   align-items: center;
   justify-content: center;
   user-select: none;
-  touch-action: none; /* মোবাইলেও টেনে ধরার জন্য */
+  touch-action: none;
 }
 
 .logo-balloon-wrapper:active {
-  cursor: grabbing; /* টান দেওয়ার সময় ধরা হাত দেখাবে */
+  cursor: grabbing;
 }
 
 .balloon-logo {
@@ -104,22 +91,22 @@ header {
   border-radius: 50%;
   box-shadow: 0 4px 10px rgba(110, 27, 50, 0.2);
   display: block;
-  pointer-events: none; /* টেনে নেওয়ার সময় ইমেজ ড্র্যাগ ইস্যু বন্ধ রাখতে */
-  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* রবার স্প্রিং ব্যাক ইফেক্ট */
+  pointer-events: none;
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .brand-name {
   font-family: 'Cormorant Garamond', serif;
   font-size: 28px;
-  font-weight: 700; /* লেখা আরও Bold করা হয়েছে */
+  font-weight: 700;
   letter-spacing: 0.5px;
   color: var(--maroon-deep);
   transition: transform 0.3s ease, color 0.3s ease;
   cursor: pointer;
   display: inline-block;
+  white-space: nowrap;
 }
 
-/* মাউস নিলে বড় হওয়ার অ্যানিমেশন */
 .brand-name:hover {
   transform: scale(1.05);
   color: var(--maroon-soft);
@@ -133,16 +120,27 @@ header {
   color: var(--maroon-soft);
   margin-top: -2px;
   font-weight: 500;
+  white-space: normal;
 }
+
+/* ---------- Right side of nav: links + cart + mobile toggle ---------- */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  position: relative;
+}
+
 .nav-links {
   display: flex;
-  gap: 34px;
+  gap: 28px;
   font-size: 15px;
 }
 
 .nav-links a {
   position: relative;
   padding-bottom: 4px;
+  white-space: nowrap;
 }
 
 .nav-links a::after {
@@ -159,6 +157,16 @@ header {
 .nav-links a:hover::after {
   transform: scaleX(1);
   transform-origin: left;
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 22px;
+  color: var(--maroon-deep);
+  cursor: pointer;
+  padding: 4px 6px;
 }
 
 /* ---------- 3D Hero Banner Section ---------- */
@@ -179,14 +187,19 @@ header {
 .bg-text-behind {
   position: absolute;
   top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  text-align: center;
   font-family: 'Noto Serif Bengali', serif;
-  font-size: clamp(2.5rem, 8vw, 6.5rem);
+  font-size: clamp(1.8rem, 7vw, 6.5rem);
   font-weight: 700;
-  color: rgba(217, 191, 174, 0.12);
+  color: rgba(217, 191, 174, 0.14);
   white-space: nowrap;
   user-select: none;
   z-index: 1;
   transition: all 0.5s ease-in-out;
+  pointer-events: none;
 }
 
 .slider-container {
@@ -204,6 +217,8 @@ header {
   color: var(--gold);
   font-family: 'Noto Serif Bengali', serif;
   font-size: 18px;
+  text-align: center;
+  padding: 0 24px;
 }
 
 .card-3d {
@@ -594,14 +609,7 @@ footer .foot-note {
   color: #cbb2a8;
 }
 
-@media (max-width: 720px) {
-  .nav-links { display: none; }
-  .section-head h2 { font-size: 26px; }
-  .field-row { flex-direction: column; gap: 0; }
-  .card-3d.prev { transform: translateX(-120px) scale(0.7) rotateY(20deg); }
-  .card-3d.next { transform: translateX(120px) scale(0.7) rotateY(-20deg); }
-}
-/* Cart Badge Button Styling */
+/* ---------- Cart Badge ---------- */
 .cart-icon-btn {
   position: relative;
   font-size: 20px;
@@ -629,4 +637,78 @@ footer .foot-note {
   align-items: center;
   justify-content: center;
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* =========================================================
+   MOBILE RESPONSIVE FIXES
+   ========================================================= */
+@media (max-width: 720px) {
+  .container { padding: 0 18px; }
+  .nav { padding: 10px 18px; }
+  .brand-name { font-size: 21px; }
+  .brand-name span { font-size: 9.5px; }
+  .logo-balloon-wrapper { width: 40px; height: 40px; min-width: 40px; }
+
+  .nav-right { gap: 12px; }
+
+  /* Collapsible mobile menu */
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    background: var(--cream-card);
+    border: 1px solid var(--rose-line);
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px 20px;
+    min-width: 170px;
+    box-shadow: 0 14px 28px rgba(78, 18, 36, 0.18);
+    z-index: 60;
+  }
+  .nav-links.open { display: flex; }
+  .nav-links a { padding: 8px 0; }
+
+  .menu-toggle { display: block; }
+
+  .section-head h2 { font-size: 26px; }
+  .field-row { flex-direction: column; gap: 0; }
+}
+
+@media (max-width: 560px) {
+  .hero-3d-section { padding: 24px 0 16px; }
+
+  .bg-text-behind {
+    top: 6px;
+    font-size: clamp(1.4rem, 8.5vw, 2.4rem);
+  }
+
+  .slider-container { height: 300px; }
+
+  .slider-loading { font-size: 15px; }
+
+  .card-3d {
+    width: 205px;
+    height: 300px;
+    padding: 12px;
+    border-radius: 12px;
+  }
+
+  .card-img-wrapper { height: 175px; }
+
+  .card-3d.prev { transform: translateX(-88px) scale(0.72) rotateY(20deg); }
+  .card-3d.next { transform: translateX(88px) scale(0.72) rotateY(-20deg); }
+
+  .card-info h3 { font-size: 14.5px; }
+  .card-tag { font-size: 9px; }
+  .card-3d-btn { font-size: 11.5px; padding: 7px; }
+
+  .nav-btn { width: 34px; height: 34px; font-size: 15px; }
+  .slider-controls { gap: 14px; }
+
+  .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px; }
+  .card-body { padding: 14px 14px 16px; }
+  .card-body h3 { font-size: 17px; }
+  .price { font-size: 17px; }
+  .buy-btn { padding: 7px 14px; font-size: 12px; }
 }
