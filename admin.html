@@ -1,141 +1,52 @@
-@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap');
+<form id="productForm" class="admin-card">
+  <h2>নতুন প্রোডাক্ট যোগ করুন</h2>
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: 'Hind Siliguri', sans-serif;
-}
+  <div class="form-group">
+    <label>প্রোডাক্টের নাম</label>
+    <input type="text" id="prodName" placeholder="যেমন: জামদানি শাড়ি - রয়েল ব্লু" required>
+  </div>
 
-body {
-  background-color: #fdfaf7;
-  color: #2c2c2c;
-  padding: 20px;
-}
+  <div class="field-row" style="display: flex; gap: 15px;">
+    <div class="form-group" style="flex: 1;">
+      <label>ক্যাটাগরি সিলেক্ট করুন</label>
+      <select id="prodCategory" required style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc;">
+        <option value="আফসান প্রিন্ট">আফসান প্রিন্ট</option>
+        <option value="চান্দেরি সিল্ক">চান্দেরি সিল্ক</option>
+        <option value="কাতান শাড়ি">কাতান শাড়ি</option>
+        <option value="হাফসিল্ক">হাফসিল্ক</option>
+        <option value="জামদানি শাড়ি">জামদানি শাড়ি</option>
+        <option value="লুসিয়ান সিল্ক">লুসিয়ান সিল্ক</option>
+        <option value="পিওর কটন">পিওর কটন</option>
+      </select>
+    </div>
+  </div>
 
-/* Card Container */
-.admin-card {
-  background: #ffffff;
-  border: 1px solid #ebdcd0;
-  border-radius: 12px;
-  padding: 25px;
-  max-width: 800px;
-  margin: 20px auto;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
-}
+  <div class="field-row" style="display: flex; gap: 15px; margin-top: 15px;">
+    <div class="form-group" style="flex: 1;">
+      <label>রেগুলার প্রাইস (টাকা)</label>
+      <input type="number" id="prodRegPrice" placeholder="যেমন: ৪৫০০" required>
+    </div>
+    <div class="form-group" style="flex: 1;">
+      <label>অফার প্রাইস (টাকা)</label>
+      <input type="number" id="prodOfferPrice" placeholder="যেমন: ৩৯০০">
+    </div>
+  </div>
 
-.admin-card h2 {
-  color: #5c061c;
-  font-size: 22px;
-  margin-bottom: 20px;
-  border-bottom: 2px solid #f2e6dc;
-  padding-bottom: 10px;
-}
+  <!-- Drag and Drop Image Box -->
+  <div class="form-group" style="margin-top: 15px;">
+    <label>প্রোডাক্ট ছবি আপলোড (Drag & Drop / PC Album)</label>
+    <div id="dropZone" style="border: 2px dashed #800020; padding: 25px; text-align: center; border-radius: 8px; background: #fffaf0; cursor: pointer;">
+      <p style="margin: 0; color: #800020; font-weight: bold;">📷 এখানে ছবি ড্র্যাগ করে ছাড়ুন অথবা ক্লিক করে অ্যালবাম থেকে সিলেক্ট করুন</p>
+      <small style="color: #666;">(প্রথম ছবিটি থাম্বনেইল হিসেবে থাকবে, বাকি ছবিগুলো পিছে গ্যালারিতে থাকবে)</small>
+      <input type="file" id="prodImages" multiple accept="image/*" style="display: none;">
+    </div>
+    <div id="imagePreview" style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;"></div>
+  </div>
 
-/* Form Controls */
-.form-group {
-  margin-bottom: 18px;
-}
+  <div class="form-group" style="margin-top: 15px;">
+    <label>বিবরণ</label>
+    <textarea id="prodDesc" rows="3" placeholder="সংক্ষিপ্ত বিবরণ লিখুন..."></textarea>
+  </div>
 
-.form-group label {
-  display: block;
-  font-weight: 600;
-  margin-bottom: 6px;
-  color: #4a3b32;
-  font-size: 15px;
-}
-
-input[type="text"],
-input[type="number"],
-select,
-textarea {
-  width: 100%;
-  padding: 11px 14px;
-  border: 1px solid #dcd0c5;
-  border-radius: 6px;
-  font-size: 14px;
-  background-color: #faf8f5;
-  transition: all 0.2s ease;
-  outline: none;
-}
-
-input:focus,
-select:focus,
-textarea:focus {
-  border-color: #5c061c;
-  background-color: #ffffff;
-  box-shadow: 0 0 0 3px rgba(92, 6, 28, 0.1);
-}
-
-/* Responsive Grid */
-.field-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
-}
-
-@media (max-width: 600px) {
-  .field-row {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Drag & Drop Box Styling */
-#dropZone {
-  border: 2px dashed #5c061c;
-  padding: 25px 15px;
-  text-align: center;
-  border-radius: 8px;
-  background: #fffaf7;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-#dropZone:hover {
-  background: #f5eae1;
-}
-
-.drop-title {
-  margin: 0;
-  color: #5c061c;
-  font-weight: 700;
-  font-size: 15px;
-}
-
-.drop-sub {
-  color: #777;
-  font-size: 13px;
-}
-
-#imagePreview {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-top: 12px;
-}
-
-#imagePreview img {
-  width: 70px;
-  height: 70px;
-  object-fit: cover;
-  border-radius: 6px;
-  border: 2px solid #5c061c;
-}
-
-/* Primary Button */
-.btn-primary {
-  background-color: #5c061c;
-  color: #ffffff;
-  border: none;
-  padding: 12px 25px;
-  border-radius: 6px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s;
-  width: 100%;
-}
-
-.btn-primary:hover {
-  background-color: #420413;
-}
+  <button type="submit" id="saveBtn" class="btn-primary" style="margin-top: 15px;">প্রোডাক্ট সেভ করুন</button>
+</form>
