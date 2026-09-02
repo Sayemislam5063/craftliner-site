@@ -21,19 +21,25 @@
         <span>ন্যায্য দামে সঠিক পণ্য</span>
       </div>
     </a>
-    
-    <div class="nav-links">
-      <a href="#collection">Collection</a>
-      <a href="#track">Order ট্র্যাক</a>
-      <a href="#contact">যোগাযোগ</a>
-      
-      <!-- Cart Icon Button -->
+
+    <div class="nav-right">
+      <div class="nav-links" id="navLinks">
+        <a href="#collection">Collection</a>
+        <a href="#track">Order ট্র্যাক</a>
+        <a href="#contact">যোগাযোগ</a>
+      </div>
+
+      <!-- Cart Icon Button (always visible, even on mobile) -->
       <div class="cart-icon-btn" id="cartBtn">
         🛒 <span class="cart-count" id="cartBadge">0</span>
       </div>
-    </div> <!-- এখানে </div> ট্যাগটি যোগ করা হয়েছে -->
+
+      <!-- Mobile menu toggle -->
+      <button class="menu-toggle" id="menuToggle" aria-label="Menu">&#9776;</button>
+    </div>
   </nav>
 </header>
+
 <!-- Dynamic 3D Best Selling Slider Section -->
 <section class="hero-3d-section">
   <!-- Dynamic Background Bangla Title -->
@@ -142,12 +148,26 @@
         <button class="btn btn-solid" id="closeConfirmBtn">ঠিক আছে</button>
       </div>
     </div>
-</div>
+  </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 <script src="app.js"></script>
+
+<!-- মোবাইল মেনু টগল -->
+<script>
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+  if (menuToggle && navLinks) {
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+    });
+    navLinks.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => navLinks.classList.remove('open'));
+    });
+  }
+</script>
 
 <!-- লোগো রবার ড্র্যাগ ইফেক্টের কোড -->
 <script>
@@ -168,18 +188,14 @@
 
     logoWrapper.addEventListener('pointermove', (e) => {
       if (!isDragging) return;
-      
-      // টেনে নেওয়ার সর্বোচ্চ সীমানা (৫০ পিক্সেল)
       const deltaX = Math.max(-50, Math.min(50, e.clientX - startX));
       const deltaY = Math.max(-50, Math.min(50, e.clientY - startY));
-      
       logoImg.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(0.95)`;
     });
 
     const resetLogoPosition = () => {
       if (!isDragging) return;
       isDragging = false;
-      // রবারের মতো লাফিয়ে ফিরে আসার অ্যানিমেশন
       logoImg.style.transition = 'transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
       logoImg.style.transform = 'translate(0px, 0px) scale(1)';
     };
