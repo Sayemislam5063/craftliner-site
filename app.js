@@ -1,17 +1,25 @@
 document.getElementById('year').textContent = new Date().getFullYear();
 
 let currentProduct = null;
+let allProducts = [];
+let allCategories = [];
+let activeCategoryId = '';
+let selectedColor = null;
+let selectedBlouseOption = null;
 
-// ---------- Load products from Supabase & Build Grid + 3D Slider ----------
+// ---------- ক্যাটাগরি + প্রোডাক্ট লোড ----------
 async function loadProducts() {
   const grid = document.getElementById('product-grid');
   const sliderContainer = document.getElementById('hero3dSlider');
   const dotsContainer = document.getElementById('dotsContainer');
 
-  const { data, error } = await supabaseClient
-    .from('products')
-    .select('*')
-    .order('created_at', { ascending: false });
+  const [{ data: catData, error: catError }, { data, error }] = await Promise.all([
+    supabaseClient.from('categories').select('*').order('name'),
+    supabaseClient.from('products').select('*').order('created_at', { ascending: false })
+  ]);
+
+  if (!catError) allCategories = catData || [];
+  renderCategoryFilter();
 
   if (error) {
     grid.innerHTML = `<div class="empty-state">প্রোডাক্ট লোড করা যায়নি। একটু পরে আবার চেষ্টা করুন।</div>`;
@@ -19,32 +27,17 @@ async function loadProducts() {
     return;
   }
 
-  if (!data || data.length === 0) {
+  allProducts = data || [];
+
+  if (!allProducts.length) {
     grid.innerHTML = `<div class="empty-state">এই মুহূর্তে কোনো প্রোডাক্ট নেই। শীঘ্রই নতুন সংগ্রহ আসছে।</div>`;
     sliderContainer.innerHTML = `<div class="slider-loading">শীঘ্রই নতুন সংগ্রহ আসছে...</div>`;
     return;
   }
 
-  // Render Product Grid
-  grid.innerHTML = data.map(p => `
-    <div class="card">
-      <div class="card-image">
-        <img src="${p.image_url || 'assets/logo.png'}" alt="${escapeHtml(p.name)}">
-      </div>
-      <div class="card-body">
-        <h3>${escapeHtml(p.name)}</h3>
-        <div class="desc">${escapeHtml(p.description || '')}</div>
-        <div class="card-footer">
-          <div class="price">৳${Number(p.price).toLocaleString('en-BD')}</div>
-          <button class="buy-btn" onclick='openModal(${JSON.stringify(p).replace(/'/g, "&apos;")})'>Buy Now</button>
-        </div>
-      </div>
-    </div>
-  `).join('');
+  renderGrid();
 
-  // ---------- Generate 3D Slider from Database Products ----------
-  const bestSellers = data.slice(0, 5);
-
+  const bestSellers = allProducts.slice(0, 5);
   sliderContainer.innerHTML = bestSellers.map((p, index) => `
     <div class="card-3d ${index === 0 ? 'active' : index === 1 ? 'next' : index === bestSellers.length - 1 ? 'prev' : ''}" data-title="${escapeHtml(p.name)}">
       <div class="card-img-wrapper">
@@ -53,32 +46,109 @@ async function loadProducts() {
       <div class="card-info">
         <span class="card-tag">BEST SELLING</span>
         <h3>${escapeHtml(p.name)}</h3>
-        <button class="card-3d-btn" onclick='openModal(${JSON.stringify(p).replace(/'/g, "&apos;")})'>অর্ডার করুন ৳${Number(p.price).toLocaleString('en-BD')}</button>
+        <button class="card-3d-btn" onclick='openModal(${JSON.stringify(p).replace(/'/g, "&apos;")})'>অর্ডার করুন ৳${Number(p.offer_price || p.price).toLocaleString('en-BD')}</button>
       </div>
     </div>
   `).join('');
 
   dotsContainer.innerHTML = bestSellers.map((_, idx) => `<span class="dot ${idx === 0 ? 'active' : ''}"></span>`).join('');
-
   init3DSliderLogic();
 }
 
-// ---------- 3D Slider Dynamic Logic ----------
+// ---------- ক্যাটাগরি ফিল্টার বার ----------
+function renderCategoryFilter() {
+  const bar = document.getElementById('categoryFilterBar');
+  if (!bar || !allCategories.length) { if (bar) bar.innerHTML = ''; return; }
+
+  bar.innerHTML = `
+    <button class="cat-chip ${activeCategoryId === '' ? 'active' : ''}" data-cat="">
+      <span class="cat-chip-icon">সব</span><span>সব প্রোডাক্ট</span>
+    </button>
+  ` + allCategories.map(c => `
+    <button class="cat-chip ${activeCategoryId === c.id ? 'active' : ''}" data-cat="${c.id}">
+      ${c.image_url ? `<img src="${c.image_url}" class="cat-chip-icon">` : `<span class="cat-chip-icon">${escapeHtml((c.name || '?')[0])}</span>`}
+      <span>${escapeHtml(c.name)}</span>
+    </button>
+  `).join('');
+
+  bar.querySelectorAll('.cat-chip').forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeCategoryId = btn.dataset.cat;
+      renderCategoryFilter();
+      renderGrid();
+    });
+  });
+}
+
+// ---------- প্রোডাক্ট গ্রিড (ফিল্টার সহ) ----------
+function renderGrid() {
+  const grid = document.getElementById('product-grid');
+  const catMap = {};
+  allCategories.forEach(c => catMap[c.id] = c.name);
+
+  const filtered = activeCategoryId ? allProducts.filter(p => p.category_id === activeCategoryId) : allProducts;
+
+  if (!filtered.length) {
+    grid.innerHTML = `<div class="empty-state">এই ক্যাটাগরিতে এখনো কোনো প্রোডাক্ট নেই।</div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(p => {
+    const images = (Array.isArray(p.images) && p.images.length) ? p.images : [p.image_url || 'assets/logo.png'];
+    const colors = Array.isArray(p.colors) ? p.colors : [];
+    const catName = p.category_id ? catMap[p.category_id] : null;
+    const priceHtml = p.offer_price
+      ? `<span class="old-price">৳${Number(p.price).toLocaleString('en-BD')}</span><span class="offer-price">৳${Number(p.offer_price).toLocaleString('en-BD')}</span>`
+      : `৳${Number(p.price).toLocaleString('en-BD')}`;
+
+    return `
+    <div class="card">
+      <div class="card-image">
+        ${p.offer_price ? `<span class="offer-badge">অফার</span>` : ''}
+        <img src="${images[0]}" alt="${escapeHtml(p.name)}" class="card-img-active" data-images='${JSON.stringify(images).replace(/'/g, "&apos;")}'>
+        ${images.length > 1 ? `<div class="card-img-dots">${images.map((_, i) => `<span class="img-dot ${i === 0 ? 'active' : ''}" data-i="${i}"></span>`).join('')}</div>` : ''}
+      </div>
+      <div class="card-body">
+        ${catName ? `<div class="card-cat-tag">${escapeHtml(catName)}</div>` : ''}
+        <h3>${escapeHtml(p.name)}</h3>
+        <div class="desc">${escapeHtml(p.description || '')}</div>
+        ${colors.length ? `<div class="card-colors">${colors.map(c => `<span class="color-chip-mini">${escapeHtml(c)}</span>`).join('')}</div>` : ''}
+        <div class="card-footer">
+          <div class="price">${priceHtml}</div>
+          <button class="buy-btn" onclick='openModal(${JSON.stringify(p).replace(/'/g, "&apos;")})'>Buy Now</button>
+        </div>
+      </div>
+    </div>
+  `; }).join('');
+
+  grid.querySelectorAll('.card-image').forEach(wrap => {
+    const img = wrap.querySelector('.card-img-active');
+    const images = JSON.parse(img.dataset.images.replace(/&apos;/g, "'"));
+    wrap.querySelectorAll('.img-dot').forEach(dot => {
+      dot.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const i = Number(dot.dataset.i);
+        img.src = images[i];
+        wrap.querySelectorAll('.img-dot').forEach(d => d.classList.remove('active'));
+        dot.classList.add('active');
+      });
+    });
+  });
+}
+
+// ---------- 3D Slider ----------
 function init3DSliderLogic() {
   const cards = document.querySelectorAll('.card-3d');
   const bgTitle = document.getElementById('bgTitle');
   const prevBtn = document.getElementById('prevBtn');
   const nextBtn = document.getElementById('nextBtn');
   const dots = document.querySelectorAll('#dotsContainer .dot');
-
   if (!cards.length) return;
 
   let currentIndex = 0;
-
   function updateSlider() {
     cards.forEach((card, index) => {
       card.classList.remove('active', 'prev', 'next');
-
       if (index === currentIndex) {
         card.classList.add('active');
         if (bgTitle) bgTitle.innerText = card.getAttribute('data-title');
@@ -88,49 +158,25 @@ function init3DSliderLogic() {
         card.classList.add('next');
       }
     });
-
-    dots.forEach((dot, idx) => {
-      dot.classList.toggle('active', idx === currentIndex);
-    });
+    dots.forEach((dot, idx) => dot.classList.toggle('active', idx === currentIndex));
   }
-
-  if (nextBtn) {
-    nextBtn.onclick = () => {
-      currentIndex = (currentIndex + 1) % cards.length;
-      updateSlider();
-    };
-  }
-
-  if (prevBtn) {
-    prevBtn.onclick = () => {
-      currentIndex = (currentIndex - 1 + cards.length) % cards.length;
-      updateSlider();
-    };
-  }
-
-  setInterval(() => {
-    currentIndex = (currentIndex + 1) % cards.length;
-    updateSlider();
-  }, 4500);
-
+  if (nextBtn) nextBtn.onclick = () => { currentIndex = (currentIndex + 1) % cards.length; updateSlider(); };
+  if (prevBtn) prevBtn.onclick = () => { currentIndex = (currentIndex - 1 + cards.length) % cards.length; updateSlider(); };
+  setInterval(() => { currentIndex = (currentIndex + 1) % cards.length; updateSlider(); }, 4500);
   updateSlider();
 }
 
-// ---------- Water Balloon Soft Physics Logo Logic (desktop hover) ----------
+// ---------- লোগো হোভার ----------
 const logoBox = document.getElementById('logoBalloon');
 if (logoBox) {
   const logoImg = logoBox.querySelector('.balloon-logo');
-
   logoBox.addEventListener('mousemove', (e) => {
     const rect = logoBox.getBoundingClientRect();
     const x = e.clientX - rect.left - rect.width / 2;
     const y = e.clientY - rect.top - rect.height / 2;
-
     const stretchX = 1 + Math.abs(x) / 100;
-
     logoImg.style.transform = `translate3d(${x * 0.4}px, ${y * 0.4}px, 0) scale(${stretchX}, ${1 / stretchX}) rotate(${x * 0.2}deg)`;
   });
-
   logoBox.addEventListener('mouseleave', () => {
     logoImg.style.transform = 'translate3d(0, 0, 0) scale(1, 1) rotate(0deg)';
   });
@@ -160,9 +206,43 @@ function openModal(product) {
   document.getElementById('promoError').style.display = 'none';
   document.getElementById('formError').style.display = 'none';
 
-  // প্রোডাক্টে প্রোমো কোড অনুমতি না থাকলে ঘরটাই লুকিয়ে ফেলা হচ্ছে
   const promoWrap = document.getElementById('promoWrap');
   promoWrap.style.display = (product.promo_allowed === false) ? 'none' : 'block';
+
+  // রঙ
+  const colorWrap = document.getElementById('colorFieldWrap');
+  const colorRow = document.getElementById('colorSelectRow');
+  const colors = Array.isArray(product.colors) ? product.colors : [];
+  if (colors.length) {
+    colorWrap.style.display = 'block';
+    selectedColor = colors[0];
+    colorRow.innerHTML = colors.map((c, i) => `<button type="button" class="color-opt ${i === 0 ? 'selected' : ''}" data-color="${escapeHtml(c)}">${escapeHtml(c)}</button>`).join('');
+    colorRow.querySelectorAll('.color-opt').forEach(btn => {
+      btn.addEventListener('click', () => {
+        selectedColor = btn.dataset.color;
+        colorRow.querySelectorAll('.color-opt').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+      });
+    });
+  } else {
+    colorWrap.style.display = 'none';
+    selectedColor = null;
+  }
+
+  // ব্লাউজ পিস
+  const blouseWrap = document.getElementById('blouseFieldWrap');
+  if (product.has_blouse_option) {
+    blouseWrap.style.display = 'block';
+    selectedBlouseOption = 'with';
+    const withRadio = document.querySelector('input[name="blouseOption"][value="with"]');
+    const withoutRadio = document.querySelector('input[name="blouseOption"][value="without"]');
+    withRadio.checked = true;
+    withoutRadio.checked = false;
+    [withRadio, withoutRadio].forEach(r => { r.onchange = () => { selectedBlouseOption = r.value; updateSummary(); }; });
+  } else {
+    blouseWrap.style.display = 'none';
+    selectedBlouseOption = null;
+  }
 
   orderFormWrap.style.display = 'block';
   confirmWrap.style.display = 'none';
@@ -170,9 +250,7 @@ function openModal(product) {
   overlay.classList.add('open');
 }
 
-function closeModal() {
-  overlay.classList.remove('open');
-}
+function closeModal() { overlay.classList.remove('open'); }
 
 document.getElementById('closeModal').addEventListener('click', closeModal);
 document.getElementById('closeConfirmBtn').addEventListener('click', closeModal);
@@ -188,17 +266,24 @@ function getDiscountPercent() {
   const code = document.getElementById('promoCode').value.trim().toUpperCase();
   const errEl = document.getElementById('promoError');
   if (!code) { errEl.style.display = 'none'; return 0; }
-  if (PROMO_CODES[code] !== undefined) {
-    errEl.style.display = 'none';
-    return PROMO_CODES[code];
-  }
+  if (PROMO_CODES[code] !== undefined) { errEl.style.display = 'none'; return PROMO_CODES[code]; }
   errEl.style.display = 'block';
   return 0;
 }
 
+// প্রতি ইউনিটের দাম (ব্লাউজ অপশন > অফার প্রাইস > সাধারণ দাম — এই অগ্রাধিকারে)
+function getUnitPrice() {
+  if (!currentProduct) return 0;
+  if (currentProduct.has_blouse_option && selectedBlouseOption) {
+    if (selectedBlouseOption === 'with' && currentProduct.price_with_blouse) return Number(currentProduct.price_with_blouse);
+    if (selectedBlouseOption === 'without' && currentProduct.price_without_blouse) return Number(currentProduct.price_without_blouse);
+  }
+  return currentProduct.offer_price ? Number(currentProduct.offer_price) : Number(currentProduct.price);
+}
+
 function updateSummary() {
   if (!currentProduct) return;
-  const price = Number(currentProduct.price);
+  const price = getUnitPrice();
   const zone = document.getElementById('deliveryZone').value;
   const delivery = DELIVERY_CHARGES[zone] || 0;
   const discountPercent = getDiscountPercent();
@@ -215,7 +300,6 @@ function updateSummary() {
   } else {
     discRow.style.display = 'none';
   }
-
   document.getElementById('sumTotal').textContent = `৳${total.toLocaleString('en-BD')}`;
 }
 
@@ -242,7 +326,7 @@ document.getElementById('confirmOrderBtn').addEventListener('click', async () =>
   }
   formError.style.display = 'none';
 
-  const price = Number(currentProduct.price);
+  const price = getUnitPrice();
   const delivery = DELIVERY_CHARGES[zone] || 0;
   const discountPercent = promo && PROMO_CODES[promo] !== undefined ? PROMO_CODES[promo] : 0;
   const discountAmount = Math.round((price * discountPercent) / 100);
@@ -266,6 +350,8 @@ document.getElementById('confirmOrderBtn').addEventListener('click', async () =>
     promo_code: promo || null,
     discount: discountAmount,
     total_price: total,
+    selected_color: selectedColor || null,
+    blouse_option: selectedBlouseOption || null,
     status: 'pending',
     sent_to_telegram: false
   });
