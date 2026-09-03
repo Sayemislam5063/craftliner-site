@@ -1,11 +1,11 @@
 const loginScreen = document.getElementById('loginScreen');
 const adminPanel = document.getElementById('adminPanel');
 
-let categoriesList = [];       // [{id, name}]
-let colorsArray = [];          // বর্তমান ফর্মের রঙের লিস্ট
-let imagesArray = [];          // বর্তমান ফর্মের ছবির লিস্ট (0 = থাম্বনেইল)
+let categoriesList = [];
+let colorsArray = [];
+let imagesArray = [];
+let newCategoryImageUrl = null;
 
-// ---------- Session check ----------
 async function checkSession() {
   const { data } = await supabaseClient.auth.getSession();
   if (data.session) { showAdmin(); } else { showLogin(); }
@@ -18,7 +18,6 @@ function showAdmin() {
   loadProducts();
 }
 
-// ---------- Login ----------
 document.getElementById('loginBtn').addEventListener('click', async () => {
   const email = document.getElementById('loginEmail').value.trim();
   const password = document.getElementById('loginPassword').value;
@@ -47,6 +46,7 @@ function renderCategoryChips() {
   if (!categoriesList.length) { wrap.innerHTML = `<span style="font-size:13px;color:var(--maroon-soft);">এখনো কোনো ক্যাটাগরি নেই</span>`; return; }
   wrap.innerHTML = categoriesList.map(c => `
     <div class="category-chip">
+      ${c.image_url ? `<img class="chip-thumb" src="${c.image_url}" alt="">` : ''}
       <span>${escapeHtml(c.name)}</span>
       <button data-id="${c.id}" title="ডিলিট">×</button>
     </div>
@@ -64,6 +64,35 @@ function renderCategoryOptions() {
   sel.value = current;
 }
 
+// ক্যাটাগরির ছবি আপলোড
+const categoryImgUpload = document.getElementById('categoryImgUpload');
+const categoryImgInput = document.getElementById('categoryImgInput');
+const categoryImgPreview = document.getElementById('categoryImgPreview');
+const categoryImgPlaceholder = document.getElementById('categoryImgPlaceholder');
+
+categoryImgUpload.addEventListener('click', () => categoryImgInput.click());
+categoryImgInput.addEventListener('change', async () => {
+  const file = categoryImgInput.files[0];
+  if (!file) return;
+  categoryImgPlaceholder.textContent = '...';
+
+  const safeName = file.name.replace(/[^a-zA-Z0-9.]/g, '_');
+  const filePath = `category_${Date.now()}_${safeName}`;
+  const { error } = await supabaseClient.storage.from('products').upload(filePath, file, { cacheControl: '3600', upsert: false });
+
+  if (error) {
+    console.error(error);
+    categoryImgPlaceholder.textContent = '+';
+    alert('ক্যাটাগরির ছবি আপলোড করা যায়নি।');
+    return;
+  }
+  const { data } = supabaseClient.storage.from('products').getPublicUrl(filePath);
+  newCategoryImageUrl = data.publicUrl;
+  categoryImgPreview.src = newCategoryImageUrl;
+  categoryImgPreview.style.display = 'block';
+  categoryImgPlaceholder.style.display = 'none';
+});
+
 document.getElementById('addCategoryBtn').addEventListener('click', async () => {
   const input = document.getElementById('newCategoryInput');
   const errEl = document.getElementById('categoryError');
@@ -71,9 +100,16 @@ document.getElementById('addCategoryBtn').addEventListener('click', async () => 
   errEl.style.display = 'none';
   if (!name) return;
 
-  const { error } = await supabaseClient.from('categories').insert({ name });
+  const { error } = await supabaseClient.from('categories').insert({ name, image_url: newCategoryImageUrl });
   if (error) { errEl.style.display = 'block'; console.error(error); return; }
+
   input.value = '';
+  newCategoryImageUrl = null;
+  categoryImgPreview.style.display = 'none';
+  categoryImgPreview.src = '';
+  categoryImgPlaceholder.style.display = 'block';
+  categoryImgPlaceholder.textContent = '+';
+  categoryImgInput.value = '';
   loadCategories();
 });
 
@@ -92,21 +128,14 @@ function renderColorChips() {
     <div class="chip"><span>${escapeHtml(c)}</span><button data-i="${i}">×</button></div>
   `).join('');
   wrap.querySelectorAll('button').forEach(btn => {
-    btn.addEventListener('click', () => {
-      colorsArray.splice(Number(btn.dataset.i), 1);
-      renderColorChips();
-    });
+    btn.addEventListener('click', () => { colorsArray.splice(Number(btn.dataset.i), 1); renderColorChips(); });
   });
 }
-
 document.getElementById('colorInputField').addEventListener('keydown', (e) => {
   if (e.key === 'Enter' || e.key === ',') {
     e.preventDefault();
     const val = e.target.value.trim().replace(/,$/, '');
-    if (val && !colorsArray.includes(val)) {
-      colorsArray.push(val);
-      renderColorChips();
-    }
+    if (val && !colorsArray.includes(val)) { colorsArray.push(val); renderColorChips(); }
     e.target.value = '';
   }
 });
@@ -114,9 +143,7 @@ document.getElementById('colorInputField').addEventListener('keydown', (e) => {
 // ================= ব্লাউজ টগল =================
 const pHasBlouse = document.getElementById('pHasBlouse');
 const blousePriceFields = document.getElementById('blousePriceFields');
-pHasBlouse.addEventListener('change', () => {
-  blousePriceFields.classList.toggle('open', pHasBlouse.checked);
-});
+pHasBlouse.addEventListener('change', () => { blousePriceFields.classList.toggle('open', pHasBlouse.checked); });
 
 // ================= প্রোডাক্ট ফর্ম ফিল্ড =================
 const pName = document.getElementById('pName');
@@ -152,7 +179,6 @@ function resetForm() {
   cancelEditBtn.style.display = 'none';
   formError.style.display = 'none';
 }
-
 cancelEditBtn.addEventListener('click', resetForm);
 
 // ================= মাল্টি ইমেজ আপলোড =================
@@ -182,7 +208,6 @@ async function handleImageFiles(fileList) {
     imageError.style.display = 'block';
     return;
   }
-
   dropzoneText.textContent = `আপলোড হচ্ছে (0/${files.length})...`;
   dropzoneText.classList.add('uploading');
 
@@ -190,21 +215,13 @@ async function handleImageFiles(fileList) {
   for (const file of files) {
     const safeName = file.name.replace(/[^a-zA-Z0-9.]/g, '_');
     const filePath = `${Date.now()}_${Math.random().toString(36).slice(2,7)}_${safeName}`;
-
-    const { error: uploadError } = await supabaseClient.storage
-      .from('products')
-      .upload(filePath, file, { cacheControl: '3600', upsert: false });
-
-    if (uploadError) {
-      console.error(uploadError);
-      continue;
-    }
+    const { error: uploadError } = await supabaseClient.storage.from('products').upload(filePath, file, { cacheControl: '3600', upsert: false });
+    if (uploadError) { console.error(uploadError); continue; }
     const { data } = supabaseClient.storage.from('products').getPublicUrl(filePath);
     imagesArray.push(data.publicUrl);
     done++;
     dropzoneText.textContent = `আপলোড হচ্ছে (${done}/${files.length})...`;
   }
-
   dropzoneText.textContent = 'ছবি এখানে ড্র্যাগ করুন, অথবা ক্লিক করে একাধিক ছবি বেছে নিন';
   dropzoneText.classList.remove('uploading');
   renderImagePreviewStrip();
@@ -219,12 +236,8 @@ function renderImagePreviewStrip() {
       <button class="thumb-remove" data-i="${i}">×</button>
     </div>
   `).join('');
-
   strip.querySelectorAll('.thumb-remove').forEach(btn => {
-    btn.addEventListener('click', () => {
-      imagesArray.splice(Number(btn.dataset.i), 1);
-      renderImagePreviewStrip();
-    });
+    btn.addEventListener('click', () => { imagesArray.splice(Number(btn.dataset.i), 1); renderImagePreviewStrip(); });
   });
   strip.querySelectorAll('.set-thumb-btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -240,7 +253,6 @@ function renderImagePreviewStrip() {
 document.getElementById('saveBtn').addEventListener('click', async () => {
   const name = pName.value.trim();
   const price = Number(pPrice.value);
-
   if (!name || !price) {
     formError.textContent = 'নাম ও সাধারণ দাম দেওয়া আবশ্যক';
     formError.style.display = 'block';
@@ -273,7 +285,6 @@ document.getElementById('saveBtn').addEventListener('click', async () => {
   } else {
     ({ error } = await supabaseClient.from('products').insert(payload));
   }
-
   saveBtn.disabled = false;
   saveBtn.textContent = 'প্রোডাক্ট সেভ করুন';
 
@@ -283,7 +294,6 @@ document.getElementById('saveBtn').addEventListener('click', async () => {
     console.error(error);
     return;
   }
-
   resetForm();
   loadProducts();
 });
@@ -291,20 +301,9 @@ document.getElementById('saveBtn').addEventListener('click', async () => {
 // ================= প্রোডাক্ট লিস্ট =================
 async function loadProducts() {
   const listEl = document.getElementById('productList');
-  const { data, error } = await supabaseClient
-    .from('products')
-    .select('*')
-    .order('created_at', { ascending: false });
-
-  if (error) {
-    listEl.innerHTML = `<div class="admin-empty">প্রোডাক্ট লোড করা যায়নি।</div>`;
-    console.error(error);
-    return;
-  }
-  if (!data || data.length === 0) {
-    listEl.innerHTML = `<div class="admin-empty">এখনো কোনো প্রোডাক্ট যোগ করা হয়নি।</div>`;
-    return;
-  }
+  const { data, error } = await supabaseClient.from('products').select('*').order('created_at', { ascending: false });
+  if (error) { listEl.innerHTML = `<div class="admin-empty">প্রোডাক্ট লোড করা যায়নি।</div>`; console.error(error); return; }
+  if (!data || data.length === 0) { listEl.innerHTML = `<div class="admin-empty">এখনো কোনো প্রোডাক্ট যোগ করা হয়নি।</div>`; return; }
 
   const catMap = {};
   categoriesList.forEach(c => catMap[c.id] = c.name);
@@ -350,13 +349,10 @@ function editProduct(p) {
   pCategory.value = p.category_id || '';
   pDesc.value = p.description || '';
   pPromoAllowed.checked = !!p.promo_allowed;
-
   colorsArray = Array.isArray(p.colors) ? [...p.colors] : [];
   renderColorChips();
-
   imagesArray = Array.isArray(p.images) && p.images.length ? [...p.images] : (p.image_url ? [p.image_url] : []);
   renderImagePreviewStrip();
-
   formTitle.textContent = 'প্রোডাক্ট এডিট করুন';
   cancelEditBtn.style.display = 'inline-block';
   window.scrollTo({ top: 0, behavior: 'smooth' });
