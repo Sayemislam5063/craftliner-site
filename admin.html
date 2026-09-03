@@ -1,129 +1,92 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ক্রাফ্টলাইনার অ্যাডমিন</title>
-  <link rel="stylesheet" href="admin.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel | Sharee Craftline</title>
+<link rel="icon" href="assets/logo.png">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="admin.css">
 </head>
-<body>
-  <div class="admin-wrapper">
-    <!-- সাইডবার -->
-    <aside class="sidebar">
-      <div class="logo">
-        <i class="fas fa-crown"></i>
-        <span>ক্রাফ্টলাইনার</span>
-      </div>
-      <nav class="nav">
-        <button class="nav-btn active" data-tab="add-product">
-          <i class="fas fa-plus-circle"></i> নতুন পণ্য
-        </button>
-        <button class="nav-btn" data-tab="manage-products">
-          <i class="fas fa-list-ul"></i> সব পণ্য
-        </button>
-        <button class="nav-btn" data-tab="categories">
-          <i class="fas fa-tags"></i> ক্যাটাগরি
-        </button>
-      </nav>
-    </aside>
+<body class="admin-body">
 
-    <!-- কন্টেন্ট -->
-    <main class="main-content">
-      <!-- ট্যাব ১ -->
-      <section id="tab-add-product" class="tab-panel active">
-        <div class="page-header">
-          <h1><i class="fas fa-upload"></i> নতুন পণ্য আপলোড</h1>
-        </div>
-
-        <form id="product-form" class="product-form">
-          <div class="form-grid">
-            <div class="form-group">
-              <label>পণ্যের নাম *</label>
-              <input type="text" id="product-name" placeholder="যেমন: নীল চাদর" required>
-            </div>
-            <div class="form-group">
-              <label>ক্যাটাগরি *</label>
-              <select id="product-category" required>
-                <option value="">— নির্বাচন করুন —</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-grid">
-            <div class="form-group">
-              <label>নিয়মিত দাম (৳) *</label>
-              <input type="number" id="product-price" placeholder="যেমন: 1200" required>
-            </div>
-            <div class="form-group highlight">
-              <label>অফার দাম (৳)</label>
-              <input type="number" id="product-offer-price" placeholder="ঐচ্ছিক">
-            </div>
-          </div>
-
-          <div class="form-grid">
-            <div class="form-group">
-              <label>ব্লাউজ সহ দাম (৳)</label>
-              <input type="number" id="price-with-blouse" placeholder="ঐচ্ছিক">
-            </div>
-            <div class="form-group">
-              <label>ব্লাউজ ছাড়া দাম (৳)</label>
-              <input type="number" id="price-without-blouse" placeholder="ঐচ্ছিক">
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>রং (কমা দিয়ে আলাদা করুন)</label>
-            <input type="text" id="product-colors" placeholder="যেমন: লাল, নীল, সোনালি">
-          </div>
-
-          <div class="form-group">
-            <label>ছবি আপলোড করুন (একাধিক)</label>
-            <div class="drop-zone" id="drop-zone">
-              <i class="fas fa-cloud-upload-alt"></i>
-              <p>এখানে ক্লিক বা ড্র্যাগ করুন</p>
-              <span>PNG, JPG, WEBP (Max 5MB)</span>
-              <input type="file" id="file-input" accept="image/*" multiple hidden>
-            </div>
-            <div class="preview-grid" id="preview-grid"></div>
-          </div>
-
-          <button type="submit" class="submit-btn">
-            <i class="fas fa-save"></i> পণ্য সংরক্ষণ করুন
-          </button>
-        </form>
-      </section>
-
-      <!-- ট্যাব ২ -->
-      <section id="tab-manage-products" class="tab-panel">
-        <div class="page-header">
-          <h1><i class="fas fa-boxes"></i> সব পণ্য</h1>
-          <button id="refresh-products" class="btn-icon"><i class="fas fa-sync-alt"></i></button>
-        </div>
-        <div id="product-list" class="product-list"></div>
-      </section>
-
-      <!-- ট্যাব ৩ -->
-      <section id="tab-categories" class="tab-panel">
-        <div class="page-header">
-          <h1><i class="fas fa-tags"></i> ক্যাটাগরি ব্যবস্থাপনা</h1>
-        </div>
-        <div class="category-manager">
-          <div class="category-input-group">
-            <input type="text" id="category-input" placeholder="নতুন ক্যাটাগরি নাম...">
-            <button id="add-category-btn"><i class="fas fa-plus"></i> যোগ করুন</button>
-          </div>
-          <div id="category-list" class="category-chips"></div>
-        </div>
-      </section>
-    </main>
+<!-- Login Screen -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-box">
+    <h2>Admin Panel</h2>
+    <p>Sharee Craftline প্রোডাক্ট ম্যানেজমেন্ট</p>
+    <div class="field">
+      <label>ইমেইল</label>
+      <input type="email" id="loginEmail" placeholder="you@example.com">
+    </div>
+    <div class="field">
+      <label>পাসওয়ার্ড</label>
+      <input type="password" id="loginPassword" placeholder="••••••••">
+    </div>
+    <div class="admin-error" id="loginError">ইমেইল বা পাসওয়ার্ড সঠিক নয়</div>
+    <button class="btn btn-solid" id="loginBtn">লগইন করুন</button>
   </div>
+</div>
 
-  <div id="toast" class="toast"></div>
+<!-- Admin Panel (hidden until logged in) -->
+<div id="adminPanel" style="display:none;">
+  <header class="admin-header">
+    <div class="brand-name">Sharee Craftline<span>ADMIN PANEL</span></div>
+    <button class="logout-btn" id="logoutBtn">লগআউট</button>
+  </header>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="config.js"></script>
-  <script src="admin.js"></script>
+  <div class="admin-wrap">
+
+    <div class="admin-card">
+      <h3 id="formTitle">নতুন প্রোডাক্ট যোগ করুন</h3>
+      <input type="hidden" id="editId">
+      <div class="form-grid">
+        <div class="field full">
+          <label>প্রোডাক্টের নাম</label>
+          <input type="text" id="pName" placeholder="যেমন: জামদানি শাড়ি - রয়েল ব্লু">
+        </div>
+        <div class="field">
+          <label>দাম (টাকা)</label>
+          <input type="number" id="pPrice" placeholder="যেমন: 3500">
+        </div>
+        <div class="field full">
+          <label>প্রোডাক্টের ছবি</label>
+          <div class="image-dropzone" id="imageDropzone">
+            <img id="imagePreview" style="display:none;">
+            <div class="dropzone-text" id="dropzoneText">ছবি এখানে ড্র্যাগ করে ছাড়ুন, অথবা ক্লিক করে বেছে নিন</div>
+            <input type="file" id="imageFileInput" accept="image/*" hidden>
+          </div>
+          <input type="text" id="pImage" placeholder="অথবা সরাসরি ছবির লিংক দিন (https://...)" style="margin-top:10px;">
+          <div class="admin-error" id="imageError">ছবি আপলোড করা যায়নি। আবার চেষ্টা করুন।</div>
+        </div>
+        <div class="field full">
+          <label>বিবরণ</label>
+          <textarea id="pDesc" rows="2" placeholder="সংক্ষিপ্ত বিবরণ লিখুন"></textarea>
+        </div>
+        <div class="checkbox-field">
+          <input type="checkbox" id="pPromoAllowed" checked>
+          <label for="pPromoAllowed">এই প্রোডাক্টে প্রোমো কোড ব্যবহারের অনুমতি দিন</label>
+        </div>
+      </div>
+      <div class="admin-error" id="formError">নাম ও দাম দেওয়া আবশ্যক</div>
+      <div class="form-actions">
+        <button class="btn btn-solid" id="saveBtn">প্রোডাক্ট সেভ করুন</button>
+        <button class="btn-cancel" id="cancelEditBtn" style="display:none;">বাতিল করুন</button>
+      </div>
+    </div>
+
+    <div class="admin-list-head">
+      <h3>সব প্রোডাক্ট</h3>
+    </div>
+    <div id="productList">
+      <div class="admin-empty">লোড হচ্ছে...</div>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="admin.js"></script>
 </body>
 </html>
