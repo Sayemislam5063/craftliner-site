@@ -1,119 +1,92 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Panel - Saree Craftline</title>
-  <link rel="stylesheet" href="admin.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel | Sharee Craftline</title>
+<link rel="icon" href="assets/logo.png">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="admin.css">
 </head>
-<body>
+<body class="admin-body">
 
-<div class="admin-container" style="max-width: 850px; margin: 20px auto;">
-
-  <!-- ১. নতুন ক্যাটাগরি তৈরি করার ফর্ম -->
-  <form id="categoryForm" class="admin-card" style="margin-bottom: 25px;">
-    <h2>নতুন ক্যাটাগরি তৈরি করুন</h2>
-    <div class="field-row" style="display: flex; gap: 15px;">
-      <div class="form-group" style="flex: 1;">
-        <label for="catName">ক্যাটাগরির নাম</label>
-        <input type="text" id="catName" placeholder="যেমন: জামদানি শাড়ি" required style="width: 100%; padding: 10px;">
-      </div>
-      <div class="form-group" style="flex: 1;">
-        <label for="catImage">ক্যাটাগরি ছবি (Round Photo)</label>
-        <input type="file" id="catImage" accept="image/*" required style="width: 100%; padding: 8px;">
-      </div>
+<!-- Login Screen -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-box">
+    <h2>Admin Panel</h2>
+    <p>Sharee Craftline প্রোডাক্ট ম্যানেজমেন্ট</p>
+    <div class="field">
+      <label>ইমেইল</label>
+      <input type="email" id="loginEmail" placeholder="you@example.com">
     </div>
-    <button type="submit" id="saveCatBtn" class="btn-primary" style="margin-top: 15px; background: #4a2800; color: #fff; padding: 12px; border: none; border-radius: 6px; cursor: pointer; width: 100%;">ক্যাটাগরি সেভ করুন</button>
-  </form>
-
-  <!-- তৈরি করা ক্যাটাগরি সমূহের লিস্ট (ম্যানেজ / ডিলিট) -->
-  <div class="admin-card" style="margin-bottom: 25px;">
-    <h2>বিদ্যমান ক্যাটাগরি সমূহ</h2>
-    <div id="categoryAdminList" style="display: flex; flex-wrap: wrap; gap: 15px; margin-top: 15px;">
-      <!-- ডাইনামিকভাবে লোড হবে -->
+    <div class="field">
+      <label>পাসওয়ার্ড</label>
+      <input type="password" id="loginPassword" placeholder="••••••••">
     </div>
+    <div class="admin-error" id="loginError">ইমেইল বা পাসওয়ার্ড সঠিক নয়</div>
+    <button class="btn btn-solid" id="loginBtn">লগইন করুন</button>
   </div>
-
-  <!-- ২. শাড়ি/প্রোডাক্ট আপলোড করার ফর্ম -->
-  <form id="productForm" class="admin-card">
-    <h2 id="formTitle">নতুন প্রোডাক্ট যোগ করুন</h2>
-    <input type="hidden" id="editId">
-
-    <div class="form-group">
-      <label for="prodName">প্রোডাক্টের নাম</label>
-      <input type="text" id="prodName" placeholder="যেমন: রয়েল ব্লু জামদানি" required>
-    </div>
-
-    <div class="field-row">
-      <div class="form-group">
-        <label for="prodCategory">ক্যাটাগরি সিলেক্ট করুন</label>
-        <select id="prodCategory" required>
-          <!-- ডাইনামিক ক্যাটাগরি অপশন -->
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="pPromoAllowed">প্রোমো কোড প্রযোজ্য?</label>
-        <select id="pPromoAllowed">
-          <option value="true">হ্যাঁ (প্রোমো কোড ব্যবহার করা যাবে)</option>
-          <option value="false">না (প্রোমো কোড ছাড় দেওয়া যাবে না)</option>
-        </select>
-      </div>
-    </div>
-
-    <!-- প্রাইস ফিল্ড -->
-    <div class="field-row">
-      <div class="form-group">
-        <label for="prodRegPrice">রেগুলার প্রাইস (টাকা)</label>
-        <input type="number" id="prodRegPrice" placeholder="যেমন: ৪৫০০" required>
-      </div>
-      <div class="form-group">
-        <label for="prodOfferPrice">অফার প্রাইস (টাকা)</label>
-        <input type="number" id="prodOfferPrice" placeholder="যেমন: ৩৯০০">
-      </div>
-    </div>
-
-    <!-- ব্লাউজ সহ / ছাড়া প্রাইস -->
-    <div class="field-row">
-      <div class="form-group">
-        <label for="priceWithBlouse">ব্লাউজ পিস সহ দাম (টাকা)</label>
-        <input type="number" id="priceWithBlouse" placeholder="যেমন: ৪২০০">
-      </div>
-      <div class="form-group">
-        <label for="priceWithoutBlouse">ব্লাউজ পিস ছাড়া দাম (টাকা)</label>
-        <input type="number" id="priceWithoutBlouse" placeholder="যেমন: ৩৮০০">
-      </div>
-    </div>
-
-    <!-- কালার ভেরিয়েন্ট -->
-    <div class="form-group">
-      <label for="prodColors">উপলব্ধ কালারসমূহ (কমা দিয়ে লিখুন)</label>
-      <input type="text" id="prodColors" placeholder="যেমন: red, black, blue">
-    </div>
-
-    <!-- Drag and Drop Image Box -->
-    <div class="form-group">
-      <label>প্রোডাক্ট ছবি আপলোড (Drag & Drop / PC Album)</label>
-      <div id="dropZone" style="border: 2px dashed #5c061c; padding: 25px; text-align: center; border-radius: 8px; cursor: pointer; background: #fffaf7;">
-        <p class="drop-title" style="margin: 0; font-weight: 600;">📷 এখানে ছবি ড্র্যাগ করে ছাড়ুন অথবা ক্লিক করে অ্যালবামের একাধিক ছবি বেছে নিন</p>
-        <small class="drop-sub" style="color: #666;">(প্রথম ছবিটি মেইন থাম্বনেইল হিসেবে থাকবে)</small>
-        <input type="file" id="prodImages" multiple accept="image/*" style="display: none;">
-      </div>
-      <div id="imagePreview" style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;"></div>
-    </div>
-
-    <div class="form-group">
-      <label for="prodDesc">বিবরণ</label>
-      <textarea id="prodDesc" rows="3" placeholder="সংক্ষিপ্ত বিবরণ লিখুন..."></textarea>
-    </div>
-
-    <p id="formError" class="error-msg" style="display: none; color: #d32f2f; margin-bottom: 10px; font-weight: 600;"></p>
-
-    <div class="btn-group">
-      <button type="submit" id="saveBtn" class="btn-primary">প্রোডাক্ট সেভ করুন</button>
-    </div>
-  </form>
-
 </div>
 
+<!-- Admin Panel (hidden until logged in) -->
+<div id="adminPanel" style="display:none;">
+  <header class="admin-header">
+    <div class="brand-name">Sharee Craftline<span>ADMIN PANEL</span></div>
+    <button class="logout-btn" id="logoutBtn">লগআউট</button>
+  </header>
+
+  <div class="admin-wrap">
+
+    <div class="admin-card">
+      <h3 id="formTitle">নতুন প্রোডাক্ট যোগ করুন</h3>
+      <input type="hidden" id="editId">
+      <div class="form-grid">
+        <div class="field full">
+          <label>প্রোডাক্টের নাম</label>
+          <input type="text" id="pName" placeholder="যেমন: জামদানি শাড়ি - রয়েল ব্লু">
+        </div>
+        <div class="field">
+          <label>দাম (টাকা)</label>
+          <input type="number" id="pPrice" placeholder="যেমন: 3500">
+        </div>
+        <div class="field full">
+          <label>প্রোডাক্টের ছবি</label>
+          <div class="image-dropzone" id="imageDropzone">
+            <img id="imagePreview" style="display:none;">
+            <div class="dropzone-text" id="dropzoneText">ছবি এখানে ড্র্যাগ করে ছাড়ুন, অথবা ক্লিক করে বেছে নিন</div>
+            <input type="file" id="imageFileInput" accept="image/*" hidden>
+          </div>
+          <input type="text" id="pImage" placeholder="অথবা সরাসরি ছবির লিংক দিন (https://...)" style="margin-top:10px;">
+          <div class="admin-error" id="imageError">ছবি আপলোড করা যায়নি। আবার চেষ্টা করুন।</div>
+        </div>
+        <div class="field full">
+          <label>বিবরণ</label>
+          <textarea id="pDesc" rows="2" placeholder="সংক্ষিপ্ত বিবরণ লিখুন"></textarea>
+        </div>
+        <div class="checkbox-field">
+          <input type="checkbox" id="pPromoAllowed" checked>
+          <label for="pPromoAllowed">এই প্রোডাক্টে প্রোমো কোড ব্যবহারের অনুমতি দিন</label>
+        </div>
+      </div>
+      <div class="admin-error" id="formError">নাম ও দাম দেওয়া আবশ্যক</div>
+      <div class="form-actions">
+        <button class="btn btn-solid" id="saveBtn">প্রোডাক্ট সেভ করুন</button>
+        <button class="btn-cancel" id="cancelEditBtn" style="display:none;">বাতিল করুন</button>
+      </div>
+    </div>
+
+    <div class="admin-list-head">
+      <h3>সব প্রোডাক্ট</h3>
+    </div>
+    <div id="productList">
+      <div class="admin-empty">লোড হচ্ছে...</div>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="admin.js"></script>
 </body>
 </html>
