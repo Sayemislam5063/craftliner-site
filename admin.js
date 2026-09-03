@@ -149,6 +149,7 @@ pHasBlouse.addEventListener('change', () => { blousePriceFields.classList.toggle
 const pName = document.getElementById('pName');
 const pPrice = document.getElementById('pPrice');
 const pOfferPrice = document.getElementById('pOfferPrice');
+const pStock = document.getElementById('pStock');
 const pPriceWithBlouse = document.getElementById('pPriceWithBlouse');
 const pPriceWithoutBlouse = document.getElementById('pPriceWithoutBlouse');
 const pCategory = document.getElementById('pCategory');
@@ -164,6 +165,7 @@ function resetForm() {
   pName.value = '';
   pPrice.value = '';
   pOfferPrice.value = '';
+  pStock.value = '';
   pHasBlouse.checked = false;
   blousePriceFields.classList.remove('open');
   pPriceWithBlouse.value = '';
@@ -264,6 +266,7 @@ document.getElementById('saveBtn').addEventListener('click', async () => {
     name: name,
     price: price,
     offer_price: pOfferPrice.value ? Number(pOfferPrice.value) : null,
+    stock: pStock.value ? Number(pStock.value) : 0,
     has_blouse_option: pHasBlouse.checked,
     price_with_blouse: pHasBlouse.checked && pPriceWithBlouse.value ? Number(pPriceWithBlouse.value) : null,
     price_without_blouse: pHasBlouse.checked && pPriceWithoutBlouse.value ? Number(pPriceWithoutBlouse.value) : null,
@@ -342,6 +345,7 @@ function editProduct(p) {
   pName.value = p.name;
   pPrice.value = p.price;
   pOfferPrice.value = p.offer_price || '';
+  pStock.value = p.stock ?? 0;
   pHasBlouse.checked = !!p.has_blouse_option;
   blousePriceFields.classList.toggle('open', !!p.has_blouse_option);
   pPriceWithBlouse.value = p.price_with_blouse || '';
