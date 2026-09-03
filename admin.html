@@ -28,7 +28,7 @@
   </div>
 </div>
 
-<!-- Admin Panel (hidden until logged in) -->
+<!-- Admin Panel -->
 <div id="adminPanel" style="display:none;">
   <header class="admin-header">
     <div class="brand-name">Sharee Craftline<span>ADMIN PANEL</span></div>
@@ -37,28 +37,77 @@
 
   <div class="admin-wrap">
 
+    <!-- ক্যাটাগরি ম্যানেজমেন্ট -->
+    <div class="admin-card category-card">
+      <h3>ক্যাটাগরি</h3>
+      <div class="category-add-row">
+        <input type="text" id="newCategoryInput" placeholder="নতুন ক্যাটাগরির নাম (যেমন: জামদানি শাড়ি)">
+        <button class="btn-small" id="addCategoryBtn">+ যোগ করুন</button>
+      </div>
+      <div class="admin-error" id="categoryError">এই নামে ক্যাটাগরি আগে থেকেই আছে অথবা যোগ করা যায়নি</div>
+      <div id="categoryChips" class="category-chip-list"></div>
+    </div>
+
+    <!-- প্রোডাক্ট ফর্ম -->
     <div class="admin-card">
       <h3 id="formTitle">নতুন প্রোডাক্ট যোগ করুন</h3>
       <input type="hidden" id="editId">
       <div class="form-grid">
+
         <div class="field full">
           <label>প্রোডাক্টের নাম</label>
           <input type="text" id="pName" placeholder="যেমন: জামদানি শাড়ি - রয়েল ব্লু">
         </div>
+
+        <div class="field full">
+          <label>ক্যাটাগরি</label>
+          <select id="pCategory">
+            <option value="">-- ক্যাটাগরি বেছে নিন --</option>
+          </select>
+        </div>
+
         <div class="field">
-          <label>দাম (টাকা)</label>
+          <label>সাধারণ দাম (টাকা)</label>
           <input type="number" id="pPrice" placeholder="যেমন: 3500">
         </div>
-        <div class="field full">
-          <label>প্রোডাক্টের ছবি</label>
-          <div class="image-dropzone" id="imageDropzone">
-            <img id="imagePreview" style="display:none;">
-            <div class="dropzone-text" id="dropzoneText">ছবি এখানে ড্র্যাগ করে ছাড়ুন, অথবা ক্লিক করে বেছে নিন</div>
-            <input type="file" id="imageFileInput" accept="image/*" hidden>
+        <div class="field">
+          <label>অফার দাম (ঐচ্ছিক)</label>
+          <input type="number" id="pOfferPrice" placeholder="যেমন: 2999">
+        </div>
+
+        <div class="checkbox-field">
+          <input type="checkbox" id="pHasBlouse">
+          <label for="pHasBlouse">ব্লাউজ পিস সহ / ছাড়া আলাদা দাম যোগ করুন</label>
+        </div>
+        <div class="blouse-price-fields" id="blousePriceFields">
+          <div class="field">
+            <label>ব্লাউজ পিস সহ দাম</label>
+            <input type="number" id="pPriceWithBlouse" placeholder="যেমন: 3800">
           </div>
-          <input type="text" id="pImage" placeholder="অথবা সরাসরি ছবির লিংক দিন (https://...)" style="margin-top:10px;">
+          <div class="field">
+            <label>ব্লাউজ পিস ছাড়া দাম</label>
+            <input type="number" id="pPriceWithoutBlouse" placeholder="যেমন: 3500">
+          </div>
+        </div>
+
+        <div class="field full">
+          <label>রঙ (কালার)</label>
+          <div class="color-tag-input" id="colorTagInput">
+            <div class="chips" id="colorChips"></div>
+            <input type="text" id="colorInputField" placeholder="রঙের নাম লিখে Enter চাপুন (যেমন: লাল)">
+          </div>
+        </div>
+
+        <div class="field full">
+          <label>প্রোডাক্টের ছবি (একাধিক দেওয়া যাবে — প্রথমটি থাম্বনেইল হবে)</label>
+          <div class="multi-image-dropzone" id="imageDropzone">
+            <div class="dropzone-text" id="dropzoneText">ছবি এখানে ড্র্যাগ করুন, অথবা ক্লিক করে একাধিক ছবি বেছে নিন</div>
+            <input type="file" id="imageFileInput" accept="image/*" multiple hidden>
+          </div>
+          <div class="image-preview-strip" id="imagePreviewStrip"></div>
           <div class="admin-error" id="imageError">ছবি আপলোড করা যায়নি। আবার চেষ্টা করুন।</div>
         </div>
+
         <div class="field full">
           <label>বিবরণ</label>
           <textarea id="pDesc" rows="2" placeholder="সংক্ষিপ্ত বিবরণ লিখুন"></textarea>
