@@ -712,3 +712,59 @@ footer .foot-note {
   .price { font-size: 17px; }
   .buy-btn { padding: 7px 14px; font-size: 12px; }
 }
+
+/* ---------- ক্যাটাগরি ফিল্টার বার ---------- */
+.category-filter-bar { display:flex; gap:10px; flex-wrap:wrap; margin: 6px 0 30px; }
+.cat-chip {
+  display:flex; align-items:center; gap:8px; background:#fff; border:1px solid var(--rose-line);
+  padding:6px 16px 6px 6px; border-radius:30px; cursor:pointer; font-size:13.5px; color:var(--maroon-soft);
+  transition: all .25s ease;
+}
+.cat-chip:hover { border-color:var(--maroon); color:var(--maroon-deep); transform: translateY(-1px); }
+.cat-chip.active { background:var(--maroon); border-color:var(--maroon); color:#fff; }
+.cat-chip-icon {
+  width:28px; height:28px; border-radius:50%; object-fit:cover; background:#e9ddc8;
+  display:flex; align-items:center; justify-content:center; font-size:11px; color:var(--maroon-deep); flex-shrink:0;
+}
+.cat-chip.active .cat-chip-icon { background:rgba(255,255,255,0.25); color:#fff; }
+
+/* ---------- কার্ডে অফার/মাল্টি-ইমেজ/রঙ ---------- */
+.card-image { position:relative; overflow:hidden; }
+.card-img-dots { position:absolute; bottom:8px; left:0; right:0; display:flex; justify-content:center; gap:6px; }
+.img-dot { width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,0.65); cursor:pointer; transition: all .2s ease; }
+.img-dot.active { background:#fff; transform:scale(1.35); }
+.offer-badge {
+  position:absolute; top:10px; left:10px; background:#a12f2f; color:#fff; font-size:11px;
+  padding:4px 11px; border-radius:20px; letter-spacing:.4px; z-index:2; animation: cf-popIn .3s ease;
+}
+.price .old-price { text-decoration:line-through; opacity:.55; font-size:13px; margin-right:6px; }
+.price .offer-price { color:#a12f2f; font-weight:600; }
+.card-cat-tag {
+  display:inline-block; font-size:10.5px; color:var(--maroon-soft); border:1px solid var(--rose-line);
+  padding:1px 9px; border-radius:10px; margin-bottom:5px;
+}
+.card-colors { display:flex; flex-wrap:wrap; gap:6px; margin:6px 0; }
+.color-chip-mini { font-size:10.5px; border:1px solid var(--rose-line); color:var(--maroon-soft); padding:2px 9px; border-radius:10px; }
+
+/* ---------- Buy Now মডালে রঙ ও ব্লাউজ অপশন ---------- */
+.color-select-row { display:flex; flex-wrap:wrap; gap:8px; }
+.color-opt {
+  border:1px solid var(--rose-line); background:#fff; padding:7px 16px; border-radius:20px;
+  font-size:13px; cursor:pointer; color:var(--maroon-soft); transition: all .2s ease;
+}
+.color-opt:hover { border-color:var(--maroon); }
+.color-opt.selected { background:var(--maroon); border-color:var(--maroon); color:#fff; }
+
+.blouse-option-row { display:flex; gap:16px; flex-wrap:wrap; }
+.radio-chip { display:flex; align-items:center; gap:6px; font-size:13.5px; color:var(--ink); cursor:pointer; }
+.radio-chip input { accent-color:var(--maroon); width:auto; }
+
+@keyframes cf-popIn {
+  from { opacity:0; transform:scale(0.85); }
+  to { opacity:1; transform:scale(1); }
+}
+
+@media (max-width: 600px) {
+  .cat-chip { font-size:12.5px; padding:5px 14px 5px 5px; }
+  .cat-chip-icon { width:24px; height:24px; }
+}
