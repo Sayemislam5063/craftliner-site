@@ -326,6 +326,7 @@ async function loadProducts() {
         ${p.category_id && catMap[p.category_id] ? `<div class="cat-tag">${escapeHtml(catMap[p.category_id])}</div>` : ''}
         <h4>${escapeHtml(p.name)}</h4>
         <div class="meta">${priceHtml}</div>
+        <div class="stock-info">স্টক: ${p.stock ?? 0} টি</div>
       </div>
       <span class="promo-tag ${p.promo_allowed ? '' : 'off'}">${p.promo_allowed ? 'প্রোমো চালু' : 'প্রোমো বন্ধ'}</span>
       <div class="row-actions">
