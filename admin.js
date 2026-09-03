@@ -1,20 +1,59 @@
-// ---------- ১. ডাইনামিক ক্যাটাগরি ড্রপডাউনে লোড করা ----------
+let selectedFiles = [];
+
+// DOM লোড হওয়ার পর স্ক্রিপ্ট কাজ শুরু করবে
+document.addEventListener('DOMContentLoaded', () => {
+  loadCategoriesSelect();
+  setupCategoryForm();
+  setupDragAndDrop();
+  setupProductForm();
+});
+
+// ---------- ১. ডাইনামিক ক্যাটাগরি ড্রপডাউন ও লিস্ট লোড করা ----------
 async function loadCategoriesSelect() {
   const selectEl = document.getElementById('prodCategory');
-  if (!selectEl) return;
+  const adminListEl = document.getElementById('categoryAdminList');
 
-  const { data: categories, error } = await supabaseClient.from('categories').select('*').order('name');
-  if (error || !categories || categories.length === 0) {
-    selectEl.innerHTML = '<option value="">কোনো ক্যাটাগরি পাওয়া যায়নি</option>';
+  const { data: categories, error } = await supabaseClient
+    .from('categories')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('Category Fetch Error:', error);
+    if (selectEl) selectEl.innerHTML = '<option value="">ক্যাটাগরি পাওয়া যায়নি</option>';
     return;
   }
 
-  selectEl.innerHTML = categories.map(c => `<option value="${c.name}">${c.name}</option>`).join('');
+  // ড্রপডাউন আপডেট
+  if (selectEl) {
+    if (categories.length === 0) {
+      selectEl.innerHTML = '<option value="">কোনো ক্যাটাগরি তৈরি করা নেই</option>';
+    } else {
+      selectEl.innerHTML = categories.map(c => `<option value="${c.name}">${c.name}</option>`).join('');
+    }
+  }
+
+  // অ্যাডমিন প্যানেলে ক্যাটাগরি ছবিসহ লিস্ট দেখানো
+  if (adminListEl) {
+    if (categories.length === 0) {
+      adminListEl.innerHTML = '<p style="color:#777;">এখনও কোনো ক্যাটাগরি যোগ করা হয়নি।</p>';
+    } else {
+      adminListEl.innerHTML = categories.map(c => `
+        <div style="display: flex; align-items: center; gap: 10px; background: #f9f9f9; padding: 8px 12px; border-radius: 30px; border: 1px solid #ddd;">
+          <img src="${c.image_url}" alt="${c.name}" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover;">
+          <span style="font-weight: 600; font-size: 14px;">${c.name}</span>
+          <button onclick="deleteCategory(${c.id})" style="background: #ff4d4d; color: white; border: none; border-radius: 50%; width: 22px; height: 22px; cursor: pointer; font-size: 12px; line-height: 1;">✕</button>
+        </div>
+      `).join('');
+    }
+  }
 }
 
-// ---------- ২. নতুন ক্যাটাগরি তৈরি করার লজিক ----------
-const catForm = document.getElementById('categoryForm');
-if (catForm) {
+// ---------- ২. ক্যাটাগরি তৈরি করার লজিক ----------
+function setupCategoryForm() {
+  const catForm = document.getElementById('categoryForm');
+  if (!catForm) return;
+
   catForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const saveCatBtn = document.getElementById('saveCatBtn');
@@ -27,12 +66,14 @@ if (catForm) {
     saveCatBtn.innerText = 'সেভ হচ্ছে...';
 
     try {
+      // ছবি স্টোরেজে আপলোড
       const fileName = `cat_${Date.now()}_${catImgFile.name.replace(/\s+/g, '_')}`;
       const { error: upErr } = await supabaseClient.storage.from('products').upload(fileName, catImgFile);
       if (upErr) throw upErr;
 
       const { data: urlData } = supabaseClient.storage.from('products').getPublicUrl(fileName);
 
+      // ডাটাবেজে সেভ
       const { error: dbErr } = await supabaseClient.from('categories').insert([
         { name: catName, image_url: urlData.publicUrl }
       ]);
@@ -41,7 +82,8 @@ if (catForm) {
       alert('নতুন ক্যাটাগরি সফলভাবে তৈরি হয়েছে!');
       document.getElementById('catName').value = '';
       document.getElementById('catImage').value = '';
-      loadCategoriesSelect(); // নতুন ক্যাটাগরি লিস্টে আপডেট হবে
+      loadCategoriesSelect(); // লিস্ট রিফ্রেশ
+
     } catch (err) {
       alert('ক্যাটাগরি সেভ করতে সমস্যা হয়েছে: ' + err.message);
     } finally {
@@ -51,14 +93,30 @@ if (catForm) {
   });
 }
 
-// ---------- ৩. Drag & Drop ফাইল আপলোড হ্যান্ডলার ----------
-const dropZone = document.getElementById('dropZone');
-const fileInput = document.getElementById('prodImages');
-const preview = document.getElementById('imagePreview');
-let selectedFiles = [];
+// ক্যাটাগরি ডিলিট করার ফাংশন
+async function deleteCategory(id) {
+  if (!confirm('আপনি কি এই ক্যাটাগরি ডিলিট করতে চান?')) return;
+  const { error } = await supabaseClient.from('categories').delete().eq('id', id);
+  if (error) {
+    alert('ডিলিট করা যায়নি: ' + error.message);
+  } else {
+    loadCategoriesSelect();
+  }
+}
 
-if (dropZone && fileInput) {
-  dropZone.onclick = () => fileInput.click();
+// ---------- ৩. Drag & Drop এবং ফাইল সিলেক্ট লজিক ----------
+function setupDragAndDrop() {
+  const dropZone = document.getElementById('dropZone');
+  const fileInput = document.getElementById('prodImages');
+
+  if (!dropZone || !fileInput) return;
+
+  // ক্লিক করলে ফাইল ম্যানেজার খুলবে
+  dropZone.onclick = (e) => {
+    if (e.target !== fileInput) {
+      fileInput.click();
+    }
+  };
 
   dropZone.ondragover = (e) => {
     e.preventDefault();
@@ -83,13 +141,14 @@ if (dropZone && fileInput) {
 }
 
 function handleFiles(files) {
+  const preview = document.getElementById('imagePreview');
   for (let file of files) {
     selectedFiles.push(file);
     const reader = new FileReader();
     reader.onload = (e) => {
       const img = document.createElement('img');
       img.src = e.target.result;
-      img.style.cssText = 'width:70px; height:70px; object-fit:cover; border-radius:6px; border:2px solid #5c061c; margin-right:5px; margin-top:5px;';
+      img.style.cssText = 'width:75px; height:75px; object-fit:cover; border-radius:6px; border:2px solid #5c061c;';
       if (preview) preview.appendChild(img);
     };
     reader.readAsDataURL(file);
@@ -97,8 +156,10 @@ function handleFiles(files) {
 }
 
 // ---------- ৪. প্রোডাক্ট সেভ করার লজিক ----------
-const productForm = document.getElementById('productForm');
-if (productForm) {
+function setupProductForm() {
+  const productForm = document.getElementById('productForm');
+  if (!productForm) return;
+
   productForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const saveBtn = document.getElementById('saveBtn');
@@ -162,6 +223,3 @@ if (productForm) {
     }
   });
 }
-
-// পেজ লোড হলে ক্যাটাগরি লোড হবে
-loadCategoriesSelect();
