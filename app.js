@@ -326,6 +326,12 @@ document.getElementById('confirmOrderBtn').addEventListener('click', async () =>
   }
   formError.style.display = 'none';
 
+  if (!currentProduct || Number(currentProduct.stock ?? 0) <= 0) {
+    formError.textContent = 'দুঃখিত, এই প্রোডাক্টটি বর্তমানে স্টক আউট।';
+    formError.style.display = 'block';
+    return;
+  }
+
   const price = getUnitPrice();
   const delivery = DELIVERY_CHARGES[zone] || 0;
   const discountPercent = promo && PROMO_CODES[promo] !== undefined ? PROMO_CODES[promo] : 0;
