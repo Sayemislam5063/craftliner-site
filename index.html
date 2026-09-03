@@ -59,10 +59,16 @@
 </section>
 
 <section class="products-section container" id="collection">
-  <div class="section-head">
-    <h2>আমাদের সংগ্রহ</h2>
-    <p>নতুন এসেছে</p>
+  <div class="section-head" style="text-align: center; margin-bottom: 20px;">
+    <h2 style="color: #5c061c; margin-bottom: 5px;">আমাদের সংগ্রহ</h2>
+    <p style="color: #666; font-size: 14px; margin-bottom: 15px;">নতুন এসেছে</p>
+    
+    <!-- ক্যাটাগরি গোল ছবি স্ক্রোলবার -->
+    <div id="categoryCircleList" style="display: flex; gap: 15px; overflow-x: auto; padding: 10px 5px; scrollbar-width: none;">
+      <!-- Supabase থেকে ডাইনামিক গোল ক্যাটাগরি ছবি এখানে লোড হবে -->
+    </div>
   </div>
+
   <div class="grid" id="product-grid">
     <div class="empty-state">প্রোডাক্ট লোড হচ্ছে...</div>
   </div>
