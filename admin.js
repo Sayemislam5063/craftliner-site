@@ -1,231 +1,270 @@
-// Supabase সেটআপ
-const supabase = window.supabase.createClient(
-  window.SUPABASE_URL,
-  window.SUPABASE_ANON_KEY
-);
+const loginScreen = document.getElementById('loginScreen');
+const adminPanel = document.getElementById('adminPanel');
 
-// DOM রেফারেন্স
-const form = document.getElementById('product-form');
-const categorySelect = document.getElementById('product-category');
-const fileInput = document.getElementById('file-input');
-const dropZone = document.getElementById('drop-zone');
-const previewGrid = document.getElementById('preview-grid');
-const productList = document.getElementById('product-list');
-const categoryList = document.getElementById('category-list');
-const toast = document.getElementById('toast');
-
-let uploadedFiles = [];
-
-// টোস্ট
-function showToast(msg, type = 'success') {
-  toast.textContent = msg;
-  toast.className = 'toast ' + type;
-  toast.classList.add('show');
-  clearTimeout(toast._timer);
-  toast._timer = setTimeout(() => toast.classList.remove('show'), 3000);
-}
-
-// ক্যাটাগরি লোড
-async function loadCategories() {
-  try {
-    const { data, error } = await supabase.from('categories').select('*').order('name');
-    if (error) throw error;
-
-    categorySelect.innerHTML = '<option value="">— ক্যাটাগরি নির্বাচন করুন —</option>';
-    data.forEach(c => {
-      categorySelect.innerHTML += `<option value="${c.id}">${c.name}</option>`;
-    });
-
-    categoryList.innerHTML = data.map(c => `
-      <span class="category-chip">
-        ${c.name}
-        <button onclick="deleteCategory('${c.id}')"><i class="fas fa-times"></i></button>
-      </span>
-    `).join('');
-  } catch (error) {
-    showToast('ক্যাটাগরি লোডে সমস্যা', 'error');
+// ---------- Session check ----------
+async function checkSession() {
+  const { data } = await supabaseClient.auth.getSession();
+  if (data.session) {
+    showAdmin();
+  } else {
+    showLogin();
   }
 }
 
-// ক্যাটাগরি যোগ
-document.getElementById('add-category-btn').addEventListener('click', async () => {
-  const input = document.getElementById('category-input');
-  const name = input.value.trim();
-  if (!name) return showToast('ক্যাটাগরির নাম দিন', 'error');
+function showLogin() {
+  loginScreen.style.display = 'flex';
+  adminPanel.style.display = 'none';
+}
 
-  try {
-    const { error } = await supabase.from('categories').insert({ name });
-    if (error) throw error;
-    input.value = '';
-    showToast('✅ ক্যাটাগরি যোগ হয়েছে');
-    loadCategories();
-  } catch (error) {
-    showToast('❌ ' + error.message, 'error');
+function showAdmin() {
+  loginScreen.style.display = 'none';
+  adminPanel.style.display = 'block';
+  loadProducts();
+}
+
+// ---------- Login ----------
+document.getElementById('loginBtn').addEventListener('click', async () => {
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  const errEl = document.getElementById('loginError');
+  errEl.style.display = 'none';
+
+  const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+  if (error) {
+    errEl.style.display = 'block';
+    return;
   }
+  showAdmin();
 });
 
-// ক্যাটাগরি ডিলিট
-window.deleteCategory = async (id) => {
-  if (!confirm('ক্যাটাগরি ডিলিট করবেন?')) return;
-  try {
-    const { error } = await supabase.from('categories').delete().eq('id', id);
-    if (error) throw error;
-    showToast('🗑️ ক্যাটাগরি ডিলিট হয়েছে');
-    loadCategories();
-  } catch (error) {
-    showToast('❌ ' + error.message, 'error');
-  }
-};
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+  await supabaseClient.auth.signOut();
+  showLogin();
+});
 
-// ইমেজ আপলোড (Supabase Storage)
-async function uploadImages(files) {
-  const urls = [];
-  for (const file of files) {
-    const fileName = `${Date.now()}_${file.name}`;
-    const { data, error } = await supabase.storage
-      .from('product-images')
-      .upload(fileName, file);
+// ---------- Product form ----------
+const pName = document.getElementById('pName');
+const pPrice = document.getElementById('pPrice');
+const pImage = document.getElementById('pImage');
+const pDesc = document.getElementById('pDesc');
+const pPromoAllowed = document.getElementById('pPromoAllowed');
+const editId = document.getElementById('editId');
+const formTitle = document.getElementById('formTitle');
+const cancelEditBtn = document.getElementById('cancelEditBtn');
+const formError = document.getElementById('formError');
 
-    if (error) throw error;
-
-    const { data: urlData } = supabase.storage
-      .from('product-images')
-      .getPublicUrl(fileName);
-
-    urls.push(urlData.publicUrl);
-  }
-  return urls;
+function resetForm() {
+  editId.value = '';
+  pName.value = '';
+  pPrice.value = '';
+  pImage.value = '';
+  pDesc.value = '';
+  pPromoAllowed.checked = true;
+  formTitle.textContent = 'নতুন প্রোডাক্ট যোগ করুন';
+  cancelEditBtn.style.display = 'none';
+  formError.style.display = 'none';
+  resetImagePreview();
 }
 
-// ড্রপ জোন
-dropZone.addEventListener('click', () => fileInput.click());
-dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
-dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
-dropZone.addEventListener('drop', e => {
+// ---------- Image upload (drag & drop / click to browse) ----------
+const imageDropzone = document.getElementById('imageDropzone');
+const imageFileInput = document.getElementById('imageFileInput');
+const imagePreview = document.getElementById('imagePreview');
+const dropzoneText = document.getElementById('dropzoneText');
+const imageError = document.getElementById('imageError');
+
+function resetImagePreview() {
+  imagePreview.style.display = 'none';
+  imagePreview.src = '';
+  dropzoneText.textContent = 'ছবি এখানে ড্র্যাগ করে ছাড়ুন, অথবা ক্লিক করে বেছে নিন';
+  dropzoneText.classList.remove('uploading');
+  imageError.style.display = 'none';
+}
+
+function showImagePreviewFromUrl(url) {
+  if (!url) { resetImagePreview(); return; }
+  imagePreview.src = url;
+  imagePreview.style.display = 'block';
+  dropzoneText.textContent = 'ছবি পরিবর্তন করতে ক্লিক করুন বা নতুন ছবি ড্র্যাগ করুন';
+  dropzoneText.classList.remove('uploading');
+}
+
+imageDropzone.addEventListener('click', () => imageFileInput.click());
+
+imageDropzone.addEventListener('dragover', (e) => {
   e.preventDefault();
-  dropZone.classList.remove('dragover');
-  if (e.dataTransfer.files.length) handleFiles(e.dataTransfer.files);
+  imageDropzone.classList.add('drag-over');
 });
-fileInput.addEventListener('change', e => handleFiles(e.target.files));
-
-function handleFiles(files) {
-  for (let f of files) {
-    if (!f.type.startsWith('image/')) continue;
-    uploadedFiles.push(f);
-    const reader = new FileReader();
-    reader.onload = ev => {
-      const img = document.createElement('img');
-      img.src = ev.target.result;
-      img.style.width = '100%';
-      img.style.height = '100%';
-      img.style.objectFit = 'cover';
-      
-      const div = document.createElement('div');
-      div.className = 'preview-item';
-      div.appendChild(img);
-      
-      const btn = document.createElement('button');
-      btn.className = 'remove-img';
-      btn.innerHTML = '<i class="fas fa-times"></i>';
-      btn.onclick = () => {
-        const idx = uploadedFiles.indexOf(f);
-        if (idx > -1) {
-          uploadedFiles.splice(idx, 1);
-          div.remove();
-        }
-      };
-      div.appendChild(btn);
-      previewGrid.appendChild(div);
-    };
-    reader.readAsDataURL(f);
+imageDropzone.addEventListener('dragleave', () => {
+  imageDropzone.classList.remove('drag-over');
+});
+imageDropzone.addEventListener('drop', (e) => {
+  e.preventDefault();
+  imageDropzone.classList.remove('drag-over');
+  if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+    handleImageFile(e.dataTransfer.files[0]);
   }
-  fileInput.value = '';
+});
+
+imageFileInput.addEventListener('change', () => {
+  if (imageFileInput.files && imageFileInput.files[0]) {
+    handleImageFile(imageFileInput.files[0]);
+  }
+});
+
+// ছবির লিংক সরাসরি লিখলে সেটার প্রিভিউও দেখাও
+pImage.addEventListener('input', () => {
+  if (pImage.value.trim()) {
+    showImagePreviewFromUrl(pImage.value.trim());
+  } else {
+    resetImagePreview();
+  }
+});
+
+async function handleImageFile(file) {
+  if (!file.type.startsWith('image/')) {
+    imageError.textContent = 'শুধুমাত্র ছবি ফাইল (jpg, png ইত্যাদি) দেওয়া যাবে।';
+    imageError.style.display = 'block';
+    return;
+  }
+
+  imageError.style.display = 'none';
+  dropzoneText.textContent = 'আপলোড হচ্ছে...';
+  dropzoneText.classList.add('uploading');
+
+  const safeName = file.name.replace(/[^a-zA-Z0-9.]/g, '_');
+  const filePath = `${Date.now()}_${safeName}`;
+
+  const { error: uploadError } = await supabaseClient.storage
+    .from('products')
+    .upload(filePath, file, { cacheControl: '3600', upsert: false });
+
+  if (uploadError) {
+    console.error(uploadError);
+    imageError.textContent = 'ছবি আপলোড করা যায়নি। আবার চেষ্টা করুন।';
+    imageError.style.display = 'block';
+    dropzoneText.textContent = 'ছবি এখানে ড্র্যাগ করে ছাড়ুন, অথবা ক্লিক করে বেছে নিন';
+    dropzoneText.classList.remove('uploading');
+    return;
+  }
+
+  const { data } = supabaseClient.storage.from('products').getPublicUrl(filePath);
+  pImage.value = data.publicUrl;
+  showImagePreviewFromUrl(data.publicUrl);
 }
 
-// পণ্য আপলোড
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
+cancelEditBtn.addEventListener('click', resetForm);
 
-  const name = document.getElementById('product-name').value.trim();
-  const price = parseFloat(document.getElementById('product-price').value);
-  const offerPrice = parseFloat(document.getElementById('product-offer-price').value) || null;
-  const categoryId = document.getElementById('product-category').value;
-  const colors = document.getElementById('product-colors').value.split(',').map(s => s.trim()).filter(Boolean);
-  const priceWithBlouse = parseFloat(document.getElementById('price-with-blouse').value) || null;
-  const priceWithoutBlouse = parseFloat(document.getElementById('price-without-blouse').value) || null;
+document.getElementById('saveBtn').addEventListener('click', async () => {
+  const name = pName.value.trim();
+  const price = Number(pPrice.value);
 
-  if (!name || !price || !categoryId) {
-    return showToast('নাম, দাম ও ক্যাটাগরি আবশ্যক', 'error');
-  }
-  if (uploadedFiles.length === 0) {
-    return showToast('কমপক্ষে একটি ছবি আপলোড করুন', 'error');
+  if (!name || !price) {
+    formError.textContent = 'নাম ও দাম দেওয়া আবশ্যক';
+    formError.style.display = 'block';
+    return;
   }
 
-  try {
-    const imageUrls = await uploadImages(uploadedFiles);
+  const payload = {
+    name: name,
+    price: price,
+    image_url: pImage.value.trim() || null,
+    description: pDesc.value.trim() || null,
+    promo_allowed: pPromoAllowed.checked
+  };
 
-    const { error } = await supabase.from('products').insert({
-      name,
-      price,
-      offer_price: offerPrice,
-      category_id: categoryId,
-      colors,
-      price_with_blouse: priceWithBlouse,
-      price_without_blouse: priceWithoutBlouse,
-      images: imageUrls,
-    });
+  const saveBtn = document.getElementById('saveBtn');
+  saveBtn.disabled = true;
+  saveBtn.textContent = 'সেভ হচ্ছে...';
 
-    if (error) throw error;
-
-    showToast('🎉 পণ্য সফলভাবে সংরক্ষিত!');
-    form.reset();
-    uploadedFiles = [];
-    previewGrid.innerHTML = '';
-    loadProducts();
-  } catch (error) {
-    showToast('❌ ' + error.message, 'error');
+  let error;
+  if (editId.value) {
+    ({ error } = await supabaseClient.from('products').update(payload).eq('id', editId.value));
+  } else {
+    ({ error } = await supabaseClient.from('products').insert(payload));
   }
+
+  saveBtn.disabled = false;
+  saveBtn.textContent = 'প্রোডাক্ট সেভ করুন';
+
+  if (error) {
+    formError.textContent = 'সেভ করা যায়নি। আবার চেষ্টা করুন।';
+    formError.style.display = 'block';
+    console.error(error);
+    return;
+  }
+
+  resetForm();
+  loadProducts();
 });
 
-// পণ্য লোড
+// ---------- Product list ----------
 async function loadProducts() {
-  try {
-    const { data, error } = await supabase.from('products').select('*').order('created_at', { ascending: false });
-    if (error) throw error;
+  const listEl = document.getElementById('productList');
+  const { data, error } = await supabaseClient
+    .from('products')
+    .select('*')
+    .order('created_at', { ascending: false });
 
-    productList.innerHTML = data.map(p => `
-      <div class="product-card">
-        <img src="${p.images?.[0] || 'https://placehold.co/200x200?text=No+Image'}" alt="${p.name}">
-        <h4>${p.name}</h4>
-        <div>
-          <span class="price">৳${p.price}</span>
-          ${p.offer_price ? `<span class="offer">৳${p.offer_price}</span>` : ''}
-        </div>
-        <div style="font-size:0.8rem;color:#64748b;margin-top:0.3rem;">
-          ${p.colors?.length ? p.colors.join(', ') : ''}
-        </div>
-      </div>
-    `).join('');
-  } catch (error) {
-    showToast('পণ্য লোডে সমস্যা', 'error');
+  if (error) {
+    listEl.innerHTML = `<div class="admin-empty">প্রোডাক্ট লোড করা যায়নি।</div>`;
+    console.error(error);
+    return;
   }
+
+  if (!data || data.length === 0) {
+    listEl.innerHTML = `<div class="admin-empty">এখনো কোনো প্রোডাক্ট যোগ করা হয়নি।</div>`;
+    return;
+  }
+
+  listEl.innerHTML = data.map(p => `
+    <div class="product-row">
+      <img src="${p.image_url || 'assets/logo.png'}" alt="${escapeHtml(p.name)}">
+      <div class="info">
+        <h4>${escapeHtml(p.name)}</h4>
+        <div class="meta">৳${Number(p.price).toLocaleString('en-BD')}</div>
+      </div>
+      <span class="promo-tag ${p.promo_allowed ? '' : 'off'}">${p.promo_allowed ? 'প্রোমো চালু' : 'প্রোমো বন্ধ'}</span>
+      <div class="row-actions">
+        <button class="edit-btn" onclick='editProduct(${JSON.stringify(p).replace(/'/g, "&apos;")})'>এডিট</button>
+        <button class="delete-btn" data-id="${p.id}">ডিলিট</button>
+      </div>
+    </div>
+  `).join('');
+
+  listEl.querySelectorAll('.delete-btn').forEach(btn => {
+    btn.addEventListener('click', () => deleteProduct(btn.dataset.id));
+  });
 }
 
-// রিফ্রেশ
-document.getElementById('refresh-products').addEventListener('click', loadProducts);
+function editProduct(p) {
+  editId.value = p.id;
+  pName.value = p.name;
+  pPrice.value = p.price;
+  pImage.value = p.image_url || '';
+  pDesc.value = p.description || '';
+  pPromoAllowed.checked = !!p.promo_allowed;
+  formTitle.textContent = 'প্রোডাক্ট এডিট করুন';
+  cancelEditBtn.style.display = 'inline-block';
+  showImagePreviewFromUrl(p.image_url);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
-// ট্যাব সুইচ
-document.querySelectorAll('.nav-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
-    if (btn.dataset.tab === 'manage-products') loadProducts();
-    if (btn.dataset.tab === 'categories') loadCategories();
-  });
-});
+async function deleteProduct(id) {
+  if (!confirm('এই প্রোডাক্টটি ডিলিট করতে চান?')) return;
+  const { error } = await supabaseClient.from('products').delete().eq('id', id);
+  if (error) {
+    alert('ডিলিট করা যায়নি।');
+    console.error(error);
+    return;
+  }
+  loadProducts();
+}
 
-// শুরু
-loadCategories();
-loadProducts();
+function escapeHtml(str) {
+  const d = document.createElement('div');
+  d.textContent = str || '';
+  return d.innerHTML;
+}
+
+checkSession();
