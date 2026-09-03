@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Panel - Saree Craftline</title>
-  
-  <!-- admin.css লিংক -->
   <link rel="stylesheet" href="admin.css">
 </head>
 <body>
@@ -15,18 +13,26 @@
   <!-- ১. নতুন ক্যাটাগরি তৈরি করার ফর্ম -->
   <form id="categoryForm" class="admin-card" style="margin-bottom: 25px;">
     <h2>নতুন ক্যাটাগরি তৈরি করুন</h2>
-    <div class="field-row">
-      <div class="form-group">
+    <div class="field-row" style="display: flex; gap: 15px;">
+      <div class="form-group" style="flex: 1;">
         <label for="catName">ক্যাটাগরির নাম</label>
-        <input type="text" id="catName" placeholder="যেমন: জামদানি শাড়ি" required>
+        <input type="text" id="catName" placeholder="যেমন: জামদানি শাড়ি" required style="width: 100%; padding: 10px;">
       </div>
-      <div class="form-group">
+      <div class="form-group" style="flex: 1;">
         <label for="catImage">ক্যাটাগরি ছবি (Round Photo)</label>
-        <input type="file" id="catImage" accept="image/*" required>
+        <input type="file" id="catImage" accept="image/*" required style="width: 100%; padding: 8px;">
       </div>
     </div>
-    <button type="submit" id="saveCatBtn" class="btn-primary" style="margin-top: 10px; background: #4a2800;">ক্যাটাগরি সেভ করুন</button>
+    <button type="submit" id="saveCatBtn" class="btn-primary" style="margin-top: 15px; background: #4a2800; color: #fff; padding: 12px; border: none; border-radius: 6px; cursor: pointer; width: 100%;">ক্যাটাগরি সেভ করুন</button>
   </form>
+
+  <!-- তৈরি করা ক্যাটাগরি সমূহের লিস্ট (ম্যানেজ / ডিলিট) -->
+  <div class="admin-card" style="margin-bottom: 25px;">
+    <h2>বিদ্যমান ক্যাটাগরি সমূহ</h2>
+    <div id="categoryAdminList" style="display: flex; flex-wrap: wrap; gap: 15px; margin-top: 15px;">
+      <!-- ডাইনামিকভাবে লোড হবে -->
+    </div>
+  </div>
 
   <!-- ২. শাড়ি/প্রোডাক্ট আপলোড করার ফর্ম -->
   <form id="productForm" class="admin-card">
@@ -42,7 +48,7 @@
       <div class="form-group">
         <label for="prodCategory">ক্যাটাগরি সিলেক্ট করুন</label>
         <select id="prodCategory" required>
-          <!-- ডাইনামিক ক্যাটাগরি ডাটাবেজ থেকে লোড হবে -->
+          <!-- ডাইনামিক ক্যাটাগরি অপশন -->
         </select>
       </div>
       <div class="form-group">
@@ -54,7 +60,7 @@
       </div>
     </div>
 
-    <!-- রেগুলার ও অফার প্রাইস -->
+    <!-- প্রাইস ফিল্ড -->
     <div class="field-row">
       <div class="form-group">
         <label for="prodRegPrice">রেগুলার প্রাইস (টাকা)</label>
@@ -81,18 +87,18 @@
     <!-- কালার ভেরিয়েন্ট -->
     <div class="form-group">
       <label for="prodColors">উপলব্ধ কালারসমূহ (কমা দিয়ে লিখুন)</label>
-      <input type="text" id="prodColors" placeholder="যেমন: লাল, নীল, মেজেন্টা, কাঁচা হলুদ">
+      <input type="text" id="prodColors" placeholder="যেমন: red, black, blue">
     </div>
 
     <!-- Drag and Drop Image Box -->
     <div class="form-group">
       <label>প্রোডাক্ট ছবি আপলোড (Drag & Drop / PC Album)</label>
-      <div id="dropZone">
-        <p class="drop-title">📷 এখানে ছবি ড্র্যাগ করে ছাড়ুন অথবা ক্লিক করে অ্যালবামের একাধিক ছবি বেছে নিন</p>
-        <small class="drop-sub">(প্রথম ছবিটি মেইন থাম্বনেইল হিসেবে থাকবে, বাকিগুলো গ্যালারিতে থাকবে)</small>
+      <div id="dropZone" style="border: 2px dashed #5c061c; padding: 25px; text-align: center; border-radius: 8px; cursor: pointer; background: #fffaf7;">
+        <p class="drop-title" style="margin: 0; font-weight: 600;">📷 এখানে ছবি ড্র্যাগ করে ছাড়ুন অথবা ক্লিক করে অ্যালবামের একাধিক ছবি বেছে নিন</p>
+        <small class="drop-sub" style="color: #666;">(প্রথম ছবিটি মেইন থাম্বনেইল হিসেবে থাকবে)</small>
         <input type="file" id="prodImages" multiple accept="image/*" style="display: none;">
       </div>
-      <div id="imagePreview"></div>
+      <div id="imagePreview" style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;"></div>
     </div>
 
     <div class="form-group">
@@ -104,7 +110,6 @@
 
     <div class="btn-group">
       <button type="submit" id="saveBtn" class="btn-primary">প্রোডাক্ট সেভ করুন</button>
-      <button type="button" id="cancelEditBtn" class="btn-secondary" style="display: none; background: #888; color: #fff; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer;">বাতিল করুন</button>
     </div>
   </form>
 
