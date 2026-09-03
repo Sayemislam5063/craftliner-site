@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ক্রাফ্টলাইনার অ্যাডমিন প্যানেল</title>
+  <title>ক্রাফ্টলাইনার অ্যাডমিন</title>
   <link rel="stylesheet" href="admin.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
   <div class="admin-wrapper">
-
     <!-- সাইডবার -->
     <aside class="sidebar">
       <div class="logo">
@@ -28,68 +27,59 @@
           <i class="fas fa-tags"></i> ক্যাটাগরি
         </button>
       </nav>
-      <div class="logout">
-        <i class="fas fa-sign-out-alt"></i> লগআউট
-      </div>
     </aside>
 
-    <!-- মূল কন্টেন্ট -->
+    <!-- কন্টেন্ট -->
     <main class="main-content">
-
-      <!-- ===== ট্যাব ১: নতুন পণ্য ===== -->
+      <!-- ট্যাব ১ -->
       <section id="tab-add-product" class="tab-panel active">
         <div class="page-header">
-          <h1><i class="fas fa-upload"></i> নতুন পণি আপলোড</h1>
-          <p>সব ফিল্ড পূরণ করে সাবমিট করুন</p>
+          <h1><i class="fas fa-upload"></i> নতুন পণ্য আপলোড</h1>
         </div>
 
         <form id="product-form" class="product-form">
-          <!-- বেসিক ইনফো -->
           <div class="form-grid">
             <div class="form-group">
-              <label><i class="fas fa-heading"></i> পণ্যের নাম *</label>
+              <label>পণ্যের নাম *</label>
               <input type="text" id="product-name" placeholder="যেমন: নীল চাদর" required>
             </div>
             <div class="form-group">
-              <label><i class="fas fa-tag"></i> ক্যাটাগরি *</label>
+              <label>ক্যাটাগরি *</label>
               <select id="product-category" required>
-                <option value="">— ক্যাটাগরি নির্বাচন করুন —</option>
+                <option value="">— নির্বাচন করুন —</option>
               </select>
             </div>
           </div>
 
           <div class="form-grid">
             <div class="form-group">
-              <label><i class="fas fa-money-bill-wave"></i> নিয়মিত দাম (৳) *</label>
+              <label>নিয়মিত দাম (৳) *</label>
               <input type="number" id="product-price" placeholder="যেমন: 1200" required>
             </div>
             <div class="form-group highlight">
-              <label><i class="fas fa-percent"></i> অফার দাম (৳)</label>
+              <label>অফার দাম (৳)</label>
               <input type="number" id="product-offer-price" placeholder="ঐচ্ছিক">
             </div>
           </div>
 
-          <!-- ব্লাউজ মূল্য -->
           <div class="form-grid">
             <div class="form-group">
-              <label><i class="fas fa-tshirt"></i> ব্লাউজ সহ দাম (৳)</label>
+              <label>ব্লাউজ সহ দাম (৳)</label>
               <input type="number" id="price-with-blouse" placeholder="ঐচ্ছিক">
             </div>
             <div class="form-group">
-              <label><i class="fas fa-tshirt"></i> ব্লাউজ ছাড়া দাম (৳)</label>
+              <label>ব্লাউজ ছাড়া দাম (৳)</label>
               <input type="number" id="price-without-blouse" placeholder="ঐচ্ছিক">
             </div>
           </div>
 
-          <!-- রং -->
           <div class="form-group">
-            <label><i class="fas fa-palette"></i> রং (কমা দিয়ে আলাদা করুন)</label>
+            <label>রং (কমা দিয়ে আলাদা করুন)</label>
             <input type="text" id="product-colors" placeholder="যেমন: লাল, নীল, সোনালি">
           </div>
 
-          <!-- ইমেজ আপলোড -->
           <div class="form-group">
-            <label><i class="fas fa-images"></i> ছবি আপলোড করুন (একাধিক)</label>
+            <label>ছবি আপলোড করুন (একাধিক)</label>
             <div class="drop-zone" id="drop-zone">
               <i class="fas fa-cloud-upload-alt"></i>
               <p>এখানে ক্লিক বা ড্র্যাগ করুন</p>
@@ -105,7 +95,7 @@
         </form>
       </section>
 
-      <!-- ===== ট্যাব ২: সব পণ্য ===== -->
+      <!-- ট্যাব ২ -->
       <section id="tab-manage-products" class="tab-panel">
         <div class="page-header">
           <h1><i class="fas fa-boxes"></i> সব পণ্য</h1>
@@ -114,7 +104,7 @@
         <div id="product-list" class="product-list"></div>
       </section>
 
-      <!-- ===== ট্যাব ৩: ক্যাটাগরি ব্যবস্থাপনা ===== -->
+      <!-- ট্যাব ৩ -->
       <section id="tab-categories" class="tab-panel">
         <div class="page-header">
           <h1><i class="fas fa-tags"></i> ক্যাটাগরি ব্যবস্থাপনা</h1>
@@ -127,11 +117,9 @@
           <div id="category-list" class="category-chips"></div>
         </div>
       </section>
-
     </main>
   </div>
 
-  <!-- টোস্ট নোটিফিকেশন -->
   <div id="toast" class="toast"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
