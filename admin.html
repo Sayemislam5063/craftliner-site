@@ -5,37 +5,56 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Panel - Saree Craftline</title>
   
-  <!-- আপনার তৈরি করা admin.css ফাইলটি লিংক করা হলো -->
+  <!-- admin.css লিংক -->
   <link rel="stylesheet" href="admin.css">
 </head>
 <body>
 
-  <form id="productForm" class="admin-card">
-    <h2>নতুন প্রোডাক্ট যোগ করুন</h2>
+<div class="admin-container" style="max-width: 850px; margin: 20px auto;">
 
-    <!-- Hidden ID for Editing -->
+  <!-- ১. নতুন ক্যাটাগরি তৈরি করার ফর্ম -->
+  <form id="categoryForm" class="admin-card" style="margin-bottom: 25px;">
+    <h2>নতুন ক্যাটাগরি তৈরি করুন</h2>
+    <div class="field-row">
+      <div class="form-group">
+        <label for="catName">ক্যাটাগরির নাম</label>
+        <input type="text" id="catName" placeholder="যেমন: জামদানি শাড়ি" required>
+      </div>
+      <div class="form-group">
+        <label for="catImage">ক্যাটাগরি ছবি (Round Photo)</label>
+        <input type="file" id="catImage" accept="image/*" required>
+      </div>
+    </div>
+    <button type="submit" id="saveCatBtn" class="btn-primary" style="margin-top: 10px; background: #4a2800;">ক্যাটাগরি সেভ করুন</button>
+  </form>
+
+  <!-- ২. শাড়ি/প্রোডাক্ট আপলোড করার ফর্ম -->
+  <form id="productForm" class="admin-card">
+    <h2 id="formTitle">নতুন প্রোডাক্ট যোগ করুন</h2>
     <input type="hidden" id="editId">
 
     <div class="form-group">
       <label for="prodName">প্রোডাক্টের নাম</label>
-      <input type="text" id="prodName" placeholder="যেমন: জামদানি শাড়ি - রয়েল ব্লু" required>
+      <input type="text" id="prodName" placeholder="যেমন: রয়েল ব্লু জামদানি" required>
     </div>
 
     <div class="field-row">
       <div class="form-group">
         <label for="prodCategory">ক্যাটাগরি সিলেক্ট করুন</label>
         <select id="prodCategory" required>
-          <option value="আফসান প্রিন্ট">আফসান প্রিন্ট</option>
-          <option value="চান্দেরি সিল্ক">চান্দেরি সিল্ক</option>
-          <option value="কাতান শাড়ি">কাতান শাড়ি</option>
-          <option value="হাফসিল্ক">হাফসিল্ক</option>
-          <option value="জামদানি শাড়ি">জামদানি শাড়ি</option>
-          <option value="লুসিয়ান সিল্ক">লুসিয়ান সিল্ক</option>
-          <option value="পিওর কটন">পিওর কটন</option>
+          <!-- ডাইনামিক ক্যাটাগরি ডাটাবেজ থেকে লোড হবে -->
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="pPromoAllowed">প্রোমো কোড প্রযোজ্য?</label>
+        <select id="pPromoAllowed">
+          <option value="true">হ্যাঁ (প্রোমো কোড ব্যবহার করা যাবে)</option>
+          <option value="false">না (প্রোমো কোড ছাড় দেওয়া যাবে না)</option>
         </select>
       </div>
     </div>
 
+    <!-- রেগুলার ও অফার প্রাইস -->
     <div class="field-row">
       <div class="form-group">
         <label for="prodRegPrice">রেগুলার প্রাইস (টাকা)</label>
@@ -47,12 +66,30 @@
       </div>
     </div>
 
+    <!-- ব্লাউজ সহ / ছাড়া প্রাইস -->
+    <div class="field-row">
+      <div class="form-group">
+        <label for="priceWithBlouse">ব্লাউজ পিস সহ দাম (টাকা)</label>
+        <input type="number" id="priceWithBlouse" placeholder="যেমন: ৪২০০">
+      </div>
+      <div class="form-group">
+        <label for="priceWithoutBlouse">ব্লাউজ পিস ছাড়া দাম (টাকা)</label>
+        <input type="number" id="priceWithoutBlouse" placeholder="যেমন: ৩৮০০">
+      </div>
+    </div>
+
+    <!-- কালার ভেরিয়েন্ট -->
+    <div class="form-group">
+      <label for="prodColors">উপলব্ধ কালারসমূহ (কমা দিয়ে লিখুন)</label>
+      <input type="text" id="prodColors" placeholder="যেমন: লাল, নীল, মেজেন্টা, কাঁচা হলুদ">
+    </div>
+
     <!-- Drag and Drop Image Box -->
     <div class="form-group">
       <label>প্রোডাক্ট ছবি আপলোড (Drag & Drop / PC Album)</label>
       <div id="dropZone">
-        <p class="drop-title">📷 এখানে ছবি ড্র্যাগ করে ছাড়ুন অথবা ক্লিক করে অ্যালবাম থেকে সিলেক্ট করুন</p>
-        <small class="drop-sub">(প্রথম ছবিটি থাম্বনেইল হিসেবে থাকবে, বাকি ছবিগুলো গ্যালারিতে থাকবে)</small>
+        <p class="drop-title">📷 এখানে ছবি ড্র্যাগ করে ছাড়ুন অথবা ক্লিক করে অ্যালবামের একাধিক ছবি বেছে নিন</p>
+        <small class="drop-sub">(প্রথম ছবিটি মেইন থাম্বনেইল হিসেবে থাকবে, বাকিগুলো গ্যালারিতে থাকবে)</small>
         <input type="file" id="prodImages" multiple accept="image/*" style="display: none;">
       </div>
       <div id="imagePreview"></div>
@@ -70,6 +107,8 @@
       <button type="button" id="cancelEditBtn" class="btn-secondary" style="display: none; background: #888; color: #fff; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer;">বাতিল করুন</button>
     </div>
   </form>
+
+</div>
 
 </body>
 </html>
