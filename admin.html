@@ -10,7 +10,6 @@
 </head>
 <body class="admin-body">
 
-<!-- Login Screen -->
 <div class="login-screen" id="loginScreen">
   <div class="login-box">
     <h2>Admin Panel</h2>
@@ -28,7 +27,6 @@
   </div>
 </div>
 
-<!-- Admin Panel -->
 <div id="adminPanel" style="display:none;">
   <header class="admin-header">
     <div class="brand-name">Sharee Craftline<span>ADMIN PANEL</span></div>
@@ -37,10 +35,14 @@
 
   <div class="admin-wrap">
 
-    <!-- ক্যাটাগরি ম্যানেজমেন্ট -->
     <div class="admin-card category-card">
       <h3>ক্যাটাগরি</h3>
       <div class="category-add-row">
+        <div class="category-img-upload" id="categoryImgUpload">
+          <img id="categoryImgPreview" style="display:none;">
+          <span id="categoryImgPlaceholder">+</span>
+          <input type="file" id="categoryImgInput" accept="image/*" hidden>
+        </div>
         <input type="text" id="newCategoryInput" placeholder="নতুন ক্যাটাগরির নাম (যেমন: জামদানি শাড়ি)">
         <button class="btn-small" id="addCategoryBtn">+ যোগ করুন</button>
       </div>
@@ -48,7 +50,6 @@
       <div id="categoryChips" class="category-chip-list"></div>
     </div>
 
-    <!-- প্রোডাক্ট ফর্ম -->
     <div class="admin-card">
       <h3 id="formTitle">নতুন প্রোডাক্ট যোগ করুন</h3>
       <input type="hidden" id="editId">
