@@ -105,6 +105,56 @@ itemsEl.innerHTML = cartItems.map((item, index) => `
   totalEl.textContent = `৳${total.toLocaleString('en-BD')}`;
 }
 
+itemsEl.querySelectorAll('.cart-qty-btn').forEach(button => {
+  button.addEventListener('click', () => {
+    const index = Number(button.dataset.index);
+    const action = button.dataset.action;
+    const item = cartItems[index];
+
+    if (!item) return;
+
+    if (action === 'minus') {
+      if (item.qty > 1) {
+        item.qty -= 1;
+      }
+    }
+
+if (action === 'plus') {
+  const stock = Number(currentDetailProduct?.stock ?? 0);
+
+  if (item.id === currentDetailProduct?.id && item.qty < stock) {
+    item.qty += 1;
+  }
+}
+
+    localStorage.setItem(
+      'shareeCraftlineCart',
+      JSON.stringify(cartItems)
+    );
+
+    renderProductCart();
+    updateProductCartBadge();
+  });
+});
+
+itemsEl.querySelectorAll('.cart-remove-btn').forEach(button => {
+  button.addEventListener('click', () => {
+    const index = Number(button.dataset.index);
+
+    if (Number.isNaN(index)) return;
+
+    cartItems.splice(index, 1);
+
+    localStorage.setItem(
+      'shareeCraftlineCart',
+      JSON.stringify(cartItems)
+    );
+
+    renderProductCart();
+    updateProductCartBadge();
+  });
+});
+
 const cartBtn = document.getElementById('cartBtn');
 const cartPanel = document.getElementById('cartPanel');
 const closeCartBtn = document.getElementById('closeCartBtn');
