@@ -3,6 +3,42 @@ const productId = params.get('id');
 
 let cartItems = JSON.parse(localStorage.getItem('shareeCraftlineCart') || '[]');
 
+function updateProductCartBadge() {
+  const badge = document.getElementById('cartBadge');
+  const totalQty = cartItems.reduce((sum, item) => sum + Number(item.qty || 0), 0);
+
+  if (badge) {
+    badge.textContent = totalQty;
+    badge.style.display = totalQty > 0 ? 'flex' : 'none';
+  }
+}
+
+const cartBtn = document.getElementById('cartBtn');
+const cartPanel = document.getElementById('cartPanel');
+const closeCartBtn = document.getElementById('closeCartBtn');
+
+if (cartBtn && cartPanel && closeCartBtn) {
+  cartBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    cartPanel.classList.toggle('open');
+  });
+
+  closeCartBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    cartPanel.classList.remove('open');
+  });
+
+  cartPanel.addEventListener('click', (e) => {
+    e.stopPropagation();
+  });
+
+  document.addEventListener('click', () => {
+    cartPanel.classList.remove('open');
+  });
+}
+
+updateProductCartBadge();
+
 const loadingEl = document.getElementById('productLoading');
 const detailsEl = document.getElementById('productDetails');
 const errorEl = document.getElementById('productError');
@@ -245,6 +281,8 @@ document.getElementById('productAddCart').addEventListener('click', () => {
     'shareeCraftlineCart',
     JSON.stringify(cartItems)
   );
+
+  updateProductCartBadge();
 
   const button = document.getElementById('productAddCart');
   const originalText = button.textContent;
