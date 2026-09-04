@@ -445,6 +445,17 @@ header {
 
 .buy-btn:hover { background: var(--maroon-deep); }
 
+.sold-out-btn {
+  background: #9b8f8f;
+  color: #fff;
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+.sold-out-btn:hover {
+  background: #9b8f8f;
+}
+
 .empty-state {
   text-align: center;
   padding: 60px 20px;
