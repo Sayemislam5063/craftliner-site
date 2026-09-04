@@ -110,7 +110,7 @@ return `
         ${images.length > 1 ? `<div class="card-img-dots">${images.map((_, i) => `<span class="img-dot ${i === 0 ? 'active' : ''}" data-i="${i}"></span>`).join('')}</div>` : ''}
       </div>
       <div class="card-body">
-        ${catName ? `<div class="card-cat-tag">${escapeHtml(catName)}</div>` : ''}
+        ${catName ? `<div class="card-cat-tag" data-category="${p.category_id}">${escapeHtml(catName)}</div>` : ''}
         <h3>${escapeHtml(p.name)}</h3>
         <div class="desc">${escapeHtml(p.description || '')}</div>
         ${colors.length ? `<div class="card-colors">${colors.map(c => `<span class="color-chip-mini">${escapeHtml(c)}</span>`).join('')}</div>` : ''}
