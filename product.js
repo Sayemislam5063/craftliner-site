@@ -200,5 +200,9 @@ optionsEl.querySelectorAll('input[name="detailBlouse"]').forEach(radio => {
   loadingEl.style.display = 'none';
   detailsEl.style.display = 'block';
 }
-
+function escapeHtml(str) {
+  const d = document.createElement('div');
+  d.textContent = str || '';
+  return d.innerHTML;
+}
 loadProduct();
