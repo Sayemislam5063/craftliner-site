@@ -1,6 +1,8 @@
 const params = new URLSearchParams(window.location.search);
 const productId = params.get('id');
 
+let cartItems = JSON.parse(localStorage.getItem('shareeCraftlineCart') || '[]');
+
 const loadingEl = document.getElementById('productLoading');
 const detailsEl = document.getElementById('productDetails');
 const errorEl = document.getElementById('productError');
