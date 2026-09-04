@@ -207,4 +207,55 @@ function escapeHtml(str) {
   d.textContent = str || '';
   return d.innerHTML;
 }
+
+document.getElementById('productAddCart').addEventListener('click', () => {
+  if (!currentDetailProduct) return;
+
+  const stock = Number(currentDetailProduct.stock ?? 0);
+
+  if (stock <= 0) {
+    alert('দুঃখিত, এই প্রোডাক্টটি বর্তমানে স্টক আউট।');
+    return;
+  }
+
+  const existing = cartItems.find(
+    item =>
+      item.id === currentDetailProduct.id &&
+      item.color === selectedDetailColor &&
+      item.blouse === selectedDetailBlouse
+  );
+
+  if (existing) {
+    existing.qty = Math.min(existing.qty + detailQuantity, stock);
+  } else {
+    cartItems.push({
+      id: currentDetailProduct.id,
+      name: currentDetailProduct.name,
+      price: Number(
+        currentDetailProduct.offer_price || currentDetailProduct.price
+      ),
+      image_url: currentDetailProduct.image_url,
+      qty: detailQuantity,
+      color: selectedDetailColor,
+      blouse: selectedDetailBlouse
+    });
+  }
+
+  localStorage.setItem(
+    'shareeCraftlineCart',
+    JSON.stringify(cartItems)
+  );
+
+  const button = document.getElementById('productAddCart');
+  const originalText = button.textContent;
+
+  button.textContent = 'কার্টে যোগ হয়েছে ✓';
+  button.disabled = true;
+
+  setTimeout(() => {
+    button.textContent = originalText;
+    button.disabled = false;
+  }, 1500);
+});
+
 loadProduct();
