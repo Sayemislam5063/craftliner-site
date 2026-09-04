@@ -126,6 +126,15 @@ return `
   `;
 }).join('');
 
+  grid.querySelectorAll('.card-cat-tag').forEach(tag => {
+  tag.addEventListener('click', () => {
+    activeCategoryId = tag.dataset.category;
+    renderCategoryFilter();
+    renderGrid();
+    document.getElementById('collection').scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
   grid.querySelectorAll('.card-image').forEach(wrap => {
     const img = wrap.querySelector('.card-img-active');
     const images = JSON.parse(img.dataset.images.replace(/&apos;/g, "'"));
