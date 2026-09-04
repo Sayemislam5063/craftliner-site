@@ -103,31 +103,28 @@ function renderGrid() {
       : `৳${Number(p.price).toLocaleString('en-BD')}`;
 
 return `
-<div class="card">
-      <div class="card-image">
-        ${p.offer_price ? `<span class="offer-badge">অফার</span>` : ''}
-        <img src="${images[0]}" alt="${escapeHtml(p.name)}" class="card-img-active" data-images='${JSON.stringify(images).replace(/'/g, "&apos;")}'>
-        ${images.length > 1 ? `<div class="card-img-dots">${images.map((_, i) => `<span class="img-dot ${i === 0 ? 'active' : ''}" data-i="${i}"></span>`).join('')}</div>` : ''}
-      </div>
-      <div class="card-body">
-        ${catName ? `<div class="card-cat-tag" data-category="${p.category_id}">${escapeHtml(catName)}</div>` : ''}
-        <h3>${escapeHtml(p.name)}</h3>
-        <div class="desc">${escapeHtml(p.description || '')}</div>
-        ${colors.length ? `<div class="card-colors">${colors.map(c => `<span class="color-chip-mini">${escapeHtml(c)}</span>`).join('')}</div>` : ''}
-        <div class="card-footer">
-          <div class="price">${priceHtml}</div>
-          ${soldOut
-            ? `<button class="buy-btn sold-out-btn" disabled>Sold Out</button>`
-            : `<button class="buy-btn" onclick='openModal(${JSON.stringify(p).replace(/'/g, "&apos;")})'>Buy Now</button>`
-          }
-          ${soldOut
-            ? ''
-            : `<button class="add-cart-btn" onclick='addToCart(${JSON.stringify(p).replace(/'/g, "&apos;")})'>Add to Cart</button>`
-          }
-        </div>
+  <div class="card">
+    <div class="card-image">
+      ${p.offer_price ? `<span class="offer-badge">অফার</span>` : ''}
+      <img src="${images[0]}" alt="${escapeHtml(p.name)}" class="card-img-active" data-images='${JSON.stringify(images).replace(/'/g, "&apos;")}'>
+      ${images.length > 1 ? `<div class="card-img-dots">${images.map((_, i) => `<span class="img-dot ${i === 0 ? 'active' : ''}" data-i="${i}"></span>`).join('')}</div>` : ''}
+    </div>
+    <div class="card-body">
+      ${catName ? `<div class="card-cat-tag" data-category="${p.category_id}">${escapeHtml(catName)}</div>` : ''}
+      <h3>${escapeHtml(p.name)}</h3>
+      <div class="desc">${escapeHtml(p.description || '')}</div>
+      ${colors.length ? `<div class="card-colors">${colors.map(c => `<span class="color-chip-mini">${escapeHtml(c)}</span>`).join('')}</div>` : ''}
+      <div class="card-footer">
+        <div class="price">${priceHtml}</div>
+        <button
+          class="choose-product-btn"
+          onclick="window.location.href='product.html?id=${p.id}'">
+          বেছে নিন
+        </button>
       </div>
     </div>
-  `;
+  </div>
+`;
 }).join('');
 
   grid.querySelectorAll('.card-cat-tag').forEach(tag => {
