@@ -103,7 +103,6 @@ itemsEl.innerHTML = cartItems.map((item, index) => `
   );
 
   totalEl.textContent = `৳${total.toLocaleString('en-BD')}`;
-}
 
 itemsEl.querySelectorAll('.cart-qty-btn').forEach(button => {
   button.addEventListener('click', () => {
@@ -155,6 +154,7 @@ itemsEl.querySelectorAll('.cart-remove-btn').forEach(button => {
   });
 });
 
+}
 const cartBtn = document.getElementById('cartBtn');
 const cartPanel = document.getElementById('cartPanel');
 const closeCartBtn = document.getElementById('closeCartBtn');
