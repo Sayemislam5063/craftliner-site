@@ -45,7 +45,65 @@
 
     <div id="productDetails" style="display:none;">
 
-      <!-- Product details এখানে বসবে -->
+      <div class="product-detail-layout">
+
+  <div class="product-gallery">
+    <div class="product-main-image">
+      <img id="productMainImage" src="assets/logo.png" alt="">
+    </div>
+
+    <div class="product-thumbnails" id="productThumbnails"></div>
+  </div>
+
+  <div class="product-info">
+
+    <div class="product-category" id="productCategory"></div>
+
+    <h1 id="productTitle"></h1>
+
+    <div class="product-stock" id="productStock"></div>
+
+    <div class="product-price" id="productPrice"></div>
+
+    <div class="product-options" id="productOptions"></div>
+
+    <div class="product-actions">
+
+      <div class="quantity-control">
+        <button type="button" id="qtyMinus">−</button>
+        <span id="productQty">1</span>
+        <button type="button" id="qtyPlus">+</button>
+      </div>
+
+      <button type="button" class="product-add-cart" id="productAddCart">
+        Add To Cart
+      </button>
+
+    </div>
+
+    <button type="button" class="product-buy-now" id="productBuyNow">
+      Buy Now
+    </button>
+
+  </div>
+
+</div>
+
+<div class="product-description-section">
+
+  <div class="description-tabs">
+    <button class="description-tab active" type="button">
+      Description
+    </button>
+
+    <button class="description-tab" type="button">
+      Additional information
+    </button>
+  </div>
+
+  <div class="product-description" id="productDescription"></div>
+
+</div>
 
     </div>
 
