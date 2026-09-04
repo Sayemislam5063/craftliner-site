@@ -1201,3 +1201,73 @@ footer .foot-note {
     font-size: 12.5px;
   }
 }
+/* ---------- Product Details: Color & Blouse Options ---------- */
+
+.detail-option-group {
+  margin-bottom: 24px;
+}
+
+.detail-option-group > label {
+  display: block;
+  margin-bottom: 9px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--maroon-deep);
+}
+
+.detail-color-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.detail-color-option {
+  border: 1px solid var(--rose-line);
+  background: #fff;
+  color: var(--maroon-soft);
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.detail-color-option:hover {
+  border-color: var(--maroon);
+  color: var(--maroon);
+}
+
+.detail-color-option.active {
+  background: var(--maroon);
+  border-color: var(--maroon);
+  color: #fff;
+}
+
+.detail-blouse-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.detail-radio-option {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid var(--rose-line);
+  background: #fff;
+  padding: 9px 13px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--ink);
+  transition: all 0.25s ease;
+}
+
+.detail-radio-option:hover {
+  border-color: var(--maroon);
+}
+
+.detail-radio-option input {
+  accent-color: var(--maroon);
+  margin: 0;
+}
