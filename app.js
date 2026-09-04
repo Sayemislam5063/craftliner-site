@@ -98,10 +98,11 @@ function renderGrid() {
     const colors = Array.isArray(p.colors) ? p.colors : [];
     const catName = p.category_id ? catMap[p.category_id] : null;
     const priceHtml = p.offer_price
+    const soldOut = Number(p.stock ?? 0) <= 0;
       ? `<span class="old-price">৳${Number(p.price).toLocaleString('en-BD')}</span><span class="offer-price">৳${Number(p.offer_price).toLocaleString('en-BD')}</span>`
       : `৳${Number(p.price).toLocaleString('en-BD')}`;
 
-    return `
+return `
     <div class="card">
       <div class="card-image">
         ${p.offer_price ? `<span class="offer-badge">অফার</span>` : ''}
@@ -115,11 +116,15 @@ function renderGrid() {
         ${colors.length ? `<div class="card-colors">${colors.map(c => `<span class="color-chip-mini">${escapeHtml(c)}</span>`).join('')}</div>` : ''}
         <div class="card-footer">
           <div class="price">${priceHtml}</div>
-          <button class="buy-btn" onclick='openModal(${JSON.stringify(p).replace(/'/g, "&apos;")})'>Buy Now</button>
+          ${soldOut
+            ? `<button class="buy-btn sold-out-btn" disabled>Sold Out</button>`
+            : `<button class="buy-btn" onclick='openModal(${JSON.stringify(p).replace(/'/g, "&apos;")})'>Buy Now</button>`
+          }
         </div>
       </div>
     </div>
-  `; }).join('');
+  `;
+}).join('');
 
   grid.querySelectorAll('.card-image').forEach(wrap => {
     const img = wrap.querySelector('.card-img-active');
