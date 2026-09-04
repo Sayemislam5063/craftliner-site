@@ -867,3 +867,300 @@ footer .foot-note {
   font-family: 'Noto Serif Bengali', serif;
   font-size: 20px;
 }
+/* =========================================================
+   PRODUCT DETAILS PAGE
+   ========================================================= */
+
+.product-page {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 60px 28px 100px;
+}
+
+#productLoading,
+#productError {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--maroon-soft);
+  font-family: 'Noto Serif Bengali', serif;
+  font-size: 18px;
+}
+
+.product-detail-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.95fr);
+  gap: 70px;
+  align-items: start;
+}
+
+.product-gallery {
+  position: sticky;
+  top: 100px;
+}
+
+.product-main-image {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  background: #e9ddc8;
+  overflow: hidden;
+  border: 1px solid var(--rose-line);
+}
+
+.product-main-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.product-thumbnails {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.product-thumbnail {
+  width: 72px;
+  height: 88px;
+  min-width: 72px;
+  padding: 0;
+  border: 1px solid var(--rose-line);
+  background: #fff;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.25s ease;
+}
+
+.product-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.product-thumbnail:hover {
+  border-color: var(--maroon);
+}
+
+.product-thumbnail.active {
+  border: 2px solid var(--maroon);
+}
+
+.product-info {
+  padding-top: 10px;
+}
+
+.product-category {
+  display: inline-block;
+  color: var(--maroon-soft);
+  border: 1px solid var(--rose-line);
+  padding: 5px 13px;
+  border-radius: 20px;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.product-info h1 {
+  font-size: clamp(30px, 4vw, 44px);
+  line-height: 1.25;
+  margin-bottom: 15px;
+}
+
+.product-stock {
+  display: inline-block;
+  font-size: 13px;
+  color: #4d7559;
+  background: rgba(77, 117, 89, 0.08);
+  padding: 5px 11px;
+  margin-bottom: 18px;
+}
+
+.product-price {
+  font-family: 'Noto Serif Bengali', serif;
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--maroon-deep);
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--rose-line);
+  margin-bottom: 24px;
+}
+
+.product-price .old-price {
+  text-decoration: line-through;
+  opacity: 0.5;
+  font-size: 19px;
+  margin-right: 9px;
+}
+
+.product-price .offer-price {
+  color: #a12f2f;
+}
+
+.product-options {
+  margin-bottom: 24px;
+}
+
+.product-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+  height: 48px;
+  border: 1px solid var(--rose-line);
+  background: #fff;
+}
+
+.quantity-control button {
+  width: 42px;
+  height: 100%;
+  border: none;
+  background: transparent;
+  color: var(--maroon-deep);
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.quantity-control button:hover {
+  background: var(--cream);
+}
+
+.quantity-control span {
+  min-width: 42px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.product-add-cart,
+.product-buy-now {
+  height: 48px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.25s ease;
+}
+
+.product-add-cart {
+  flex: 1;
+  border: 1px solid var(--maroon);
+  background: transparent;
+  color: var(--maroon);
+}
+
+.product-add-cart:hover {
+  background: var(--maroon);
+  color: #fff;
+}
+
+.product-buy-now {
+  width: 100%;
+  margin-top: 12px;
+  background: var(--maroon);
+  color: var(--cream-card);
+}
+
+.product-buy-now:hover {
+  background: var(--maroon-deep);
+}
+
+.product-description-section {
+  margin-top: 80px;
+  border-top: 1px solid var(--rose-line);
+  padding-top: 30px;
+}
+
+.description-tabs {
+  display: flex;
+  gap: 26px;
+  border-bottom: 1px solid var(--rose-line);
+  margin-bottom: 25px;
+}
+
+.description-tab {
+  border: none;
+  background: transparent;
+  color: var(--maroon-soft);
+  padding: 0 0 12px;
+  font-family: 'Noto Serif Bengali', serif;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.description-tab.active {
+  color: var(--maroon-deep);
+  border-bottom: 2px solid var(--maroon);
+}
+
+.product-description {
+  max-width: 850px;
+  color: #6b4c56;
+  font-size: 15px;
+  line-height: 1.9;
+  white-space: pre-line;
+}
+
+/* ---------- Product Page Mobile ---------- */
+
+@media (max-width: 800px) {
+  .product-page {
+    padding: 35px 18px 70px;
+  }
+
+  .product-detail-layout {
+    grid-template-columns: 1fr;
+    gap: 35px;
+  }
+
+  .product-gallery {
+    position: static;
+  }
+
+  .product-info {
+    padding-top: 0;
+  }
+
+  .product-info h1 {
+    font-size: 30px;
+  }
+
+  .product-price {
+    font-size: 26px;
+  }
+
+  .product-description-section {
+    margin-top: 55px;
+  }
+}
+
+@media (max-width: 520px) {
+  .product-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .quantity-control {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .product-add-cart {
+    width: 100%;
+    flex: none;
+  }
+
+  .product-main-image {
+    aspect-ratio: 4 / 5;
+  }
+
+  .product-thumbnail {
+    width: 62px;
+    height: 76px;
+    min-width: 62px;
+  }
+}
