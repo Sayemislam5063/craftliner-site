@@ -203,7 +203,7 @@ function escapeHtml(str) {
   return d.innerHTML;
 }
 
-let cartItems = [];
+let cartItems = JSON.parse(localStorage.getItem('shareeCraftlineCart') || '[]');
 
 function addToCart(product) {
   const existing = cartItems.find(item => item.id === product.id);
@@ -485,3 +485,5 @@ document.getElementById('confirmOrderBtn').addEventListener('click', async () =>
 });
 
 loadProducts();
+updateCartBadge();
+renderCart();
