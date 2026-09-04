@@ -238,6 +238,28 @@ function updateCartBadge() {
   }
 }
 
+const cartBtn = document.getElementById('cartBtn');
+const cartPanel = document.getElementById('cartPanel');
+const closeCartBtn = document.getElementById('closeCartBtn');
+
+cartBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  cartPanel.classList.toggle('open');
+});
+
+closeCartBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  cartPanel.classList.remove('open');
+});
+
+cartPanel.addEventListener('click', (e) => {
+  e.stopPropagation();
+});
+
+document.addEventListener('click', () => {
+  cartPanel.classList.remove('open');
+});
+
 // ---------- Modal & Order Logic ----------
 const overlay = document.getElementById('overlay');
 const orderFormWrap = document.getElementById('orderFormWrap');
