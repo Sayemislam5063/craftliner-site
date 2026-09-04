@@ -97,8 +97,8 @@ function renderGrid() {
     const images = (Array.isArray(p.images) && p.images.length) ? p.images : [p.image_url || 'assets/logo.png'];
     const colors = Array.isArray(p.colors) ? p.colors : [];
     const catName = p.category_id ? catMap[p.category_id] : null;
-    const priceHtml = p.offer_price
     const soldOut = Number(p.stock ?? 0) <= 0;
+    const priceHtml = p.offer_price
       ? `<span class="old-price">৳${Number(p.price).toLocaleString('en-BD')}</span><span class="offer-price">৳${Number(p.offer_price).toLocaleString('en-BD')}</span>`
       : `৳${Number(p.price).toLocaleString('en-BD')}`;
 
