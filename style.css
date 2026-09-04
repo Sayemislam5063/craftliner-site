@@ -1164,3 +1164,40 @@ footer .foot-note {
     min-width: 62px;
   }
 }
+/* ---------- Product Card: Choose Button ---------- */
+
+.card-footer {
+  gap: 12px;
+}
+
+.choose-product-btn {
+  flex: 1;
+  border: 1px solid var(--maroon);
+  background: var(--maroon);
+  color: var(--cream-card);
+  padding: 10px 18px;
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 13.5px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.choose-product-btn:hover {
+  background: var(--maroon-deep);
+  border-color: var(--maroon-deep);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 12px rgba(78, 18, 36, 0.15);
+}
+
+.choose-product-btn:active {
+  transform: translateY(0);
+}
+@media (max-width: 600px) {
+  .choose-product-btn {
+    width: 100%;
+    padding: 9px 14px;
+    font-size: 12.5px;
+  }
+}
