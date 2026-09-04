@@ -5,6 +5,11 @@ const loadingEl = document.getElementById('productLoading');
 const detailsEl = document.getElementById('productDetails');
 const errorEl = document.getElementById('productError');
 
+let currentDetailProduct = null;
+let selectedDetailColor = null;
+let selectedDetailBlouse = null;
+let detailQuantity = 1;
+
 async function loadProduct() {
   if (!productId) {
     loadingEl.style.display = 'none';
@@ -26,6 +31,7 @@ async function loadProduct() {
   }
 
   console.log('Product loaded:', product);
+  currentDetailProduct = product;
 
   const images = (Array.isArray(product.images) && product.images.length)
     ? product.images
@@ -73,6 +79,99 @@ async function loadProduct() {
   } else {
     priceEl.textContent = `৳${Number(product.price).toLocaleString('en-BD')}`;
   }
+
+  const optionsEl = document.getElementById('productOptions');
+
+const colors = Array.isArray(product.colors) ? product.colors : [];
+
+if (colors.length || product.has_blouse_option) {
+  let optionsHtml = '';
+
+  if (colors.length) {
+    selectedDetailColor = colors[0];
+
+    optionsHtml += `
+      <div class="detail-option-group">
+        <label>রঙ বেছে নিন</label>
+        <div class="detail-color-options">
+          ${colors.map((color, index) => `
+            <button
+              type="button"
+              class="detail-color-option ${index === 0 ? 'active' : ''}"
+              data-color="${escapeHtml(color)}">
+              ${escapeHtml(color)}
+            </button>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  if (product.has_blouse_option) {
+    selectedDetailBlouse = 'with';
+
+    optionsHtml += `
+      <div class="detail-option-group">
+        <label>ব্লাউজ পিস</label>
+        <div class="detail-blouse-options">
+          <label class="detail-radio-option">
+            <input type="radio" name="detailBlouse" value="with" checked>
+            <span>ব্লাউজ পিস সহ</span>
+          </label>
+
+          <label class="detail-radio-option">
+            <input type="radio" name="detailBlouse" value="without">
+            <span>ব্লাউজ পিস ছাড়া</span>
+          </label>
+        </div>
+      </div>
+    `;
+  }
+
+  optionsEl.innerHTML = optionsHtml;
+} else {
+  optionsEl.innerHTML = '';
+}
+
+const qtyMinus = document.getElementById('qtyMinus');
+const qtyPlus = document.getElementById('qtyPlus');
+const qtyEl = document.getElementById('productQty');
+
+qtyEl.textContent = detailQuantity;
+
+qtyMinus.addEventListener('click', () => {
+  if (detailQuantity <= 1) return;
+
+  detailQuantity -= 1;
+  qtyEl.textContent = detailQuantity;
+});
+
+qtyPlus.addEventListener('click', () => {
+  const stock = Number(product.stock ?? 0);
+
+  if (detailQuantity >= stock) return;
+
+  detailQuantity += 1;
+  qtyEl.textContent = detailQuantity;
+});
+
+optionsEl.querySelectorAll('.detail-color-option').forEach(button => {
+  button.addEventListener('click', () => {
+    selectedDetailColor = button.dataset.color;
+
+    optionsEl
+      .querySelectorAll('.detail-color-option')
+      .forEach(item => item.classList.remove('active'));
+
+    button.classList.add('active');
+  });
+});
+
+optionsEl.querySelectorAll('input[name="detailBlouse"]').forEach(radio => {
+  radio.addEventListener('change', () => {
+    selectedDetailBlouse = radio.value;
+  });
+});
 
   const thumbnailsEl = document.getElementById('productThumbnails');
 
