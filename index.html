@@ -30,6 +30,30 @@
 
       <div class="cart-icon-btn" id="cartBtn">
         🛒 <span class="cart-count" id="cartBadge">0</span>
+
+        <div class="cart-panel" id="cartPanel">
+          <div class="cart-panel-head">
+            <h3>আমার কার্ট</h3>
+            <button id="closeCartBtn">&times;</button>
+          </div>
+
+          <div class="cart-items" id="cartItems"></div>
+
+          <div class="cart-empty" id="cartEmpty">
+            আপনার কার্ট এখনো খালি।
+          </div>
+
+          <div class="cart-footer" id="cartFooter">
+            <div class="cart-total">
+              <span>মোট</span>
+              <strong id="cartTotal">৳0</strong>
+            </div>
+
+            <button class="btn btn-solid" id="cartCheckoutBtn">
+              Checkout
+            </button>
+          </div>
+        </div>
       </div>
 
       <button class="menu-toggle" id="menuToggle" aria-label="Menu">&#9776;</button>
