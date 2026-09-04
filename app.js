@@ -372,6 +372,13 @@ document.getElementById('confirmOrderBtn').addEventListener('click', async () =>
     return;
   }
 
+  const { data: stockUpdated, error: stockError } = await supabaseClient
+    .rpc('decrease_product_stock', { product_id: currentProduct.id });
+
+  if (stockError || !stockUpdated) {
+    console.error(stockError || 'Stock update failed');
+  }
+
   document.getElementById('trackIdShow').textContent = trackingId;
   orderFormWrap.style.display = 'none';
   confirmWrap.style.display = 'block';
