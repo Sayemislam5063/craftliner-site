@@ -103,7 +103,7 @@ function renderGrid() {
       : `৳${Number(p.price).toLocaleString('en-BD')}`;
 
 return `
-    <div class="card">
+<div class="card">
       <div class="card-image">
         ${p.offer_price ? `<span class="offer-badge">অফার</span>` : ''}
         <img src="${images[0]}" alt="${escapeHtml(p.name)}" class="card-img-active" data-images='${JSON.stringify(images).replace(/'/g, "&apos;")}'>
@@ -119,6 +119,10 @@ return `
           ${soldOut
             ? `<button class="buy-btn sold-out-btn" disabled>Sold Out</button>`
             : `<button class="buy-btn" onclick='openModal(${JSON.stringify(p).replace(/'/g, "&apos;")})'>Buy Now</button>`
+          }
+          ${soldOut
+            ? ''
+            : `<button class="add-cart-btn" onclick='addToCart(${JSON.stringify(p).replace(/'/g, "&apos;")})'>Add to Cart</button>`
           }
         </div>
       </div>
@@ -200,6 +204,38 @@ function escapeHtml(str) {
   const d = document.createElement('div');
   d.textContent = str || '';
   return d.innerHTML;
+}
+
+let cartItems = [];
+
+function addToCart(product) {
+  const existing = cartItems.find(item => item.id === product.id);
+
+  if (existing) {
+    if (existing.qty < Number(product.stock ?? 0)) {
+      existing.qty += 1;
+    }
+  } else {
+    cartItems.push({
+      id: product.id,
+      name: product.name,
+      price: Number(product.offer_price || product.price),
+      image_url: product.image_url,
+      qty: 1
+    });
+  }
+
+  updateCartBadge();
+}
+
+function updateCartBadge() {
+  const badge = document.getElementById('cartBadge');
+  const totalQty = cartItems.reduce((sum, item) => sum + item.qty, 0);
+
+  if (badge) {
+    badge.textContent = totalQty;
+    badge.style.display = totalQty > 0 ? 'flex' : 'none';
+  }
 }
 
 // ---------- Modal & Order Logic ----------
