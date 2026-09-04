@@ -1,1 +1,64 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product | Sharee Craftline</title>
 
+  <link rel="icon" href="assets/logo.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <header>
+    <nav class="nav">
+      <a href="index.html" class="brand">
+        <div class="logo-balloon-wrapper">
+          <img src="assets/logo.png" alt="Sharee Craftline" class="balloon-logo">
+        </div>
+
+        <div class="brand-name">
+          Sharee Craftline
+          <span>ন্যায্য দামে সঠিক পণ্য</span>
+        </div>
+      </a>
+
+      <div class="nav-right">
+
+        <div class="cart-icon-btn" id="cartBtn">
+          🛒 <span class="cart-count" id="cartBadge">0</span>
+        </div>
+
+        <a href="index.html">Collection</a>
+
+      </div>
+    </nav>
+  </header>
+
+
+  <main class="product-page">
+
+    <div id="productLoading">
+      প্রোডাক্ট লোড হচ্ছে...
+    </div>
+
+    <div id="productDetails" style="display:none;">
+
+      <!-- Product details এখানে বসবে -->
+
+    </div>
+
+    <div id="productError" style="display:none;">
+      প্রোডাক্ট পাওয়া যায়নি।
+    </div>
+
+  </main>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="product.js"></script>
+
+</body>
+</html>
