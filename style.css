@@ -751,8 +751,24 @@ footer .foot-note {
 .price .old-price { text-decoration:line-through; opacity:.55; font-size:13px; margin-right:6px; }
 .price .offer-price { color:#a12f2f; font-weight:600; }
 .card-cat-tag {
-  display:inline-block; font-size:10.5px; color:var(--maroon-soft); border:1px solid var(--rose-line);
-  padding:1px 9px; border-radius:10px; margin-bottom:5px;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--maroon);
+  border: 1px solid var(--rose-line);
+  background: #fff;
+  padding: 5px 12px;
+  border-radius: 16px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.card-cat-tag:hover {
+  background: var(--maroon);
+  color: #fff;
+  border-color: var(--maroon);
+  transform: translateY(-1px);
 }
 .card-colors { display:flex; flex-wrap:wrap; gap:6px; margin:6px 0; }
 .color-chip-mini { font-size:10.5px; border:1px solid var(--rose-line); color:var(--maroon-soft); padding:2px 9px; border-radius:10px; }
