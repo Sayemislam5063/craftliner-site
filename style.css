@@ -795,3 +795,75 @@ footer .foot-note {
   .cat-chip { font-size:12.5px; padding:5px 14px 5px 5px; }
   .cat-chip-icon { width:24px; height:24px; }
 }
+/* ---------- Cart Panel ---------- */
+.cart-panel {
+  position: absolute;
+  top: calc(100% + 14px);
+  right: 0;
+  width: 360px;
+  max-width: calc(100vw - 30px);
+  background: var(--cream-card);
+  border: 1px solid var(--rose-line);
+  box-shadow: 0 18px 40px rgba(78, 18, 36, 0.18);
+  padding: 18px;
+  display: none;
+  z-index: 100;
+  cursor: default;
+}
+
+.cart-panel.open {
+  display: block;
+}
+
+.cart-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--rose-line);
+}
+
+.cart-panel-head h3 {
+  font-size: 20px;
+}
+
+.cart-panel-head button {
+  border: none;
+  background: transparent;
+  color: var(--maroon-soft);
+  font-size: 24px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.cart-items {
+  max-height: 320px;
+  overflow-y: auto;
+  margin-top: 14px;
+}
+
+.cart-empty {
+  text-align: center;
+  padding: 25px 10px;
+  color: var(--maroon-soft);
+  font-size: 14px;
+}
+
+.cart-footer {
+  border-top: 1px solid var(--rose-line);
+  margin-top: 14px;
+  padding-top: 14px;
+}
+
+.cart-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  color: var(--maroon-deep);
+}
+
+.cart-total strong {
+  font-family: 'Noto Serif Bengali', serif;
+  font-size: 20px;
+}
