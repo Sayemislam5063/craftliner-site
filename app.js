@@ -226,6 +226,7 @@ function addToCart(product) {
   }
 
   updateCartBadge();
+  renderCart();
 }
 
 function updateCartBadge() {
@@ -236,6 +237,36 @@ function updateCartBadge() {
     badge.textContent = totalQty;
     badge.style.display = totalQty > 0 ? 'flex' : 'none';
   }
+}
+
+function renderCart() {
+  const itemsEl = document.getElementById('cartItems');
+  const emptyEl = document.getElementById('cartEmpty');
+  const footerEl = document.getElementById('cartFooter');
+  const totalEl = document.getElementById('cartTotal');
+
+  if (!cartItems.length) {
+    itemsEl.innerHTML = '';
+    emptyEl.style.display = 'block';
+    footerEl.style.display = 'none';
+    return;
+  }
+
+  emptyEl.style.display = 'none';
+  footerEl.style.display = 'block';
+
+  itemsEl.innerHTML = cartItems.map(item => `
+    <div class="cart-item">
+      <img src="${item.image_url || 'assets/logo.png'}" alt="${escapeHtml(item.name)}">
+      <div class="cart-item-info">
+        <h4>${escapeHtml(item.name)}</h4>
+        <div>৳${item.price.toLocaleString('en-BD')} × ${item.qty}</div>
+      </div>
+    </div>
+  `).join('');
+
+  const total = cartItems.reduce((sum, item) => sum + (item.price * item.qty), 0);
+  totalEl.textContent = `৳${total.toLocaleString('en-BD')}`;
 }
 
 const cartBtn = document.getElementById('cartBtn');
