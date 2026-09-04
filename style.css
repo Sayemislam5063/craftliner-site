@@ -1271,3 +1271,143 @@ footer .foot-note {
   accent-color: var(--maroon);
   margin: 0;
 }
+/* =========================================================
+   PROFESSIONAL CART ITEM DESIGN
+   ========================================================= */
+
+.cart-items {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cart-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid var(--rose-line);
+}
+
+.cart-item-image {
+  width: 58px;
+  height: 72px;
+  min-width: 58px;
+  object-fit: cover;
+  display: block;
+  background: #e9ddc8;
+}
+
+.cart-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.cart-item-info h4 {
+  margin: 0 24px 3px 0;
+  color: var(--maroon-deep);
+  font-family: 'Noto Serif Bengali', serif;
+  font-size: 13.5px;
+  font-weight: 500;
+  line-height: 1.35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cart-item-option {
+  color: var(--maroon-soft);
+  font-size: 11px;
+  line-height: 1.4;
+  margin-bottom: 2px;
+}
+
+.cart-item-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.cart-item-qty {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--rose-line);
+  background: var(--cream-card);
+  height: 28px;
+}
+
+.cart-qty-btn {
+  width: 25px;
+  height: 100%;
+  border: none;
+  background: transparent;
+  color: var(--maroon-deep);
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.cart-qty-btn:hover {
+  background: var(--cream);
+}
+
+.cart-item-qty span {
+  min-width: 24px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.cart-item-price {
+  font-family: 'Noto Serif Bengali', serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--maroon-deep);
+  white-space: nowrap;
+}
+
+.cart-remove-btn {
+  position: absolute;
+  top: 5px;
+  right: 6px;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--maroon-soft);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.cart-remove-btn:hover {
+  color: #a12f2f;
+}
+
+@media (max-width: 600px) {
+  .cart-panel {
+    width: 340px;
+    max-width: calc(100vw - 20px);
+    padding: 15px;
+  }
+
+  .cart-item-image {
+    width: 52px;
+    height: 66px;
+    min-width: 52px;
+  }
+
+  .cart-item-info h4 {
+    font-size: 13px;
+  }
+
+  .cart-item-price {
+    font-size: 13px;
+  }
+}
