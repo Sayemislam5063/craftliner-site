@@ -242,6 +242,8 @@ function renderCart() {
   const footerEl = document.getElementById('cartFooter');
   const totalEl = document.getElementById('cartTotal');
 
+  if (!itemsEl || !emptyEl || !footerEl || !totalEl) return;
+
   if (!cartItems.length) {
     itemsEl.innerHTML = '';
     emptyEl.style.display = 'block';
@@ -252,18 +254,129 @@ function renderCart() {
   emptyEl.style.display = 'none';
   footerEl.style.display = 'block';
 
-  itemsEl.innerHTML = cartItems.map(item => `
+  itemsEl.innerHTML = cartItems.map((item, index) => `
     <div class="cart-item">
-      <img src="${item.image_url || 'assets/logo.png'}" alt="${escapeHtml(item.name)}">
+
+      <img
+        src="${item.image_url || 'assets/logo.png'}"
+        alt="${escapeHtml(item.name)}"
+        class="cart-item-image"
+      >
+
       <div class="cart-item-info">
+
         <h4>${escapeHtml(item.name)}</h4>
-        <div>৳${item.price.toLocaleString('en-BD')} × ${item.qty}</div>
+
+        ${item.color
+          ? `<div class="cart-item-option">রঙ: ${escapeHtml(item.color)}</div>`
+          : ''
+        }
+
+        ${item.blouse
+          ? `<div class="cart-item-option">
+              ${item.blouse === 'with' ? 'ব্লাউজ পিস সহ' : 'ব্লাউজ পিস ছাড়া'}
+            </div>`
+          : ''
+        }
+
+        <div class="cart-item-bottom">
+
+          <div class="cart-item-qty">
+            <button
+              type="button"
+              class="cart-qty-btn"
+              data-index="${index}"
+              data-action="minus">
+              −
+            </button>
+
+            <span>${item.qty}</span>
+
+            <button
+              type="button"
+              class="cart-qty-btn"
+              data-index="${index}"
+              data-action="plus">
+              +
+            </button>
+          </div>
+
+          <strong class="cart-item-price">
+            ৳${(Number(item.price) * Number(item.qty)).toLocaleString('en-BD')}
+          </strong>
+
+        </div>
+
       </div>
+
+      <button
+        type="button"
+        class="cart-remove-btn"
+        data-index="${index}"
+        title="সরিয়ে দিন">
+        ×
+      </button>
+
     </div>
   `).join('');
 
-  const total = cartItems.reduce((sum, item) => sum + (item.price * item.qty), 0);
+  const total = cartItems.reduce(
+    (sum, item) => sum + (Number(item.price) * Number(item.qty)),
+    0
+  );
+
   totalEl.textContent = `৳${total.toLocaleString('en-BD')}`;
+
+  itemsEl.querySelectorAll('.cart-qty-btn').forEach(button => {
+    button.addEventListener('click', () => {
+      const index = Number(button.dataset.index);
+      const action = button.dataset.action;
+      const item = cartItems[index];
+
+      if (!item) return;
+
+      if (action === 'minus') {
+        if (item.qty > 1) {
+          item.qty -= 1;
+        }
+      }
+
+      if (action === 'plus') {
+        const product = allProducts.find(p => p.id === item.id);
+        const stock = product ? Number(product.stock ?? 0) : 0;
+
+        if (item.qty < stock) {
+          item.qty += 1;
+        }
+      }
+
+      localStorage.setItem(
+        'shareeCraftlineCart',
+        JSON.stringify(cartItems)
+      );
+
+      updateCartBadge();
+      renderCart();
+    });
+  });
+
+  itemsEl.querySelectorAll('.cart-remove-btn').forEach(button => {
+    button.addEventListener('click', () => {
+      const index = Number(button.dataset.index);
+
+      if (Number.isNaN(index)) return;
+
+      cartItems.splice(index, 1);
+
+      localStorage.setItem(
+        'shareeCraftlineCart',
+        JSON.stringify(cartItems)
+      );
+
+      updateCartBadge();
+      renderCart();
+    });
+  });
 }
 
 const cartBtn = document.getElementById('cartBtn');
