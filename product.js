@@ -13,6 +13,43 @@ function updateProductCartBadge() {
   }
 }
 
+function renderProductCart() {
+  const itemsEl = document.getElementById('cartItems');
+  const emptyEl = document.getElementById('cartEmpty');
+  const footerEl = document.getElementById('cartFooter');
+  const totalEl = document.getElementById('cartTotal');
+
+  if (!itemsEl || !emptyEl || !footerEl || !totalEl) return;
+
+  if (!cartItems.length) {
+    itemsEl.innerHTML = '';
+    emptyEl.style.display = 'block';
+    footerEl.style.display = 'none';
+    return;
+  }
+
+  emptyEl.style.display = 'none';
+  footerEl.style.display = 'block';
+
+  itemsEl.innerHTML = cartItems.map(item => `
+    <div class="cart-item">
+      <img src="${item.image_url || 'assets/logo.png'}" alt="${escapeHtml(item.name)}">
+
+      <div class="cart-item-info">
+        <h4>${escapeHtml(item.name)}</h4>
+        <p>৳${Number(item.price).toLocaleString('en-BD')} × ${item.qty}</p>
+      </div>
+    </div>
+  `).join('');
+
+  const total = cartItems.reduce(
+    (sum, item) => sum + (Number(item.price) * Number(item.qty)),
+    0
+  );
+
+  totalEl.textContent = `৳${total.toLocaleString('en-BD')}`;
+}
+
 const cartBtn = document.getElementById('cartBtn');
 const cartPanel = document.getElementById('cartPanel');
 const closeCartBtn = document.getElementById('closeCartBtn');
@@ -283,6 +320,7 @@ document.getElementById('productAddCart').addEventListener('click', () => {
   );
 
   updateProductCartBadge();
+  renderProductCart();
 
   const button = document.getElementById('productAddCart');
   const originalText = button.textContent;
