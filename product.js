@@ -31,16 +31,71 @@ function renderProductCart() {
   emptyEl.style.display = 'none';
   footerEl.style.display = 'block';
 
-  itemsEl.innerHTML = cartItems.map(item => `
-    <div class="cart-item">
-      <img src="${item.image_url || 'assets/logo.png'}" alt="${escapeHtml(item.name)}">
+itemsEl.innerHTML = cartItems.map((item, index) => `
+  <div class="cart-item">
 
-      <div class="cart-item-info">
-        <h4>${escapeHtml(item.name)}</h4>
-        <p>৳${Number(item.price).toLocaleString('en-BD')} × ${item.qty}</p>
+    <img
+      src="${item.image_url || 'assets/logo.png'}"
+      alt="${escapeHtml(item.name)}"
+      class="cart-item-image"
+    >
+
+    <div class="cart-item-info">
+
+      <h4>${escapeHtml(item.name)}</h4>
+
+      ${item.color
+        ? `<div class="cart-item-option">রঙ: ${escapeHtml(item.color)}</div>`
+        : ''
+      }
+
+      ${item.blouse
+        ? `<div class="cart-item-option">
+            ${item.blouse === 'with' ? 'ব্লাউজ পিস সহ' : 'ব্লাউজ পিস ছাড়া'}
+          </div>`
+        : ''
+      }
+
+      <div class="cart-item-bottom">
+
+        <div class="cart-item-qty">
+          <button
+            type="button"
+            class="cart-qty-btn"
+            data-index="${index}"
+            data-action="minus">
+            −
+          </button>
+
+          <span>${item.qty}</span>
+
+          <button
+            type="button"
+            class="cart-qty-btn"
+            data-index="${index}"
+            data-action="plus">
+            +
+          </button>
+        </div>
+
+        <strong class="cart-item-price">
+          ৳${(Number(item.price) * Number(item.qty)).toLocaleString('en-BD')}
+        </strong>
+
       </div>
+
     </div>
-  `).join('');
+
+    <button
+      type="button"
+      class="cart-remove-btn"
+      data-index="${index}"
+      title="সরিয়ে দিন">
+      ×
+    </button>
+
+  </div>
+`).join('');
 
   const total = cartItems.reduce(
     (sum, item) => sum + (Number(item.price) * Number(item.qty)),
