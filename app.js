@@ -155,6 +155,119 @@ return `
   });
 }
 
+function renderCategorySections() {
+  const container = document.getElementById('categorySections');
+
+  if (!container) return;
+
+  const catMap = {};
+  allCategories.forEach(c => {
+    catMap[c.id] = c.name;
+  });
+
+  const categorizedProducts = allCategories
+    .map(category => ({
+      category,
+      products: allProducts.filter(
+        product => product.category_id === category.id
+      )
+    }))
+    .filter(section => section.products.length > 0);
+
+  container.innerHTML = categorizedProducts.map(section => `
+    <section class="category-product-section">
+
+      <div class="category-section-head">
+        <div>
+          <span class="category-section-label">COLLECTION</span>
+          <h2>${escapeHtml(section.category.name)}</h2>
+        </div>
+
+        <button
+          type="button"
+          class="category-see-all"
+          data-category="${section.category.id}">
+          সব দেখুন →
+        </button>
+      </div>
+
+      <div class="category-product-grid">
+        ${section.products.map(product => {
+          const images =
+            (Array.isArray(product.images) && product.images.length)
+              ? product.images
+              : [product.image_url || 'assets/logo.png'];
+
+          const priceHtml = product.offer_price
+            ? `
+              <span class="old-price">
+                ৳${Number(product.price).toLocaleString('en-BD')}
+              </span>
+              <span class="offer-price">
+                ৳${Number(product.offer_price).toLocaleString('en-BD')}
+              </span>
+            `
+            : `৳${Number(product.price).toLocaleString('en-BD')}`;
+
+          const soldOut = Number(product.stock ?? 0) <= 0;
+
+          return `
+            <div class="category-product-card">
+
+              <div class="category-product-image">
+                ${product.offer_price
+                  ? `<span class="offer-badge">অফার</span>`
+                  : ''
+                }
+
+                <img
+                  src="${images[0]}"
+                  alt="${escapeHtml(product.name)}"
+                >
+              </div>
+
+              <div class="category-product-body">
+
+                <h3>${escapeHtml(product.name)}</h3>
+
+                <div class="category-product-price">
+                  ${priceHtml}
+                </div>
+
+                ${soldOut
+                  ? `<button class="sold-out-btn" disabled>Sold Out</button>`
+                  : `
+                    <button
+                      class="choose-product-btn"
+                      onclick="window.location.href='product.html?id=${product.id}'">
+                      বেছে নিন
+                    </button>
+                  `
+                }
+
+              </div>
+
+            </div>
+          `;
+        }).join('')}
+      </div>
+
+    </section>
+  `).join('');
+
+  container.querySelectorAll('.category-see-all').forEach(button => {
+    button.addEventListener('click', () => {
+      activeCategoryId = button.dataset.category;
+
+      renderCategoryFilter();
+      renderGrid();
+
+      document.getElementById('collection')
+        .scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+}
+
 // ---------- 3D Slider ----------
 function init3DSliderLogic() {
   const cards = document.querySelectorAll('.card-3d');
@@ -615,5 +728,6 @@ document.getElementById('confirmOrderBtn').addEventListener('click', async () =>
 });
 
 loadProducts();
+renderCategorySections();
 updateCartBadge();
 renderCart();
