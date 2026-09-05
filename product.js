@@ -5,11 +5,11 @@ let cartItems = JSON.parse(localStorage.getItem('shareeCraftlineCart') || '[]');
 
 function updateProductCartBadge() {
   const badge = document.getElementById('cartBadge');
-  const totalQty = cartItems.reduce((sum, item) => sum + Number(item.qty || 0), 0);
+  const totalProducts = cartItems.length;
 
   if (badge) {
-    badge.textContent = totalQty;
-    badge.style.display = totalQty > 0 ? 'flex' : 'none';
+    badge.textContent = totalProducts;
+    badge.style.display = totalProducts > 0 ? 'flex' : 'none';
   }
 }
 
