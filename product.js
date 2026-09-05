@@ -248,6 +248,46 @@ async function loadProduct() {
 const productAddCartBtn = document.getElementById('productAddCart');
 const productBuyNowBtn = document.getElementById('productBuyNow');
 
+  productBuyNowBtn.addEventListener('click', () => {
+  if (!currentDetailProduct) return;
+
+  const stock = Number(currentDetailProduct.stock ?? 0);
+
+  if (stock <= 0) {
+    return;
+  }
+
+  const existing = cartItems.find(
+    item =>
+      item.id === currentDetailProduct.id &&
+      item.color === selectedDetailColor &&
+      item.blouse === selectedDetailBlouse
+  );
+
+  if (existing) {
+    existing.qty = detailQuantity;
+  } else {
+    cartItems.push({
+      id: currentDetailProduct.id,
+      name: currentDetailProduct.name,
+      price: Number(
+        currentDetailProduct.offer_price || currentDetailProduct.price
+      ),
+      image_url: currentDetailProduct.image_url,
+      qty: detailQuantity,
+      color: selectedDetailColor,
+      blouse: selectedDetailBlouse
+    });
+  }
+
+  localStorage.setItem(
+    'shareeCraftlineCart',
+    JSON.stringify(cartItems)
+  );
+
+  window.location.href = 'checkout.html';
+});
+
 if (stock <= 0) {
   productAddCartBtn.disabled = true;
   productAddCartBtn.textContent = 'Sold Out';
