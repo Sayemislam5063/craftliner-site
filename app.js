@@ -116,11 +116,15 @@ return `
       ${colors.length ? `<div class="card-colors">${colors.map(c => `<span class="color-chip-mini">${escapeHtml(c)}</span>`).join('')}</div>` : ''}
       <div class="card-footer">
         <div class="price">${priceHtml}</div>
-        <button
-          class="choose-product-btn"
-          onclick="window.location.href='product.html?id=${p.id}'">
-          বেছে নিন
-        </button>
+
+        ${soldOut
+          ? `<button class="buy-btn sold-out-btn" disabled>Sold Out</button>`
+          : `<button
+              class="choose-product-btn"
+              onclick="window.location.href='product.html?id=${p.id}'">
+              বেছে নিন
+            </button>`
+        }
       </div>
     </div>
   </div>
