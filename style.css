@@ -2045,3 +2045,192 @@ height: 48px;
     padding: 0 1px;
   }
 }
+/* =========================================================
+   MOBILE CATEGORY FIX
+   ========================================================= */
+
+@media (max-width: 650px) {
+
+  /* Category heading + All Categories button */
+  .category-area-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    width: 100%;
+    margin-bottom: 18px;
+  }
+
+  .category-area-head h2 {
+    margin: 0;
+    font-family: 'Noto Serif Bengali', serif;
+    font-size: 30px;
+    line-height: 1.2;
+    color: var(--maroon-deep);
+  }
+
+  .all-categories-btn {
+    flex: 0 0 auto;
+
+    min-width: auto;
+    height: 42px;
+
+    padding: 0 14px;
+
+    border: 1px solid var(--maroon);
+    border-radius: 22px;
+
+    background: transparent;
+    color: var(--maroon);
+
+    font-family: 'Noto Sans Bengali', sans-serif;
+    font-size: 13px;
+
+    white-space: nowrap;
+  }
+
+
+  /* Category horizontal slider */
+  .category-filter-bar {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 14px;
+
+    width: 100%;
+
+    margin: 0 0 28px;
+    padding: 4px 2px 12px;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    flex-wrap: nowrap;
+
+    scrollbar-width: none;
+
+    -webkit-overflow-scrolling: touch;
+
+    scroll-behavior: smooth;
+  }
+
+  .category-filter-bar::-webkit-scrollbar {
+    display: none;
+  }
+
+
+  /* Individual category */
+  .category-filter-bar .cat-chip {
+    flex: 0 0 105px;
+
+    width: 105px;
+    min-width: 105px;
+
+    height: auto;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+    gap: 8px;
+
+    padding: 0;
+
+    border: none;
+    border-radius: 0;
+
+    background: transparent;
+
+    color: var(--maroon-soft);
+
+    font-family: 'Noto Sans Bengali', sans-serif;
+    font-size: 13px;
+
+    white-space: normal;
+  }
+
+
+  /* Category image — অবশ্যই গোল */
+  .category-filter-bar .cat-chip .cat-chip-icon {
+    width: 82px;
+    height: 82px;
+
+    min-width: 82px;
+    min-height: 82px;
+
+    max-width: 82px;
+    max-height: 82px;
+
+    display: block;
+
+    border-radius: 50% !important;
+
+    object-fit: cover;
+
+    aspect-ratio: 1 / 1;
+
+    padding: 0;
+
+    border: 3px solid #fff;
+
+    background: #e9ddc8;
+
+    box-shadow:
+      0 4px 12px rgba(78, 18, 36, 0.15);
+
+    flex-shrink: 0;
+  }
+
+
+  /* Category name */
+  .category-filter-bar .cat-chip span:last-child {
+    display: block;
+
+    width: 105px;
+    max-width: 105px;
+
+    padding: 0;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+    text-align: center;
+
+    font-size: 13px;
+    line-height: 1.4;
+
+    color: var(--maroon-soft);
+  }
+
+
+  /* Active category */
+  .category-filter-bar .cat-chip.active {
+    background: transparent;
+    border: none;
+
+    color: var(--maroon);
+  }
+
+  .category-filter-bar .cat-chip.active .cat-chip-icon {
+    border-color: var(--maroon);
+
+    box-shadow:
+      0 0 0 3px rgba(110, 27, 50, 0.10),
+      0 5px 14px rgba(78, 18, 36, 0.18);
+  }
+
+
+  /* Hover/press effect */
+  .category-filter-bar .cat-chip:hover {
+    transform: none;
+  }
+
+  .category-filter-bar .cat-chip:active {
+    transform: scale(0.96);
+  }
+}
