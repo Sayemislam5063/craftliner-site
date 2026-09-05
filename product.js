@@ -386,6 +386,19 @@ function escapeHtml(str) {
   return d.innerHTML;
 }
 
+const cartCheckoutBtn = document.getElementById('cartCheckoutBtn');
+
+if (cartCheckoutBtn) {
+  cartCheckoutBtn.addEventListener('click', () => {
+    if (!cartItems.length) {
+      alert('আপনার কার্টে কোনো প্রোডাক্ট নেই।');
+      return;
+    }
+
+    window.location.href = 'checkout.html';
+  });
+}
+
 document.getElementById('productAddCart').addEventListener('click', () => {
   if (!currentDetailProduct) return;
 
