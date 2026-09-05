@@ -104,7 +104,7 @@ function renderCategoryFilter() {
     return;
   }
 
-  bar.innerHTML = `
+bar.innerHTML = `
     ${allCategories.map(c => `
       <button
         type="button"
@@ -122,18 +122,9 @@ function renderCategoryFilter() {
                  ${escapeHtml((c.name || '?')[0])}
                </span>`
         }
-
         <span>${escapeHtml(c.name)}</span>
       </button>
     `).join('')}
-
-    <button
-      type="button"
-      class="all-categories-btn"
-      id="allCategoriesSlideBtn"
-    >
-      সব ক্যাটাগরি →
-    </button>
   `;
 
   bar.querySelectorAll('.cat-chip').forEach(btn => {
