@@ -74,20 +74,28 @@
 </section>
 
 <section class="products-section container" id="collection">
-  <div class="section-head">
-    <h2>আমাদের সংগ্রহ</h2>
-    <p>নতুন এসেছে</p>
+
+  <!-- CATEGORY BUBBLE AREA -->
+  <div class="category-area">
+
+    <div class="category-area-head">
+      <h2>ক্যাটাগরি</h2>
+
+      <button type="button" id="allCategoriesBtn">
+        সব ক্যাটাগরি →
+      </button>
+    </div>
+
+    <div
+      class="category-filter-bar"
+      id="categoryFilterBar">
+    </div>
+
   </div>
 
-  <!-- ক্যাটাগরি ফিল্টার বার -->
-  <div class="category-filter-bar" id="categoryFilterBar"></div>
-
-  <div class="grid" id="product-grid">
-    <div class="empty-state">প্রোডাক্ট লোড হচ্ছে...</div>
-  </div>
-
+  <!-- CATEGORY WISE PRODUCTS -->
   <div id="categorySections"></div>
-  
+
 </section>
 
 <footer id="contact">
