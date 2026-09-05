@@ -146,16 +146,6 @@ bar.innerHTML = `
     });
   });
 
-  const allCategoriesBtn =
-    document.getElementById('allCategoriesSlideBtn');
-
-  if (allCategoriesBtn) {
-    allCategoriesBtn.addEventListener('click', () => {
-      window.location.href = 'categories.html';
-    });
-  }
-}
-
 // ---------- প্রোডাক্ট গ্রিড (ফিল্টার সহ) ----------
 function renderGrid() {
   const grid = document.getElementById('product-grid');
