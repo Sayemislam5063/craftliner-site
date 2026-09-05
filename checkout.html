@@ -1,1 +1,176 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>Checkout | Sharee Craftline</title>
+
+  <link rel="icon" href="assets/logo.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <header>
+    <nav class="nav">
+
+      <a href="index.html" class="brand">
+        <div class="logo-balloon-wrapper">
+          <img
+            src="assets/logo.png"
+            alt="Sharee Craftline"
+            class="balloon-logo"
+          >
+        </div>
+
+        <div class="brand-name">
+          Sharee Craftline
+          <span>ন্যায্য দামে সঠিক পণ্য</span>
+        </div>
+      </a>
+
+      <div class="nav-right">
+        <a href="index.html">Collection</a>
+
+        <div class="cart-icon-btn">
+          🛒
+        </div>
+      </div>
+
+    </nav>
+  </header>
+
+
+  <main class="checkout-page">
+
+    <div class="checkout-header">
+      <h1>অর্ডার সম্পন্ন করুন</h1>
+      <p>আপনার তথ্য দিয়ে অর্ডারটি নিশ্চিত করুন</p>
+    </div>
+
+
+    <div class="checkout-layout">
+
+      <!-- Customer Information -->
+      <section class="checkout-card">
+
+        <h2>ডেলিভারি তথ্য</h2>
+
+        <div class="field">
+          <label for="checkoutName">আপনার নাম</label>
+          <input
+            type="text"
+            id="checkoutName"
+            placeholder="যেমন: রাহেলা আক্তার"
+          >
+        </div>
+
+        <div class="field">
+          <label for="checkoutPhone">মোবাইল নম্বর</label>
+          <input
+            type="tel"
+            id="checkoutPhone"
+            placeholder="01XXXXXXXXX"
+          >
+        </div>
+
+        <div class="checkout-field-row">
+
+          <div class="field">
+            <label for="checkoutDistrict">জেলা</label>
+            <input
+              type="text"
+              id="checkoutDistrict"
+              placeholder="যেমন: টাঙ্গাইল"
+            >
+          </div>
+
+          <div class="field">
+            <label for="checkoutUpazila">উপজেলা</label>
+            <input
+              type="text"
+              id="checkoutUpazila"
+              placeholder="যেমন: সদর"
+            >
+          </div>
+
+        </div>
+
+        <div class="field">
+          <label for="checkoutAddress">সম্পূর্ণ ঠিকানা</label>
+
+          <textarea
+            id="checkoutAddress"
+            rows="4"
+            placeholder="বাড়ি নম্বর, রোড, গ্রাম/এলাকা"
+          ></textarea>
+        </div>
+
+        <div class="field">
+          <label for="checkoutZone">ডেলিভারি এলাকা</label>
+
+          <select id="checkoutZone">
+            <option value="dhaka">ঢাকা শহরের ভিতরে</option>
+            <option value="outside">ঢাকার বাইরে</option>
+          </select>
+        </div>
+
+      </section>
+
+
+      <!-- Order Summary -->
+      <section class="checkout-card">
+
+        <h2>আপনার অর্ডার</h2>
+
+        <div id="checkoutItems">
+          <!-- Cart products এখানে আসবে -->
+        </div>
+
+        <div class="checkout-summary">
+
+          <div class="checkout-summary-row">
+            <span>পণ্যের মোট</span>
+            <strong id="checkoutSubtotal">৳0</strong>
+          </div>
+
+          <div class="checkout-summary-row">
+            <span>ডেলিভারি</span>
+            <strong id="checkoutDelivery">৳0</strong>
+          </div>
+
+          <div class="checkout-summary-row checkout-total">
+            <span>সর্বমোট</span>
+            <strong id="checkoutTotal">৳0</strong>
+          </div>
+
+        </div>
+
+        <div
+          class="checkout-error"
+          id="checkoutError"
+        >
+          অনুগ্রহ করে প্রয়োজনীয় তথ্য পূরণ করুন।
+        </div>
+
+        <button
+          type="button"
+          class="checkout-order-btn"
+          id="placeOrderBtn"
+        >
+          অর্ডার প্লেস করুন
+        </button>
+
+      </section>
+
+    </div>
+
+  </main>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+
+</body>
+</html>
