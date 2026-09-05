@@ -35,8 +35,6 @@ async function loadProducts() {
     return;
   }
 
-  renderGrid();
-
   async function getBestSellingProducts() {
   const { data: orders, error } = await supabaseClient
     .from('orders')
