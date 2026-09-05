@@ -399,6 +399,16 @@ if (cartCheckoutBtn) {
   });
 }
 
+const productAddCartBtn = document.getElementById('productAddCart');
+const productBuyNowBtn = document.getElementById('productBuyNow');
+
+if (Number(product.stock ?? 0) <= 0) {
+  productAddCartBtn.disabled = true;
+  productAddCartBtn.textContent = 'Sold Out';
+  productBuyNowBtn.disabled = true;
+  productBuyNowBtn.textContent = 'Sold Out';
+}
+
 document.getElementById('productAddCart').addEventListener('click', () => {
   if (!currentDetailProduct) return;
 
