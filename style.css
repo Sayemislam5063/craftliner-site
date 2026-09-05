@@ -1411,3 +1411,156 @@ footer .foot-note {
     font-size: 13px;
   }
 }
+/* =========================================================
+   CHECKOUT PAGE
+   ========================================================= */
+
+.checkout-page {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 60px 28px 100px;
+}
+
+.checkout-header {
+  text-align: center;
+  margin-bottom: 45px;
+}
+
+.checkout-header h1 {
+  font-size: clamp(30px, 4vw, 42px);
+  margin-bottom: 8px;
+}
+
+.checkout-header p {
+  color: var(--maroon-soft);
+  font-size: 14px;
+}
+
+.checkout-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(340px, 0.9fr);
+  gap: 30px;
+  align-items: start;
+}
+
+.checkout-card {
+  background: var(--cream-card);
+  border: 1px solid var(--rose-line);
+  padding: 28px;
+}
+
+.checkout-card h2 {
+  font-size: 22px;
+  margin-bottom: 25px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--rose-line);
+}
+
+.checkout-field-row {
+  display: flex;
+  gap: 14px;
+}
+
+.checkout-field-row .field {
+  flex: 1;
+}
+
+.checkout-card .field input,
+.checkout-card .field select,
+.checkout-card .field textarea {
+  background: #fff;
+}
+
+#checkoutItems {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.checkout-summary {
+  border-top: 1px solid var(--rose-line);
+  padding-top: 16px;
+  margin-top: 10px;
+}
+
+.checkout-summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 9px;
+  color: #5a3f47;
+  font-size: 14px;
+}
+
+.checkout-summary-row strong {
+  font-family: 'Noto Serif Bengali', serif;
+  color: var(--maroon-deep);
+}
+
+.checkout-summary-row.checkout-total {
+  border-top: 1px solid var(--rose-line);
+  padding-top: 14px;
+  margin-top: 12px;
+  margin-bottom: 0;
+  font-size: 18px;
+  color: var(--maroon-deep);
+}
+
+.checkout-summary-row.checkout-total strong {
+  font-size: 22px;
+}
+
+.checkout-error {
+  display: none;
+  margin-top: 15px;
+  padding: 10px 12px;
+  background: rgba(161, 47, 47, 0.08);
+  border: 1px solid rgba(161, 47, 47, 0.2);
+  color: #a12f2f;
+  font-size: 13px;
+}
+
+.checkout-order-btn {
+  width: 100%;
+  margin-top: 20px;
+  padding: 14px 18px;
+  border: none;
+  background: var(--maroon);
+  color: var(--cream-card);
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.checkout-order-btn:hover {
+  background: var(--maroon-deep);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 800px) {
+  .checkout-page {
+    padding: 40px 18px 70px;
+  }
+
+  .checkout-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .checkout-card {
+    padding: 20px;
+  }
+
+  .checkout-field-row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .checkout-header {
+    margin-bottom: 30px;
+  }
+}
