@@ -232,11 +232,11 @@ function addToCart(product) {
 
 function updateCartBadge() {
   const badge = document.getElementById('cartBadge');
-  const totalQty = cartItems.reduce((sum, item) => sum + item.qty, 0);
+  const totalProducts = cartItems.length;
 
   if (badge) {
-    badge.textContent = totalQty;
-    badge.style.display = totalQty > 0 ? 'flex' : 'none';
+    badge.textContent = totalProducts;
+    badge.style.display = totalProducts > 0 ? 'flex' : 'none';
   }
 }
 
