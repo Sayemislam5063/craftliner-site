@@ -37,7 +37,41 @@ async function loadProducts() {
 
   renderGrid();
 
-  const bestSellers = allProducts.slice(0, 5);
+  async function getBestSellingProducts() {
+  const { data: orders, error } = await supabaseClient
+    .from('orders')
+    .select('items')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('Best selling products load failed:', error);
+    return [];
+  }
+
+  const soldMap = {};
+
+  (orders || []).forEach(order => {
+    const items = Array.isArray(order.items) ? order.items : [];
+
+    items.forEach(item => {
+      if (!item.id) return;
+
+      soldMap[item.id] =
+        (soldMap[item.id] || 0) + Number(item.qty || 0);
+    });
+  });
+
+  return [...allProducts]
+    .filter(product => soldMap[product.id] > 0)
+    .sort((a, b) => (soldMap[b.id] || 0) - (soldMap[a.id] || 0))
+    .slice(0, 5);
+}
+
+  const bestSellers = await getBestSellingProducts();
+
+if (!bestSellers.length) {
+  bestSellers.push(...allProducts.slice(0, 5));
+}
   renderCategorySections();
   sliderContainer.innerHTML = bestSellers.map((p, index) => `
     <div class="card-3d ${index === 0 ? 'active' : index === 1 ? 'next' : index === bestSellers.length - 1 ? 'prev' : ''}" data-title="${escapeHtml(p.name)}">
