@@ -38,6 +38,7 @@ async function loadProducts() {
   renderGrid();
 
   const bestSellers = allProducts.slice(0, 5);
+  renderCategorySections();
   sliderContainer.innerHTML = bestSellers.map((p, index) => `
     <div class="card-3d ${index === 0 ? 'active' : index === 1 ? 'next' : index === bestSellers.length - 1 ? 'prev' : ''}" data-title="${escapeHtml(p.name)}">
       <div class="card-img-wrapper">
@@ -728,6 +729,5 @@ document.getElementById('confirmOrderBtn').addEventListener('click', async () =>
 });
 
 loadProducts();
-renderCategorySections();
 updateCartBadge();
 renderCart();
