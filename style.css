@@ -1816,3 +1816,54 @@ footer .foot-note {
     padding: 8px 10px;
   }
 }
+/* =========================================================
+   BEST SELLING SLIDER — PREMIUM POLISH
+   ========================================================= */
+
+.card-3d {
+  overflow: hidden;
+}
+
+.card-3d .card-img-wrapper {
+  border: 1px solid rgba(185, 138, 78, 0.18);
+}
+
+.card-3d .card-info {
+  padding: 0 2px 2px;
+}
+
+.card-3d .card-info h3 {
+  margin-top: 5px;
+  line-height: 1.35;
+}
+
+.card-3d-btn {
+  font-family: 'Noto Sans Bengali', sans-serif;
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-3d-btn.sold-out-btn {
+  background: #9b8f8f;
+  color: #fff;
+  border-color: transparent;
+  cursor: not-allowed;
+  opacity: 0.85;
+}
+
+.card-3d-btn.sold-out-btn:hover {
+  background: #9b8f8f;
+}
+
+@media (max-width: 560px) {
+  .card-3d-btn {
+    min-height: 34px;
+    font-size: 11.5px;
+  }
+
+  .card-3d .card-info {
+    padding: 0 1px;
+  }
+}
