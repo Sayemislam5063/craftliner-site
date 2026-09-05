@@ -95,29 +95,74 @@ if (!bestSellers.length) {
   init3DSliderLogic();
 }
 
-// ---------- ক্যাটাগরি ফিল্টার বার ----------
+// ---------- ক্যাটাগরি বুদবুদ ----------
 function renderCategoryFilter() {
   const bar = document.getElementById('categoryFilterBar');
-  if (!bar || !allCategories.length) { if (bar) bar.innerHTML = ''; return; }
+
+  if (!bar || !allCategories.length) {
+    if (bar) bar.innerHTML = '';
+    return;
+  }
 
   bar.innerHTML = `
-    <button class="cat-chip ${activeCategoryId === '' ? 'active' : ''}" data-cat="">
-      <span class="cat-chip-icon">সব</span><span>সব প্রোডাক্ট</span>
+    ${allCategories.map(c => `
+      <button
+        type="button"
+        class="cat-chip ${activeCategoryId === c.id ? 'active' : ''}"
+        data-cat="${c.id}"
+      >
+        ${
+          c.image_url
+            ? `<img
+                 src="${c.image_url}"
+                 class="cat-chip-icon"
+                 alt="${escapeHtml(c.name)}"
+               >`
+            : `<span class="cat-chip-icon">
+                 ${escapeHtml((c.name || '?')[0])}
+               </span>`
+        }
+
+        <span>${escapeHtml(c.name)}</span>
+      </button>
+    `).join('')}
+
+    <button
+      type="button"
+      class="all-categories-btn"
+      id="allCategoriesSlideBtn"
+    >
+      সব ক্যাটাগরি →
     </button>
-  ` + allCategories.map(c => `
-    <button class="cat-chip ${activeCategoryId === c.id ? 'active' : ''}" data-cat="${c.id}">
-      ${c.image_url ? `<img src="${c.image_url}" class="cat-chip-icon">` : `<span class="cat-chip-icon">${escapeHtml((c.name || '?')[0])}</span>`}
-      <span>${escapeHtml(c.name)}</span>
-    </button>
-  `).join('');
+  `;
 
   bar.querySelectorAll('.cat-chip').forEach(btn => {
     btn.addEventListener('click', () => {
       activeCategoryId = btn.dataset.cat;
+
       renderCategoryFilter();
-      renderGrid();
+
+      const section = document.querySelector(
+        `.category-product-section[data-category="${activeCategoryId}"]`
+      );
+
+      if (section) {
+        section.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
     });
   });
+
+  const allCategoriesBtn =
+    document.getElementById('allCategoriesSlideBtn');
+
+  if (allCategoriesBtn) {
+    allCategoriesBtn.addEventListener('click', () => {
+      window.location.href = 'categories.html';
+    });
+  }
 }
 
 // ---------- প্রোডাক্ট গ্রিড (ফিল্টার সহ) ----------
