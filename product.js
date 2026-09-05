@@ -245,6 +245,21 @@ async function loadProduct() {
     stockEl.textContent = 'Sold Out';
   }
 
+const productAddCartBtn = document.getElementById('productAddCart');
+const productBuyNowBtn = document.getElementById('productBuyNow');
+
+if (stock <= 0) {
+  productAddCartBtn.disabled = true;
+  productAddCartBtn.textContent = 'Sold Out';
+  productBuyNowBtn.disabled = true;
+  productBuyNowBtn.textContent = 'Sold Out';
+} else {
+  productAddCartBtn.disabled = false;
+  productAddCartBtn.textContent = 'Add To Cart';
+  productBuyNowBtn.disabled = false;
+  productBuyNowBtn.textContent = 'Buy Now';
+}
+  
   const priceEl = document.getElementById('productPrice');
 
   if (product.offer_price) {
@@ -397,16 +412,6 @@ if (cartCheckoutBtn) {
 
     window.location.href = 'checkout.html';
   });
-}
-
-const productAddCartBtn = document.getElementById('productAddCart');
-const productBuyNowBtn = document.getElementById('productBuyNow');
-
-if (Number(product.stock ?? 0) <= 0) {
-  productAddCartBtn.disabled = true;
-  productAddCartBtn.textContent = 'Sold Out';
-  productBuyNowBtn.disabled = true;
-  productBuyNowBtn.textContent = 'Sold Out';
 }
 
 document.getElementById('productAddCart').addEventListener('click', () => {
