@@ -215,7 +215,9 @@ function renderCategorySections() {
     .filter(section => section.products.length > 0);
 
   container.innerHTML = categorizedProducts.map(section => `
-    <section class="category-product-section">
+    <section
+  class="category-product-section"
+  data-category="${section.category.id}">
 
       <div class="category-section-head">
         <div>
@@ -295,17 +297,21 @@ function renderCategorySections() {
     </section>
   `).join('');
 
-  container.querySelectorAll('.category-see-all').forEach(button => {
-    button.addEventListener('click', () => {
-      activeCategoryId = button.dataset.category;
+container.querySelectorAll('.category-see-all').forEach(button => {
+  button.addEventListener('click', () => {
+    const categoryId = button.dataset.category;
+    const section = container.querySelector(
+      `.category-product-section[data-category="${categoryId}"]`
+    );
 
-      renderCategoryFilter();
-      renderGrid();
-
-      document.getElementById('collection')
-        .scrollIntoView({ behavior: 'smooth' });
-    });
+    if (section) {
+      section.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
   });
+});
 }
 
 // ---------- 3D Slider ----------
