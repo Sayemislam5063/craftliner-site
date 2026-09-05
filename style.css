@@ -759,17 +759,16 @@ footer .foot-note {
 .cat-chip {
   flex: 0 0 auto;
 
-  width: 112px;
-  min-width: 112px;
-
-  height: 132px;
+width: 125px;
+min-width: 125px;
+height: 150px;
 
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 
-  gap: 9px;
+  gap: 10px;
 
   background: transparent;
 
@@ -796,10 +795,9 @@ footer .foot-note {
 /* ---------- CATEGORY IMAGE ---------- */
 
 .cat-chip-icon {
-  width: 88px;
-  height: 88px;
-
-  min-width: 88px;
+width: 100px;
+height: 100px;
+min-width: 100px;
 
   border-radius: 50%;
 
@@ -835,7 +833,7 @@ footer .foot-note {
 .cat-chip span:last-child {
   display: block;
 
-  max-width: 105px;
+  max-width: 120px;
 
   overflow: hidden;
 
@@ -844,6 +842,8 @@ footer .foot-note {
   white-space: nowrap;
 
   text-align: center;
+
+  font-size: 14px;
 }
 
 
@@ -887,9 +887,8 @@ footer .foot-note {
 .all-categories-btn {
   flex: 0 0 auto;
 
-  min-width: 125px;
-
-  height: 44px;
+min-width: 135px;
+height: 48px;
 
   padding: 0 18px;
 
