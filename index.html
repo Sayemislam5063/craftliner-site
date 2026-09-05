@@ -243,6 +243,16 @@
     logoWrapper.addEventListener('pointercancel', resetLogoPosition);
   }
 </script>
+  
+<script>
+  const allCategoriesBtn = document.getElementById('allCategoriesBtn');
 
+  if (allCategoriesBtn) {
+    allCategoriesBtn.addEventListener('click', () => {
+      window.location.href = 'categories.html';
+    });
+  }
+</script>
+  
 </body>
 </html>
