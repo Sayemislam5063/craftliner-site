@@ -2234,3 +2234,141 @@ height: 48px;
     transform: scale(0.96);
   }
 }
+/* =========================================================
+   OUR COLLECTION — CATEGORY HEADER
+   ========================================================= */
+
+.category-area-head {
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.category-area-head h2 {
+  position: relative;
+
+  display: inline-block;
+
+  margin: 0;
+
+  font-family: 'Noto Serif Bengali', serif;
+  font-size: 32px;
+  font-weight: 500;
+
+  line-height: 1.3;
+
+  color: var(--maroon-deep);
+
+  padding-bottom: 13px;
+}
+
+/* মারুন decorative underline */
+.category-area-head h2::after {
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+  bottom: 0;
+
+  width: 72px;
+  height: 3px;
+
+  transform: translateX(-50%);
+
+  background: var(--maroon);
+
+  border-radius: 10px;
+
+  box-shadow:
+    0 2px 7px rgba(78, 18, 36, 0.18);
+}
+
+
+/* =========================================================
+   ALL CATEGORIES BUTTON — SLIDER-এর নিচে CENTER
+   ========================================================= */
+
+.category-all-btn-wrap {
+  width: 100%;
+
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  margin-top: 4px;
+  margin-bottom: 10px;
+}
+
+.category-all-btn-wrap .all-categories-btn {
+  min-width: 145px;
+  height: 44px;
+
+  padding: 0 20px;
+
+  border: 1px solid var(--maroon);
+  border-radius: 24px;
+
+  background: transparent;
+
+  color: var(--maroon);
+
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 13px;
+
+  cursor: pointer;
+
+  transition:
+    background .25s ease,
+    color .25s ease,
+    transform .25s ease,
+    box-shadow .25s ease;
+}
+
+.category-all-btn-wrap .all-categories-btn:hover {
+  background: var(--maroon);
+
+  color: #fff;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 6px 16px rgba(78, 18, 36, 0.16);
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 650px) {
+
+  .category-area-head {
+    margin-bottom: 18px;
+  }
+
+  .category-area-head h2 {
+    font-size: 29px;
+
+    padding-bottom: 11px;
+  }
+
+  .category-area-head h2::after {
+    width: 62px;
+    height: 3px;
+  }
+
+  .category-all-btn-wrap {
+    margin-top: 2px;
+    margin-bottom: 6px;
+  }
+
+  .category-all-btn-wrap .all-categories-btn {
+    min-width: 142px;
+    height: 42px;
+
+    padding: 0 18px;
+
+    font-size: 13px;
+  }
+}
