@@ -81,7 +81,14 @@ if (!bestSellers.length) {
       <div class="card-info">
         <span class="card-tag">BEST SELLING</span>
         <h3>${escapeHtml(p.name)}</h3>
-        <button class="card-3d-btn" onclick='openModal(${JSON.stringify(p).replace(/'/g, "&apos;")})'>অর্ডার করুন ৳${Number(p.offer_price || p.price).toLocaleString('en-BD')}</button>
+        ${Number(p.stock ?? 0) <= 0
+  ? `<button class="card-3d-btn sold-out-btn" disabled>Sold Out</button>`
+  : `<button
+      class="card-3d-btn"
+      onclick="window.location.href='product.html?id=${p.id}'">
+      বেছে নিন
+    </button>`
+}
       </div>
     </div>
   `).join('');
