@@ -383,6 +383,19 @@ const cartBtn = document.getElementById('cartBtn');
 const cartPanel = document.getElementById('cartPanel');
 const closeCartBtn = document.getElementById('closeCartBtn');
 
+const cartCheckoutBtn = document.getElementById('cartCheckoutBtn');
+
+if (cartCheckoutBtn) {
+  cartCheckoutBtn.addEventListener('click', () => {
+    if (!cartItems.length) {
+      alert('আপনার কার্টে কোনো প্রোডাক্ট নেই।');
+      return;
+    }
+
+    window.location.href = 'checkout.html';
+  });
+}
+
 cartBtn.addEventListener('click', (e) => {
   e.stopPropagation();
   cartPanel.classList.toggle('open');
