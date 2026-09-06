@@ -299,6 +299,15 @@ function renderCategorySections() {
             </h2>
           </div>
 
+          <button
+            type="button"
+            class="category-view-all-btn"
+            data-category="${section.category.id}"
+          >
+            সকল ${escapeHtml(section.category.name)} দেখুন
+            <span>→</span>
+          </button>
+
         </div>
 
         <div class="category-product-grid">
@@ -379,21 +388,6 @@ function renderCategorySections() {
           }).join('')}
 
         </div>
-
-        ${
-          hasMoreProducts
-            ? `
-              <button
-                type="button"
-                class="category-view-all-btn bottom"
-                data-category="${section.category.id}"
-              >
-                সকল ${escapeHtml(section.category.name)} দেখুন
-                <span>→</span>
-              </button>
-            `
-            : ''
-        }
 
       </section>
     `;
