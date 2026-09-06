@@ -2,44 +2,37 @@ const bubblesScroll = document.getElementById('categoryBubblesScroll');
 const productsGrid = document.getElementById('allProductsGrid');
 
 async function initAllProductsPage() {
-  // ১. বটম নেভিগেশন লোড করা
   loadBottomNav();
-
-  // ২. ক্যাটাগরি বাবল স্লাইডার লোড করা
   loadCategoryBubbles();
-
-  // ৩. সকল প্রোডাক্ট ডাটাবেস থেকে লোড করা
   loadAllProducts();
 }
 
-// বটম নেভিগেশন লোড করার ফাংশন
 function loadBottomNav() {
   const placeholder = document.getElementById('bottomNavPlaceholder');
   if (!placeholder) return;
 
   fetch('bottom-nav.html')
-    .then(response => response.text())
-    .then(html => {
-      placeholder.innerHTML = html;
-      // একটিভ লিঙ্ক হাইলাইট (যদি প্রয়োজন হয়)
-      const navLinks = placeholder.querySelectorAll('.bottom-nav-item');
-      navLinks.forEach(link => {
-        if (link.getAttribute('href') === 'products.html') {
-          link.classList.add('active');
-        }
-      });
+    .then(response => {
+      if (!response.ok) return '';
+      return response.text();
     })
-    .catch(err => console.error('Bottom nav load error:', err));
+    .then(html => {
+      if (html) {
+        placeholder.innerHTML = html;
+      }
+    })
+    .catch(err => console.log('Bottom nav optional load:', err));
 }
 
-// বাবল স্লাইডার লোড
 async function loadCategoryBubbles() {
+  if (!supabaseClient || !bubblesScroll) return;
+
   const { data: categories } = await supabaseClient
     .from('categories')
     .select('*')
     .order('name');
 
-  if (categories && categories.length && bubblesScroll) {
+  if (categories && categories.length) {
     bubblesScroll.innerHTML = categories.map(cat => {
       const catImage = cat.image_url || 'assets/logo.png';
       return `
@@ -54,8 +47,9 @@ async function loadCategoryBubbles() {
   }
 }
 
-// সকল শাড়ি/প্রোডাক্ট লোড
 async function loadAllProducts() {
+  if (!supabaseClient || !productsGrid) return;
+
   const { data: products, error } = await supabaseClient
     .from('products')
     .select('*')
@@ -75,7 +69,6 @@ async function loadAllProducts() {
   renderProducts(products);
 }
 
-// প্রোডাক্ট কার্ড রেন্ডার করা
 function renderProducts(products) {
   productsGrid.innerHTML = products.map(product => {
     const images = (Array.isArray(product.images) && product.images.length)
@@ -117,5 +110,4 @@ function escapeHtml(str) {
   return div.innerHTML;
 }
 
-// পেজ লোড হলে রান হবে
 initAllProductsPage();
