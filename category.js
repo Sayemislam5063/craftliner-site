@@ -2,7 +2,6 @@ const params = new URLSearchParams(window.location.search);
 const categoryId = params.get('id');
 
 const titleEl = document.getElementById('categoryTitle');
-const descriptionEl = document.getElementById('categoryDescription');
 const productsGrid = document.getElementById('categoryProductsGrid');
 const heroBanner = document.getElementById('categoryHeroBanner');
 const bubblesScroll = document.getElementById('categoryBubblesScroll');
@@ -15,7 +14,7 @@ async function loadCategory() {
     return;
   }
 
-  // ১. সব ক্যাটাগরি লোড করা (ওপরের গোল বাবল স্লাইডারের জন্য)
+  // ১. ওপরের বাবল স্লাইডারের ডাটা লোড
   const { data: categories } = await supabaseClient
     .from('categories')
     .select('*')
@@ -36,7 +35,7 @@ async function loadCategory() {
     }).join('');
   }
 
-  // ২. বর্তমান ক্যাটাগরির বিস্তারিত লোড করা (ব্যানারের জন্য)
+  // ২. বর্তমান ক্যাটাগরির নাম ও ব্যানার লোড
   const { data: category, error: categoryError } = await supabaseClient
     .from('categories')
     .select('*')
@@ -50,14 +49,13 @@ async function loadCategory() {
   }
 
   if (titleEl) titleEl.textContent = category.name;
-  if (descriptionEl) descriptionEl.textContent = `এই ক্যাটাগরির সকল ${category.name} দেখুন`;
 
-  // ব্যানারের ব্যাকগ্রাউন্ডে ইমেজ সেট করা
+  // ব্যানারের ব্যাকগ্রাউন্ড ছবি সেট
   if (category.image_url && heroBanner) {
-    heroBanner.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url('${category.image_url}')`;
+    heroBanner.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url('${category.image_url}')`;
   }
 
-  // ৩. এই ক্যাটাগরির প্রোডাক্টসমূহ লোড করা
+  // ৩. প্রোডাক্ট লোড করা
   const { data: products, error: productsError } = await supabaseClient
     .from('products')
     .select('*')
@@ -162,10 +160,6 @@ function renderCategoryProducts() {
 function showCategoryError(message) {
   if (titleEl) {
     titleEl.textContent = 'ক্যাটাগরি';
-  }
-
-  if (descriptionEl) {
-    descriptionEl.textContent = '';
   }
 
   if (productsGrid) {
