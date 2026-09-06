@@ -4,15 +4,39 @@ const categoryId = params.get('id');
 const titleEl = document.getElementById('categoryTitle');
 const descriptionEl = document.getElementById('categoryDescription');
 const productsGrid = document.getElementById('categoryProductsGrid');
+const heroBanner = document.getElementById('categoryHeroBanner');
+const bubblesScroll = document.getElementById('categoryBubblesScroll');
 
 let categoryProducts = [];
 
 async function loadCategory() {
   if (!categoryId) {
-    showCategoryError('ক্যাটাগরি পাওয়া যায়নি।');
+    showCategoryError('ক্যাটাগরি পাওয়া যায়নি।');
     return;
   }
 
+  // ১. সব ক্যাটাগরি লোড করা (ওপরের গোল বাবল স্লাইডারের জন্য)
+  const { data: categories } = await supabaseClient
+    .from('categories')
+    .select('*')
+    .order('name');
+
+  if (categories && categories.length && bubblesScroll) {
+    bubblesScroll.innerHTML = categories.map(cat => {
+      const isActive = cat.id == categoryId ? 'active' : '';
+      const catImage = cat.image_url || 'assets/logo.png';
+      return `
+        <a href="category.html?id=${cat.id}" class="category-bubble-item ${isActive}">
+          <div class="bubble-img-wrap">
+            <img src="${catImage}" alt="${escapeHtml(cat.name)}">
+          </div>
+          <span>${escapeHtml(cat.name)}</span>
+        </a>
+      `;
+    }).join('');
+  }
+
+  // ২. বর্তমান ক্যাটাগরির বিস্তারিত লোড করা (ব্যানারের জন্য)
   const { data: category, error: categoryError } = await supabaseClient
     .from('categories')
     .select('*')
@@ -21,15 +45,19 @@ async function loadCategory() {
 
   if (categoryError || !category) {
     console.error('Category load failed:', categoryError);
-    showCategoryError('ক্যাটাগরি পাওয়া যায়নি।');
+    showCategoryError('ক্যাটাগরি পাওয়া যায়নি।');
     return;
   }
 
-  titleEl.textContent = category.name;
+  if (titleEl) titleEl.textContent = category.name;
+  if (descriptionEl) descriptionEl.textContent = `এই ক্যাটাগরির সকল ${category.name} দেখুন`;
 
-  descriptionEl.textContent =
-    `এই ক্যাটাগরির সকল ${category.name} দেখুন`;
+  // ব্যানারের ব্যাকগ্রাউন্ডে ইমেজ সেট করা
+  if (category.image_url && heroBanner) {
+    heroBanner.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url('${category.image_url}')`;
+  }
 
+  // ৩. এই ক্যাটাগরির প্রোডাক্টসমূহ লোড করা
   const { data: products, error: productsError } = await supabaseClient
     .from('products')
     .select('*')
@@ -38,7 +66,7 @@ async function loadCategory() {
 
   if (productsError) {
     console.error('Category products load failed:', productsError);
-    showCategoryError('এই ক্যাটাগরির প্রোডাক্ট লোড করা যায়নি।');
+    showCategoryError('এই ক্যাটাগরির প্রোডাক্ট লোড করা যায়নি।');
     return;
   }
 
