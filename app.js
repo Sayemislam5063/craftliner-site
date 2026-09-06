@@ -384,123 +384,18 @@ function renderCategorySections() {
     `;
   }).join('');
 
-  container
-    .querySelectorAll('.category-view-all-btn')
-    .forEach(button => {
+container
+  .querySelectorAll('.category-view-all-btn')
+  .forEach(button => {
 
-      button.addEventListener('click', () => {
+    button.addEventListener('click', () => {
+      const categoryId = button.dataset.category;
 
-        const categoryId = button.dataset.category;
-
-        const section = container.querySelector(
-          `.category-product-section[data-category="${categoryId}"]`
-        );
-
-        if (!section) return;
-
-        const category = allCategories.find(
-          c => c.id === categoryId
-        );
-
-        if (!category) return;
-
-        activeCategoryId = categoryId;
-
-        const products = allProducts.filter(
-          product => product.category_id === categoryId
-        );
-
-        const productGrid = section.querySelector(
-          '.category-product-grid'
-        );
-
-        if (!productGrid) return;
-
-        productGrid.innerHTML = products.map(product => {
-
-          const images =
-            (Array.isArray(product.images) && product.images.length)
-              ? product.images
-              : [product.image_url || 'assets/logo.png'];
-
-          const priceHtml = product.offer_price
-            ? `
-              <span class="old-price">
-                ৳${Number(product.price).toLocaleString('en-BD')}
-              </span>
-
-              <span class="offer-price">
-                ৳${Number(product.offer_price).toLocaleString('en-BD')}
-              </span>
-            `
-            : `৳${Number(product.price).toLocaleString('en-BD')}`;
-
-          const soldOut = Number(product.stock ?? 0) <= 0;
-
-          return `
-            <div class="category-product-card">
-
-              <div class="category-product-image">
-
-                ${
-                  product.offer_price
-                    ? `<span class="offer-badge">অফার</span>`
-                    : ''
-                }
-
-                <img
-                  src="${images[0]}"
-                  alt="${escapeHtml(product.name)}"
-                >
-
-              </div>
-
-              <div class="category-product-body">
-
-                <h3>
-                  ${escapeHtml(product.name)}
-                </h3>
-
-                <div class="category-product-price">
-                  ${priceHtml}
-                </div>
-
-                ${
-                  soldOut
-                    ? `
-                      <button
-                        class="sold-out-btn"
-                        disabled
-                      >
-                        Sold Out
-                      </button>
-                    `
-                    : `
-                      <button
-                        class="choose-product-btn"
-                        onclick="window.location.href='product.html?id=${product.id}'"
-                      >
-                        বেছে নিন
-                      </button>
-                    `
-                }
-
-              </div>
-
-            </div>
-          `;
-        }).join('');
-
-        button.style.display = 'none';
-
-        section.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
-      });
-
+      window.location.href = `category.html?id=${categoryId}`;
     });
-}
+
+  });
+
 function renderAllProductsSection(bestSellingProducts = []) {
   const container = document.getElementById('allProductsSection');
 
