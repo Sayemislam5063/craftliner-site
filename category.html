@@ -132,31 +132,19 @@
   </main>
 
 
-  <!-- ================= BOTTOM BAR ================= -->
+<div id="shared-bottom-nav"></div>
 
-  <footer class="site-bottom-bar">
+<script>
+  fetch('bottom-nav.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('shared-bottom-nav').innerHTML = data;
+    });
+</script>
 
-    <a href="index.html">
-      <span>⌂</span>
-      <small>হোম</small>
-    </a>
-
-    <a href="categories.html">
-      <span>▦</span>
-      <small>ক্যাটাগরি</small>
-    </a>
-
-    <a href="checkout.html">
-      <span>🛒</span>
-      <small>কার্ট</small>
-    </a>
-
-  </footer>
-
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="config.js"></script>
-  <script src="category.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="category.js"></script>
 
 </body>
 </html>
