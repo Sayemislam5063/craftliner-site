@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>আমাদের সকল প্রোডাক্ট - Sharee Craftline</title>
+  
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+</head>
+<body>
+
+  <!-- পেজ কন্টেইনার -->
+  <main class="category-page">
+
+    <!-- ১. ওপরের ক্যাটাগরি বাবল স্লাইডার -->
+    <div class="category-bubbles-card">
+      <div class="category-bubbles-container">
+        <div class="category-bubbles-scroll" id="categoryBubblesScroll">
+          <!-- JavaScript দিয়ে ক্যাটাগরিগুলো আসবে -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ২. স্ক্রিনশটের মতো হুবহু অল প্রোডাক্টস ব্যানার -->
+    <section class="all-products-banner">
+      <span class="banner-overline">OUR COLLECTION</span>
+      <h1 class="banner-title">আমাদের সকল প্রোডাক্ট দেখুন</h1>
+      <p class="banner-subtitle">আমাদের সম্পূর্ণ কালেকশন থেকে আপনার পছন্দের শাড়িটি বেছে নিন</p>
+    </section>
+
+    <!-- ৩. সকল প্রোডাক্টের গ্রিড -->
+    <section class="category-products-page-grid" id="allProductsGrid">
+      <div class="empty-state">
+        প্রোডাক্ট লোড হচ্ছে...
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ৪. বটম নেভিগেশন (Dynamic Load) -->
+  <div id="bottomNavPlaceholder"></div>
+
+  <script src="products.js"></script>
+</body>
+</html>
