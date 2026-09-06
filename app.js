@@ -184,25 +184,6 @@ function renderCategoryFilter() {
   });
 }
 
-  bar.querySelectorAll('.cat-chip').forEach(btn => {
-    btn.addEventListener('click', () => {
-      activeCategoryId = btn.dataset.cat;
-
-      renderCategoryFilter();
-
-      const section = document.querySelector(
-        `.category-product-section[data-category="${activeCategoryId}"]`
-      );
-
-      if (section) {
-        section.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
-      }
-    });
-  });
-
 // ---------- প্রোডাক্ট গ্রিড (ফিল্টার সহ) ----------
 function renderGrid() {
   const grid = document.getElementById('product-grid');
