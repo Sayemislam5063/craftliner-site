@@ -1,1 +1,115 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>Categories | Sharee Craftline</title>
+
+  <link rel="icon" href="assets/logo.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <header>
+    <nav class="nav">
+
+      <a href="index.html" class="brand">
+        <div class="logo-balloon-wrapper">
+          <img
+            src="assets/logo.png"
+            alt="Sharee Craftline"
+            class="balloon-logo"
+          >
+        </div>
+
+        <div class="brand-name">
+          Sharee Craftline
+          <span>ন্যায্য দামে সঠিক পণ্য</span>
+        </div>
+      </a>
+
+      <div class="nav-right">
+        <a href="index.html">হোম</a>
+        <a href="categories.html">ক্যাটাগরি</a>
+
+        <div class="cart-icon-btn" id="cartBtn">
+          🛒
+          <span class="cart-count" id="cartBadge">0</span>
+
+          <div class="cart-panel" id="cartPanel">
+
+            <div class="cart-panel-head">
+              <h3>আমার কার্ট</h3>
+              <button id="closeCartBtn" type="button">
+                &times;
+              </button>
+            </div>
+
+            <div class="cart-items" id="cartItems"></div>
+
+            <div class="cart-empty" id="cartEmpty">
+              আপনার কার্ট এখনো খালি।
+            </div>
+
+            <div class="cart-footer" id="cartFooter">
+
+              <div class="cart-total">
+                <span>মোট</span>
+                <strong id="cartTotal">৳0</strong>
+              </div>
+
+              <button
+                class="btn btn-solid"
+                id="cartCheckoutBtn"
+                type="button">
+                Checkout
+              </button>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </nav>
+  </header>
+
+
+  <main class="categories-page">
+
+    <section class="categories-page-header">
+      <span class="category-section-label">
+        OUR COLLECTION
+      </span>
+
+      <h1>আমাদের সকল ক্যাটাগরি</h1>
+
+      <p>
+        আপনার পছন্দের ক্যাটাগরি বেছে নিয়ে সেই ক্যাটাগরির
+        সব শাড়ি দেখুন
+      </p>
+    </section>
+
+
+    <section
+      class="categories-grid"
+      id="categoriesGrid">
+
+      <div class="empty-state">
+        ক্যাটাগরি লোড হচ্ছে...
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="categories.js"></script>
+
+</body>
+</html>
