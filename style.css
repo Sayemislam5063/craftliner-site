@@ -3563,3 +3563,48 @@ min-width: 100px;
     font-size: 18px;
   }
 }
+/* সকল প্রোডাক্টস ব্যানার স্টাইল */
+.all-products-banner {
+  text-align: center;
+  padding: 35px 20px;
+  background-color: #f7f0e6; /* Cream beige background */
+  border-radius: 12px;
+  margin-bottom: 30px;
+  border: 1px solid #ebdccb;
+}
+
+.all-products-banner .banner-overline {
+  display: block;
+  font-size: 13px;
+  letter-spacing: 3px;
+  color: #8c6d58;
+  font-weight: 600;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.all-products-banner .banner-title {
+  font-size: 28px;
+  color: #581825; /* Maroon Header Color */
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.all-products-banner .banner-subtitle {
+  font-size: 14px;
+  color: #7a685a;
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  .all-products-banner {
+    padding: 24px 15px;
+    margin-bottom: 20px;
+  }
+  .all-products-banner .banner-title {
+    font-size: 20px;
+  }
+  .all-products-banner .banner-subtitle {
+    font-size: 12px;
+  }
+}
