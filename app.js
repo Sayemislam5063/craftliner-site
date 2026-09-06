@@ -9,7 +9,6 @@ let selectedBlouseOption = null;
 
 // ---------- ক্যাটাগরি + প্রোডাক্ট লোড ----------
 async function loadProducts() {
-  const grid = document.getElementById('product-grid');
   const sliderContainer = document.getElementById('hero3dSlider');
   const dotsContainer = document.getElementById('dotsContainer');
 
@@ -21,19 +20,54 @@ async function loadProducts() {
   if (!catError) allCategories = catData || [];
   renderCategoryFilter();
 
-  if (error) {
-    grid.innerHTML = `<div class="empty-state">প্রোডাক্ট লোড করা যায়নি। একটু পরে আবার চেষ্টা করুন।</div>`;
-    console.error(error);
-    return;
+if (error) {
+  console.error('Products load failed:', error);
+
+  const categorySections = document.getElementById('categorySections');
+
+  if (categorySections) {
+    categorySections.innerHTML = `
+      <div class="empty-state">
+        প্রোডাক্ট লোড করা যায়নি। একটু পরে আবার চেষ্টা করুন।
+      </div>
+    `;
   }
+
+  if (sliderContainer) {
+    sliderContainer.innerHTML = `
+      <div class="slider-loading">
+        প্রোডাক্ট লোড করা যায়নি।
+      </div>
+    `;
+  }
+
+  return;
+}
 
   allProducts = data || [];
 
-  if (!allProducts.length) {
-    grid.innerHTML = `<div class="empty-state">এই মুহূর্তে কোনো প্রোডাক্ট নেই। শীঘ্রই নতুন সংগ্রহ আসছে।</div>`;
-    sliderContainer.innerHTML = `<div class="slider-loading">শীঘ্রই নতুন সংগ্রহ আসছে...</div>`;
-    return;
+if (!allProducts.length) {
+
+  const categorySections = document.getElementById('categorySections');
+
+  if (categorySections) {
+    categorySections.innerHTML = `
+      <div class="empty-state">
+        এই মুহূর্তে কোনো প্রোডাক্ট নেই। শীঘ্রই নতুন সংগ্রহ আসছে।
+      </div>
+    `;
   }
+
+  if (sliderContainer) {
+    sliderContainer.innerHTML = `
+      <div class="slider-loading">
+        শীঘ্রই নতুন সংগ্রহ আসছে...
+      </div>
+    `;
+  }
+
+  return;
+}
 
   async function getBestSellingProducts() {
   const { data: orders, error } = await supabaseClient
@@ -99,33 +133,55 @@ if (!bestSellers.length) {
 function renderCategoryFilter() {
   const bar = document.getElementById('categoryFilterBar');
 
-  if (!bar || !allCategories.length) {
-    if (bar) bar.innerHTML = '';
+  if (!bar) return;
+
+  if (!allCategories.length) {
+    bar.innerHTML = '';
     return;
   }
 
-bar.innerHTML = `
-    ${allCategories.map(c => `
-      <button
-        type="button"
-        class="cat-chip ${activeCategoryId === c.id ? 'active' : ''}"
-        data-cat="${c.id}"
-      >
-        ${
-          c.image_url
-            ? `<img
-                 src="${c.image_url}"
-                 class="cat-chip-icon"
-                 alt="${escapeHtml(c.name)}"
-               >`
-            : `<span class="cat-chip-icon">
-                 ${escapeHtml((c.name || '?')[0])}
-               </span>`
-        }
-        <span>${escapeHtml(c.name)}</span>
-      </button>
-    `).join('')}
-  `;
+  bar.innerHTML = allCategories.map(c => `
+    <button
+      type="button"
+      class="cat-chip ${activeCategoryId === c.id ? 'active' : ''}"
+      data-cat="${c.id}"
+    >
+      ${
+        c.image_url
+          ? `<img
+               src="${c.image_url}"
+               class="cat-chip-icon"
+               alt="${escapeHtml(c.name)}"
+             >`
+          : `<span class="cat-chip-icon">
+               ${escapeHtml((c.name || '?')[0])}
+             </span>`
+      }
+
+      <span>${escapeHtml(c.name)}</span>
+    </button>
+  `).join('');
+
+  bar.querySelectorAll('.cat-chip').forEach(btn => {
+    btn.addEventListener('click', () => {
+
+      activeCategoryId = btn.dataset.cat;
+
+      renderCategoryFilter();
+
+      const section = document.querySelector(
+        `.category-product-section[data-category="${activeCategoryId}"]`
+      );
+
+      if (section) {
+        section.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
+  });
+}
 
   bar.querySelectorAll('.cat-chip').forEach(btn => {
     btn.addEventListener('click', () => {
