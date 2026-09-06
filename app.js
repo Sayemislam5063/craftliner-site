@@ -301,15 +301,6 @@ function renderCategorySections() {
 
         </div>
 
-        <button
-          type="button"
-          class="category-view-all-btn"
-          data-category="${section.category.id}"
-        >
-          সকল ${escapeHtml(section.category.name)} দেখুন
-          <span>→</span>
-        </button>
-
         <div class="category-product-grid">
 
           ${visibleProducts.map(product => {
@@ -616,7 +607,7 @@ function renderAllProductsSection(bestSellingProducts = []) {
         </h2>
 
         <p>
-          আমাদের সম্পূর্ণ কালেকশন থেকে আপনার পছন্দের শাড়িটি বেছে নিন
+          আমাদের সম্পূর্ণ কালেকশন থেকে আপনার পছন্দের শাড়িটি বেছে নিন
         </p>
 
         <button
@@ -634,7 +625,7 @@ function renderAllProductsSection(bestSellingProducts = []) {
           ? `
             <div class="best-selling-final-head">
               <span>BEST SELLING</span>
-              <h3>জনপ্রিয় পছন্দ</h3>
+              <h3>জনপ্রিয় পছন্দ</h3>
             </div>
 
             <div class="all-products-best-grid">
