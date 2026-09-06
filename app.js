@@ -106,6 +106,9 @@ const bestSellers = await getBestSellingProducts();
 if (!bestSellers.length) {
   bestSellers.push(...allProducts.slice(0, 8));
 }
+  
+  renderAllProductsSection(bestSellers);
+  
   sliderContainer.innerHTML = bestSellers.map((p, index) => `
     <div class="card-3d ${index === 0 ? 'active' : index === 1 ? 'next' : index === bestSellers.length - 1 ? 'prev' : ''}" data-title="${escapeHtml(p.name)}">
       <div class="card-img-wrapper">
@@ -521,6 +524,167 @@ function renderCategorySections() {
       });
 
     });
+}
+function renderAllProductsSection(bestSellingProducts = []) {
+  const container = document.getElementById('allProductsSection');
+
+  if (!container) return;
+
+  const topBestSelling = bestSellingProducts.slice(0, 8);
+
+  const createProductCard = (product) => {
+    const images =
+      (Array.isArray(product.images) && product.images.length)
+        ? product.images
+        : [product.image_url || 'assets/logo.png'];
+
+    const priceHtml = product.offer_price
+      ? `
+        <span class="old-price">
+          ৳${Number(product.price).toLocaleString('en-BD')}
+        </span>
+
+        <span class="offer-price">
+          ৳${Number(product.offer_price).toLocaleString('en-BD')}
+        </span>
+      `
+      : `৳${Number(product.price).toLocaleString('en-BD')}`;
+
+    const soldOut = Number(product.stock ?? 0) <= 0;
+
+    return `
+      <div class="category-product-card">
+
+        <div class="category-product-image">
+
+          ${
+            product.offer_price
+              ? `<span class="offer-badge">অফার</span>`
+              : ''
+          }
+
+          <img
+            src="${images[0]}"
+            alt="${escapeHtml(product.name)}"
+          >
+
+        </div>
+
+        <div class="category-product-body">
+
+          <h3>${escapeHtml(product.name)}</h3>
+
+          <div class="category-product-price">
+            ${priceHtml}
+          </div>
+
+          ${
+            soldOut
+              ? `
+                <button
+                  class="sold-out-btn"
+                  disabled>
+                  Sold Out
+                </button>
+              `
+              : `
+                <button
+                  class="choose-product-btn"
+                  onclick="window.location.href='product.html?id=${product.id}'">
+                  বেছে নিন
+                </button>
+              `
+          }
+
+        </div>
+
+      </div>
+    `;
+  };
+
+  container.innerHTML = `
+    <section class="all-products-final-section">
+
+      <div class="all-products-final-head">
+
+        <span class="category-section-label">
+          OUR COLLECTION
+        </span>
+
+        <h2>
+          আমাদের সকল প্রোডাক্ট দেখুন
+        </h2>
+
+        <p>
+          আমাদের সম্পূর্ণ কালেকশন থেকে আপনার পছন্দের শাড়িটি বেছে নিন
+        </p>
+
+        <button
+          type="button"
+          class="show-all-products-btn"
+          id="showAllProductsBtn">
+          সকল প্রোডাক্ট দেখুন
+          <span>→</span>
+        </button>
+
+      </div>
+
+      ${
+        topBestSelling.length
+          ? `
+            <div class="best-selling-final-head">
+              <span>BEST SELLING</span>
+              <h3>জনপ্রিয় পছন্দ</h3>
+            </div>
+
+            <div class="all-products-best-grid">
+              ${topBestSelling.map(createProductCard).join('')}
+            </div>
+          `
+          : ''
+      }
+
+      <div
+        class="all-products-full-grid"
+        id="allProductsFullGrid"
+        style="display:none;"
+      >
+        ${allProducts.map(createProductCard).join('')}
+      </div>
+
+    </section>
+  `;
+
+  const showAllBtn = document.getElementById('showAllProductsBtn');
+  const fullGrid = document.getElementById('allProductsFullGrid');
+
+  if (!showAllBtn || !fullGrid) return;
+
+  showAllBtn.addEventListener('click', () => {
+
+    const isHidden = fullGrid.style.display === 'none';
+
+    if (isHidden) {
+      fullGrid.style.display = 'grid';
+      showAllBtn.innerHTML = `
+        সব প্রোডাক্ট বন্ধ করুন
+        <span>↑</span>
+      `;
+
+      fullGrid.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+
+    } else {
+      fullGrid.style.display = 'none';
+
+      showAllBtn.innerHTML = `
+        সকল প্রোডাক্ট দেখুন
+        <span>→</span>
+      `;
+    }
+  });
 }
 
 // ---------- 3D Slider ----------
