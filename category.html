@@ -95,42 +95,29 @@
 
   <main class="category-page">
 
-    <section class="category-page-header">
+  <!-- ১. ওপরে গোল গোল ক্যাটাগরি স্লাইডার -->
+  <div class="category-bubbles-container">
+    <div class="category-bubbles-scroll" id="categoryBubblesScroll">
+      <!-- এখানে অটোমেটিক ক্যাটাগরিগুলো আসবে -->
+    </div>
+  </div>
 
-      <a
-        href="categories.html"
-        class="back-to-categories">
-        ← সকল ক্যাটাগরি
-      </a>
+  <!-- ২. মাঝখানে ছবি সহ বড় ব্যানার -->
+  <section class="category-hero-banner" id="categoryHeroBanner">
+    <div class="category-banner-overlay">
+      <h1 id="categoryTitle">ক্যাটাগরি লোড হচ্ছে...</h1>
+      <p id="categoryDescription">এই ক্যাটাগরির সকল প্রোডাক্ট দেখুন</p>
+    </div>
+  </section>
 
-      <span
-        class="category-section-label">
-        COLLECTION
-      </span>
+  <!-- ৩. প্রোডাক্ট গ্রিড -->
+  <section class="category-products-page-grid" id="categoryProductsGrid">
+    <div class="empty-state">
+      প্রোডাক্ট লোড হচ্ছে...
+    </div>
+  </section>
 
-      <h1 id="categoryTitle">
-        ক্যাটাগরি লোড হচ্ছে...
-      </h1>
-
-      <p id="categoryDescription">
-        এই ক্যাটাগরির সকল প্রোডাক্ট দেখুন
-      </p>
-
-    </section>
-
-
-    <section
-      class="category-products-page-grid"
-      id="categoryProductsGrid">
-
-      <div class="empty-state">
-        প্রোডাক্ট লোড হচ্ছে...
-      </div>
-
-    </section>
-
-  </main>
-
+</main>
 
 <div id="shared-bottom-nav"></div>
 
