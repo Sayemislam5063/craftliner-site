@@ -2541,3 +2541,113 @@ height: 48px;
     font-size: 13px;
   }
 }
+/* =========================================================
+   CATEGORY SECTION — FINAL PREMIUM POLISH
+   ========================================================= */
+
+.category-product-section {
+  position: relative;
+  margin-top: 70px;
+  padding-top: 34px;
+}
+
+.category-product-section:first-child {
+  margin-top: 30px;
+}
+
+.category-section-head {
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.category-section-label {
+  font-size: 9px;
+  letter-spacing: 2.5px;
+  font-weight: 600;
+}
+
+.category-section-head h2 {
+  font-size: 30px;
+  letter-spacing: 0.2px;
+}
+
+.category-see-all {
+  border-bottom: 1px solid var(--rose-line);
+  transition: all 0.25s ease;
+}
+
+.category-see-all:hover {
+  border-color: var(--maroon);
+}
+
+/* Product cards */
+.category-product-card {
+  border-radius: 2px;
+  background: #fffaf2;
+}
+
+.category-product-image {
+  aspect-ratio: 3 / 4.15;
+}
+
+.category-product-body {
+  text-align: left;
+}
+
+.category-product-body h3 {
+  min-height: 46px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.category-product-price {
+  min-height: 28px;
+  margin-bottom: 14px;
+}
+
+/* Choose button */
+.category-product-body .choose-product-btn,
+.category-product-body .sold-out-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+}
+
+/* Mobile */
+@media (max-width: 650px) {
+  .category-product-section {
+    margin-top: 48px;
+    padding-top: 26px;
+  }
+
+  .category-section-head {
+    align-items: flex-end;
+    margin-bottom: 18px;
+  }
+
+  .category-section-head h2 {
+    font-size: 23px;
+  }
+
+  .category-product-grid {
+    gap: 14px;
+  }
+
+  .category-product-card {
+    flex-basis: 175px;
+  }
+
+  .category-product-image {
+    aspect-ratio: 3 / 4.1;
+  }
+
+  .category-product-body h3 {
+    min-height: 42px;
+    font-size: 14px;
+  }
+
+  .category-product-price {
+    font-size: 15px;
+  }
+}
