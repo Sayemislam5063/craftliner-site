@@ -3438,3 +3438,128 @@ min-width: 100px;
     font-size: 22px;
   }
 }
+/* কন্টেইনার পেডিং */
+.category-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+/* ১. ওপরের বাবল স্লাইডার ফ্রেম / কার্ড */
+.category-bubbles-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 12px 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+  border: 1px solid #eaeaea;
+}
+.category-bubbles-container {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.category-bubbles-container::-webkit-scrollbar {
+  display: none;
+}
+.category-bubbles-scroll {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  white-space: nowrap;
+}
+.category-bubble-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: #333333;
+  font-size: 12px;
+  font-weight: 500;
+  transition: transform 0.2s ease;
+}
+.category-bubble-item:hover {
+  transform: translateY(-2px);
+}
+.category-bubble-item .bubble-img-wrap {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #e0e0e0;
+  margin-bottom: 6px;
+  background: #f9f9f9;
+}
+.category-bubble-item.active .bubble-img-wrap {
+  border-color: #800020;
+  box-shadow: 0 0 8px rgba(128, 0, 32, 0.35);
+}
+.category-bubble-item.active span {
+  color: #800020;
+  font-weight: 700;
+}
+.category-bubble-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ২. আলাদা রাউন্ডেড ব্যানার কার্ড */
+.category-hero-banner-card {
+  width: 100%;
+  min-height: 200px;
+  border-radius: 14px;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #581825;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin-bottom: 30px; /* ব্যানারের নিচে প্রোডাক্ট গ্রিডের জন্য স্পেস */
+}
+
+/* ৩. কার্ভড স্কয়ার শেপ বক্স (অফ-হোয়াইট টাইটেল) */
+.category-title-badge {
+  background: rgba(20, 15, 15, 0.65); /* ব্যাকগ্রাউন্ড ডার্ক শেড */
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 10px 28px;
+  border-radius: 10px; /* Curved square shape */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+.category-title-badge h1 {
+  color: #f8f8f2 !important; /* Off-White Color */
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+/* মোবাইল রেসপন্সিভ */
+@media (max-width: 600px) {
+  .category-page {
+    padding: 10px;
+  }
+  .category-bubbles-card {
+    padding: 10px 12px;
+    border-radius: 10px;
+    margin-bottom: 16px;
+  }
+  .category-hero-banner-card {
+    min-height: 150px;
+    border-radius: 10px;
+    margin-bottom: 22px;
+  }
+  .category-title-badge {
+    padding: 8px 20px;
+    border-radius: 8px;
+  }
+  .category-title-badge h1 {
+    font-size: 18px;
+  }
+}
