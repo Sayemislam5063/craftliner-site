@@ -395,7 +395,6 @@ container
     });
 
   });
-
 function renderAllProductsSection(bestSellingProducts = []) {
   const container = document.getElementById('allProductsSection');
 
