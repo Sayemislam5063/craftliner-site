@@ -384,17 +384,20 @@ function renderCategorySections() {
     `;
   }).join('');
 
-container
-  .querySelectorAll('.category-view-all-btn')
-  .forEach(button => {
+  container
+    .querySelectorAll('.category-view-all-btn')
+    .forEach(button => {
 
-    button.addEventListener('click', () => {
-      const categoryId = button.dataset.category;
+      button.addEventListener('click', () => {
+        const categoryId = button.dataset.category;
 
-      window.location.href = `category.html?id=${categoryId}`;
+        window.location.href = `category.html?id=${categoryId}`;
+      });
+
     });
 
-  });
+}
+
 function renderAllProductsSection(bestSellingProducts = []) {
   const container = document.getElementById('allProductsSection');
 
