@@ -3003,3 +3003,97 @@ height: 48px;
     margin-top: 2px;
   }
 }
+/* =========================================================
+   CATEGORY VIEW ALL BUTTON
+   সকল ক্যাটাগরির "দেখুন" বাটন
+   ========================================================= */
+
+.category-view-all-btn,
+.show-all-products-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  min-width: 150px;
+  min-height: 42px;
+
+  padding: 8px 18px;
+
+  border: 1px solid var(--maroon);
+  border-radius: 22px;
+
+  background: transparent;
+  color: var(--maroon);
+
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+
+  line-height: 1.4;
+  text-align: center;
+
+  cursor: pointer;
+
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+/* Hover */
+.category-view-all-btn:hover,
+.show-all-products-btn:hover {
+  background: var(--maroon);
+  color: #fff;
+  border-color: var(--maroon);
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 6px 16px rgba(78, 18, 36, 0.16);
+}
+
+/* Arrow */
+.category-view-all-btn span,
+.show-all-products-btn span {
+  display: inline-block;
+  transition: transform 0.25s ease;
+}
+
+.category-view-all-btn:hover span,
+.show-all-products-btn:hover span {
+  transform: translateX(3px);
+}
+
+/* Category section-এর button সুন্দরভাবে মাঝখানে থাকবে */
+.category-view-all-btn {
+  display: flex;
+  width: fit-content;
+  margin: 18px auto 24px;
+}
+
+/* নিচের category button হলে */
+.category-view-all-btn.bottom {
+  margin: 22px auto 4px;
+}
+
+/* Mobile */
+@media (max-width: 560px) {
+  .category-view-all-btn,
+  .show-all-products-btn {
+    min-width: 140px;
+    min-height: 40px;
+    padding: 7px 15px;
+    font-size: 12px;
+  }
+
+  .category-view-all-btn {
+    margin: 15px auto 20px;
+  }
+
+  .category-view-all-btn.bottom {
+    margin: 18px auto 2px;
+  }
+}
