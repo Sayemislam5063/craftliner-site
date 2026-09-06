@@ -93,24 +93,25 @@
 
   <!-- ================= CATEGORY PAGE ================= -->
 
-  <main class="category-page">
+<main class="category-page">
 
-  <!-- ১. ওপরে গোল গোল ক্যাটাগরি স্লাইডার -->
-  <div class="category-bubbles-container">
-    <div class="category-bubbles-scroll" id="categoryBubblesScroll">
-      <!-- এখানে অটোমেটিক ক্যাটাগরিগুলো আসবে -->
+  <!-- ১. ওপরে বাবল স্লাইডারের জন্য আলাদা ফ্রেম/কার্ড -->
+  <div class="category-bubbles-card">
+    <div class="category-bubbles-container">
+      <div class="category-bubbles-scroll" id="categoryBubblesScroll">
+        <!-- JavaScript থেকে dynamically বাবলগুলো আসবে -->
+      </div>
     </div>
   </div>
 
-  <!-- ২. মাঝখানে ছবি সহ বড় ব্যানার -->
-  <section class="category-hero-banner" id="categoryHeroBanner">
-    <div class="category-banner-overlay">
-      <h1 id="categoryTitle">ক্যাটাগরি লোড হচ্ছে...</h1>
-      <p id="categoryDescription">এই ক্যাটাগরির সকল প্রোডাক্ট দেখুন</p>
+  <!-- ২. আলাদা ব্যানার কার্ড (মাঝখানে কার্ভড স্কয়ার বক্সে অফ-হোয়াইট নাম) -->
+  <section class="category-hero-banner-card" id="categoryHeroBanner">
+    <div class="category-title-badge">
+      <h1 id="categoryTitle">ক্যাটাগরি</h1>
     </div>
   </section>
 
-  <!-- ৩. প্রোডাক্ট গ্রিড -->
+  <!-- ৩. পর্যাপ্ত স্পেস সহ প্রোডাক্ট গ্রিড -->
   <section class="category-products-page-grid" id="categoryProductsGrid">
     <div class="empty-state">
       প্রোডাক্ট লোড হচ্ছে...
