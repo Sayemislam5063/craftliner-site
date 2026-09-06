@@ -3164,3 +3164,26 @@ height: 48px;
     white-space: nowrap;
   }
 }
+/* মোবাইলে ক্যাটাগরি heading মাঝখানে, বাটন নিচে (নামের সাথে বাটনের সাইজ বদলাবে না) */
+@media (max-width: 650px) {
+  .category-section-head {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+  }
+
+  .category-section-head h2 {
+    text-align: center;
+  }
+
+  .category-section-head h2::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .category-section-head .category-view-all-btn {
+    width: 220px;
+    min-width: 220px;
+  }
+}
