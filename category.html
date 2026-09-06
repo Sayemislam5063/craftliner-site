@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Category | Sharee Craftline</title>
+
+  <link rel="icon" href="assets/logo.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- ================= HEADER ================= -->
+  <header>
+    <nav class="nav">
+
+      <a href="index.html" class="brand">
+        <div class="logo-balloon-wrapper">
+          <img
+            src="assets/logo.png"
+            alt="Sharee Craftline"
+            class="balloon-logo"
+          >
+        </div>
+
+        <div class="brand-name">
+          Sharee Craftline
+          <span>ন্যায্য দামে সঠিক পণ্য</span>
+        </div>
+      </a>
+
+      <div class="nav-right">
+
+        <a href="index.html">হোম</a>
+
+        <a href="categories.html">ক্যাটাগরি</a>
+
+        <div class="cart-icon-btn" id="cartBtn">
+          🛒
+          <span class="cart-count" id="cartBadge">0</span>
+
+          <div class="cart-panel" id="cartPanel">
+
+            <div class="cart-panel-head">
+              <h3>আমার কার্ট</h3>
+
+              <button
+                id="closeCartBtn"
+                type="button">
+                &times;
+              </button>
+            </div>
+
+            <div
+              class="cart-items"
+              id="cartItems">
+            </div>
+
+            <div
+              class="cart-empty"
+              id="cartEmpty">
+              আপনার কার্ট এখনো খালি।
+            </div>
+
+            <div
+              class="cart-footer"
+              id="cartFooter">
+
+              <div class="cart-total">
+                <span>মোট</span>
+                <strong id="cartTotal">৳0</strong>
+              </div>
+
+              <button
+                class="btn btn-solid"
+                id="cartCheckoutBtn"
+                type="button">
+                Checkout
+              </button>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </nav>
+  </header>
+
+
+  <!-- ================= CATEGORY PAGE ================= -->
+
+  <main class="category-page">
+
+    <section class="category-page-header">
+
+      <a
+        href="categories.html"
+        class="back-to-categories">
+        ← সকল ক্যাটাগরি
+      </a>
+
+      <span
+        class="category-section-label">
+        COLLECTION
+      </span>
+
+      <h1 id="categoryTitle">
+        ক্যাটাগরি লোড হচ্ছে...
+      </h1>
+
+      <p id="categoryDescription">
+        এই ক্যাটাগরির সকল প্রোডাক্ট দেখুন
+      </p>
+
+    </section>
+
+
+    <section
+      class="category-products-page-grid"
+      id="categoryProductsGrid">
+
+      <div class="empty-state">
+        প্রোডাক্ট লোড হচ্ছে...
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- ================= BOTTOM BAR ================= -->
+
+  <footer class="site-bottom-bar">
+
+    <a href="index.html">
+      <span>⌂</span>
+      <small>হোম</small>
+    </a>
+
+    <a href="categories.html">
+      <span>▦</span>
+      <small>ক্যাটাগরি</small>
+    </a>
+
+    <a href="checkout.html">
+      <span>🛒</span>
+      <small>কার্ট</small>
+    </a>
+
+  </footer>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="category.js"></script>
+
+</body>
+</html>
