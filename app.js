@@ -264,11 +264,6 @@ function renderCategorySections() {
 
   if (!container) return;
 
-  const catMap = {};
-  allCategories.forEach(c => {
-    catMap[c.id] = c.name;
-  });
-
   const categorizedProducts = allCategories
     .map(category => ({
       category,
@@ -278,27 +273,172 @@ function renderCategorySections() {
     }))
     .filter(section => section.products.length > 0);
 
-  container.innerHTML = categorizedProducts.map(section => `
-    <section
-  class="category-product-section"
-  data-category="${section.category.id}">
+  container.innerHTML = categorizedProducts.map(section => {
 
-      <div class="category-section-head">
-        <div>
-          <span class="category-section-label">COLLECTION</span>
-          <h2>${escapeHtml(section.category.name)}</h2>
+    const visibleProducts = section.products.slice(0, 4);
+    const hasMoreProducts = section.products.length > 4;
+
+    return `
+      <section
+        class="category-product-section"
+        data-category="${section.category.id}"
+      >
+
+        <div class="category-section-head">
+
+          <div>
+            <span class="category-section-label">
+              COLLECTION
+            </span>
+
+            <h2>
+              ${escapeHtml(section.category.name)}
+            </h2>
+          </div>
+
         </div>
 
         <button
           type="button"
-          class="category-see-all"
-          data-category="${section.category.id}">
-          সব দেখুন →
+          class="category-view-all-btn"
+          data-category="${section.category.id}"
+        >
+          সকল ${escapeHtml(section.category.name)} দেখুন
+          <span>→</span>
         </button>
-      </div>
 
-      <div class="category-product-grid">
-        ${section.products.map(product => {
+        <div class="category-product-grid">
+
+          ${visibleProducts.map(product => {
+
+            const images =
+              (Array.isArray(product.images) && product.images.length)
+                ? product.images
+                : [product.image_url || 'assets/logo.png'];
+
+            const priceHtml = product.offer_price
+              ? `
+                <span class="old-price">
+                  ৳${Number(product.price).toLocaleString('en-BD')}
+                </span>
+
+                <span class="offer-price">
+                  ৳${Number(product.offer_price).toLocaleString('en-BD')}
+                </span>
+              `
+              : `৳${Number(product.price).toLocaleString('en-BD')}`;
+
+            const soldOut = Number(product.stock ?? 0) <= 0;
+
+            return `
+              <div class="category-product-card">
+
+                <div class="category-product-image">
+
+                  ${
+                    product.offer_price
+                      ? `<span class="offer-badge">অফার</span>`
+                      : ''
+                  }
+
+                  <img
+                    src="${images[0]}"
+                    alt="${escapeHtml(product.name)}"
+                  >
+
+                </div>
+
+                <div class="category-product-body">
+
+                  <h3>
+                    ${escapeHtml(product.name)}
+                  </h3>
+
+                  <div class="category-product-price">
+                    ${priceHtml}
+                  </div>
+
+                  ${
+                    soldOut
+                      ? `
+                        <button
+                          class="sold-out-btn"
+                          disabled
+                        >
+                          Sold Out
+                        </button>
+                      `
+                      : `
+                        <button
+                          class="choose-product-btn"
+                          onclick="window.location.href='product.html?id=${product.id}'"
+                        >
+                          বেছে নিন
+                        </button>
+                      `
+                  }
+
+                </div>
+
+              </div>
+            `;
+          }).join('')}
+
+        </div>
+
+        ${
+          hasMoreProducts
+            ? `
+              <button
+                type="button"
+                class="category-view-all-btn bottom"
+                data-category="${section.category.id}"
+              >
+                সকল ${escapeHtml(section.category.name)} দেখুন
+                <span>→</span>
+              </button>
+            `
+            : ''
+        }
+
+      </section>
+    `;
+  }).join('');
+
+  container
+    .querySelectorAll('.category-view-all-btn')
+    .forEach(button => {
+
+      button.addEventListener('click', () => {
+
+        const categoryId = button.dataset.category;
+
+        const section = container.querySelector(
+          `.category-product-section[data-category="${categoryId}"]`
+        );
+
+        if (!section) return;
+
+        const category = allCategories.find(
+          c => c.id === categoryId
+        );
+
+        if (!category) return;
+
+        activeCategoryId = categoryId;
+
+        const products = allProducts.filter(
+          product => product.category_id === categoryId
+        );
+
+        const productGrid = section.querySelector(
+          '.category-product-grid'
+        );
+
+        if (!productGrid) return;
+
+        productGrid.innerHTML = products.map(product => {
+
           const images =
             (Array.isArray(product.images) && product.images.length)
               ? product.images
@@ -309,6 +449,7 @@ function renderCategorySections() {
               <span class="old-price">
                 ৳${Number(product.price).toLocaleString('en-BD')}
               </span>
+
               <span class="offer-price">
                 ৳${Number(product.offer_price).toLocaleString('en-BD')}
               </span>
@@ -321,61 +462,65 @@ function renderCategorySections() {
             <div class="category-product-card">
 
               <div class="category-product-image">
-                ${product.offer_price
-                  ? `<span class="offer-badge">অফার</span>`
-                  : ''
+
+                ${
+                  product.offer_price
+                    ? `<span class="offer-badge">অফার</span>`
+                    : ''
                 }
 
                 <img
                   src="${images[0]}"
                   alt="${escapeHtml(product.name)}"
                 >
+
               </div>
 
               <div class="category-product-body">
 
-                <h3>${escapeHtml(product.name)}</h3>
+                <h3>
+                  ${escapeHtml(product.name)}
+                </h3>
 
                 <div class="category-product-price">
                   ${priceHtml}
                 </div>
 
-                ${soldOut
-                  ? `<button class="sold-out-btn" disabled>Sold Out</button>`
-                  : `
-                    <button
-                      class="choose-product-btn"
-                      onclick="window.location.href='product.html?id=${product.id}'">
-                      বেছে নিন
-                    </button>
-                  `
+                ${
+                  soldOut
+                    ? `
+                      <button
+                        class="sold-out-btn"
+                        disabled
+                      >
+                        Sold Out
+                      </button>
+                    `
+                    : `
+                      <button
+                        class="choose-product-btn"
+                        onclick="window.location.href='product.html?id=${product.id}'"
+                      >
+                        বেছে নিন
+                      </button>
+                    `
                 }
 
               </div>
 
             </div>
           `;
-        }).join('')}
-      </div>
+        }).join('');
 
-    </section>
-  `).join('');
+        button.style.display = 'none';
 
-container.querySelectorAll('.category-see-all').forEach(button => {
-  button.addEventListener('click', () => {
-    const categoryId = button.dataset.category;
-    const section = container.querySelector(
-      `.category-product-section[data-category="${categoryId}"]`
-    );
-
-    if (section) {
-      section.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
+        section.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
       });
-    }
-  });
-});
+
+    });
 }
 
 // ---------- 3D Slider ----------
