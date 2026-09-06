@@ -882,43 +882,6 @@ min-width: 100px;
 }
 
 
-/* ---------- ALL CATEGORIES BUTTON ---------- */
-
-.all-categories-btn {
-  flex: 0 0 auto;
-
-min-width: 135px;
-height: 48px;
-
-  padding: 0 18px;
-
-  border: 1px solid var(--maroon);
-
-  border-radius: 24px;
-
-  background: transparent;
-
-  color: var(--maroon);
-
-  font-family: 'Noto Sans Bengali', sans-serif;
-
-  font-size: 13px;
-
-  cursor: pointer;
-
-  transition:
-    background .25s ease,
-    color .25s ease,
-    transform .25s ease;
-}
-
-.all-categories-btn:hover {
-  background: var(--maroon);
-
-  color: #fff;
-
-  transform: translateY(-2px);
-}
 
 /* ---------- কার্ডে অফার/মাল্টি-ইমেজ/রঙ ---------- */
 .card-image { position:relative; overflow:hidden; }
