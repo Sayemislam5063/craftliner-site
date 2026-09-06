@@ -3338,3 +3338,103 @@ min-width: 100px;
     font-size: 12px;
   }
 }
+/* ১. ওপরের গোল ক্যাটাগরি স্লাইডার (Mobile Friendly Horizontal Scroll) */
+.category-bubbles-container {
+  width: 100%;
+  overflow-x: auto;
+  padding: 12px 16px;
+  background: #ffffff;
+  border-bottom: 1px solid #eeeeee;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* ফায়ারফক্সের জন্য স্ক্রোলবার হাইড */
+}
+.category-bubbles-container::-webkit-scrollbar {
+  display: none; /* ক্রোম/সাফারির জন্য স্ক্রোলবার হাইড */
+}
+.category-bubbles-scroll {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  white-space: nowrap;
+}
+.category-bubble-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: #333333;
+  font-size: 12px;
+  font-weight: 500;
+  transition: transform 0.2s ease;
+}
+.category-bubble-item:hover {
+  transform: translateY(-2px);
+}
+.category-bubble-item .bubble-img-wrap {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #e0e0e0;
+  margin-bottom: 6px;
+  background: #f9f9f9;
+}
+.category-bubble-item.active .bubble-img-wrap {
+  border-color: #800020; /* আপনার ব্র্যান্ডের মেরুন কালার */
+  box-shadow: 0 0 8px rgba(128, 0, 32, 0.35);
+}
+.category-bubble-item.active span {
+  color: #800020;
+  font-weight: 700;
+}
+.category-bubble-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ২. বড় ক্যাটাগরি ব্যানার (Hero Banner) */
+.category-hero-banner {
+  width: 100%;
+  min-height: 180px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #581825; /* ছবি লোড না হলে মেরুন কালার থাকবে */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  margin-bottom: 24px;
+}
+.category-banner-overlay {
+  padding: 24px 16px;
+  color: #ffffff;
+  width: 100%;
+}
+.category-banner-overlay h1 {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+.category-banner-overlay p {
+  font-size: 14px;
+  opacity: 0.9;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+/* মোবাইল রেসপন্সিভ এডজাস্টমেন্ট */
+@media (max-width: 600px) {
+  .category-bubble-item .bubble-img-wrap {
+    width: 52px;
+    height: 52px;
+  }
+  .category-hero-banner {
+    min-height: 150px;
+  }
+  .category-banner-overlay h1 {
+    font-size: 22px;
+  }
+}
