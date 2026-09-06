@@ -99,12 +99,13 @@ if (!allProducts.length) {
     .slice(0, 5);
 }
 
-  const bestSellers = await getBestSellingProducts();
+renderCategorySections();
+
+const bestSellers = await getBestSellingProducts();
 
 if (!bestSellers.length) {
   bestSellers.push(...allProducts.slice(0, 5));
 }
-  renderCategorySections();
   sliderContainer.innerHTML = bestSellers.map((p, index) => `
     <div class="card-3d ${index === 0 ? 'active' : index === 1 ? 'next' : index === bestSellers.length - 1 ? 'prev' : ''}" data-title="${escapeHtml(p.name)}">
       <div class="card-img-wrapper">
