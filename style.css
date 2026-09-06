@@ -2878,3 +2878,128 @@ height: 48px;
     font-size: 15px;
   }
 }
+/* =========================================================
+   CATEGORY SECTION TITLE — PREMIUM STYLE
+   ========================================================= */
+
+.category-section-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  gap: 8px;
+
+  margin-bottom: 28px;
+}
+
+/* COLLECTION লেখা */
+.category-section-label {
+  display: block;
+
+  margin: 0;
+
+  font-family: 'Noto Sans Bengali', sans-serif;
+
+  font-size: 12px;
+  letter-spacing: 3px;
+
+  color: #b58d65;
+
+  text-transform: uppercase;
+}
+
+/* Category Name */
+.category-section-head h2 {
+  position: relative;
+
+  display: inline-block;
+
+  margin: 0;
+
+  padding: 0 0 13px;
+
+  font-family: 'Noto Serif Bengali', serif;
+
+  font-size: 32px;
+  font-weight: 500;
+
+  line-height: 1.3;
+
+  color: var(--maroon-deep);
+
+  text-align: center;
+}
+
+/* মেরুন decorative line */
+.category-section-head h2::after {
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+  bottom: 0;
+
+  width: 62px;
+  height: 3px;
+
+  transform: translateX(-50%);
+
+  background: var(--maroon);
+
+  border-radius: 10px;
+
+  box-shadow:
+    0 2px 7px rgba(78, 18, 36, 0.18);
+}
+
+
+/* =========================================================
+   CATEGORY SECTION — সব দেখুন
+   ========================================================= */
+
+.category-section-head .category-see-all {
+  position: absolute;
+
+  right: 0;
+  bottom: 8px;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 650px) {
+
+  .category-section-head {
+    gap: 6px;
+
+    margin-bottom: 24px;
+  }
+
+  .category-section-label {
+    font-size: 10px;
+
+    letter-spacing: 2.5px;
+  }
+
+  .category-section-head h2 {
+    font-size: 27px;
+
+    padding-bottom: 11px;
+  }
+
+  .category-section-head h2::after {
+    width: 55px;
+    height: 3px;
+  }
+
+  .category-section-head .category-see-all {
+    position: static;
+
+    margin-top: 2px;
+  }
+}
