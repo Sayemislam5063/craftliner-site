@@ -46,13 +46,8 @@
 
 </section>
 
-<footer id="contact">
-  <div class="container">
-    <div class="brand-name">Sharee Craftline<span>HANDWOVEN &middot; ELEGANT &middot; TIMELESS</span></div>
-    <div class="foot-note">&copy; <span id="year"></span> Sharee Craftline. সর্বস্বত্ব সংরক্ষিত।</div>
-  </div>
-</footer>
-
+<div id="shared-bottom-nav"></div>
+  
 <!-- Buy Now Modal -->
 <div class="overlay" id="overlay">
   <div class="modal">
@@ -154,6 +149,12 @@
     .then(response => response.text())
     .then(data => {
       document.getElementById('shared-header').innerHTML = data;
+
+      return fetch('bottom-nav.html');
+    })
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('shared-bottom-nav').innerHTML = data;
 
       const appScript = document.createElement('script');
       appScript.src = 'app.js';
