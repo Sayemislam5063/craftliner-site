@@ -96,7 +96,7 @@ if (!allProducts.length) {
   return [...allProducts]
     .filter(product => soldMap[product.id] > 0)
     .sort((a, b) => (soldMap[b.id] || 0) - (soldMap[a.id] || 0))
-    .slice(0, 5);
+    .slice(0, 8);
 }
 
 renderCategorySections();
@@ -104,7 +104,7 @@ renderCategorySections();
 const bestSellers = await getBestSellingProducts();
 
 if (!bestSellers.length) {
-  bestSellers.push(...allProducts.slice(0, 5));
+  bestSellers.push(...allProducts.slice(0, 8));
 }
   sliderContainer.innerHTML = bestSellers.map((p, index) => `
     <div class="card-3d ${index === 0 ? 'active' : index === 1 ? 'next' : index === bestSellers.length - 1 ? 'prev' : ''}" data-title="${escapeHtml(p.name)}">
