@@ -3278,3 +3278,142 @@ height: 48px;
     font-size: 15px;
   }
 }
+/* =========================================================
+   CATEGORIES PAGE — PREMIUM CATEGORY CARDS
+   ========================================================= */
+
+.categories-page {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 60px 28px 90px;
+}
+
+.categories-page-header {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 40px;
+}
+
+.categories-page-header h1 {
+  margin: 6px 0 10px;
+  font-size: clamp(30px, 5vw, 44px);
+  line-height: 1.3;
+}
+
+.categories-page-header p {
+  margin: 0;
+  color: var(--maroon-soft);
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.category-page-card {
+  width: 100%;
+  padding: 0;
+  border: 1px solid var(--rose-line);
+  background: var(--cream-card);
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.category-page-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(78, 18, 36, 0.12);
+}
+
+.category-page-image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: #e9ddc8;
+}
+
+.category-page-image img,
+.category-page-placeholder {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.category-page-image img {
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.category-page-card:hover .category-page-image img {
+  transform: scale(1.04);
+}
+
+.category-page-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Noto Serif Bengali', serif;
+  font-size: 42px;
+  color: var(--maroon);
+}
+
+.category-page-info {
+  padding: 15px 16px 17px;
+}
+
+.category-page-info h2 {
+  margin: 0 0 5px;
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+.category-page-info span {
+  color: var(--maroon-soft);
+  font-size: 12px;
+}
+
+@media (max-width: 900px) {
+  .categories-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 650px) {
+  .categories-page {
+    padding: 40px 16px 80px;
+  }
+
+  .categories-page-header {
+    margin-bottom: 28px;
+  }
+
+  .categories-page-header h1 {
+    font-size: 28px;
+  }
+
+  .categories-page-header p {
+    font-size: 13px;
+  }
+
+  .categories-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .category-page-info {
+    padding: 11px 12px 13px;
+  }
+
+  .category-page-info h2 {
+    font-size: 14px;
+  }
+
+  .category-page-info span {
+    font-size: 11px;
+  }
+}
