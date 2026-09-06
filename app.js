@@ -166,25 +166,16 @@ function renderCategoryFilter() {
     </button>
   `).join('');
 
-  bar.querySelectorAll('.cat-chip').forEach(btn => {
-    btn.addEventListener('click', () => {
+bar.querySelectorAll('.cat-chip').forEach(btn => {
+  btn.addEventListener('click', () => {
 
-      activeCategoryId = btn.dataset.cat;
+    const categoryId = btn.dataset.cat;
 
-      renderCategoryFilter();
+    if (!categoryId) return;
 
-      const section = document.querySelector(
-        `.category-product-section[data-category="${activeCategoryId}"]`
-      );
-
-      if (section) {
-        section.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
-      }
-    });
+    window.location.href = `category.html?id=${categoryId}`;
   });
+});
 }
 
 // ---------- প্রোডাক্ট গ্রিড (ফিল্টার সহ) ----------
