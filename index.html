@@ -146,17 +146,20 @@
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+
 <script>
   fetch('header.html')
     .then(response => response.text())
     .then(data => {
       document.getElementById('shared-header').innerHTML = data;
+
+      const appScript = document.createElement('script');
+      appScript.src = 'app.js';
+      document.body.appendChild(appScript);
     });
 </script>
-  
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="config.js"></script>
-<script src="app.js"></script>
 
 <script>
   const menuToggle = document.getElementById('menuToggle');
