@@ -2651,3 +2651,64 @@ height: 48px;
     font-size: 15px;
   }
 }
+/* =========================================================
+   CATEGORY CARD — FINAL CLEAN LAYOUT
+   ========================================================= */
+
+.category-product-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.category-product-image {
+  flex-shrink: 0;
+}
+
+.category-product-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.category-product-body h3 {
+  flex: 1;
+  margin-bottom: 8px;
+}
+
+.category-product-price {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.category-product-price .old-price {
+  margin-right: 2px;
+}
+
+.category-product-body .choose-product-btn,
+.category-product-body .sold-out-btn {
+  margin-top: auto;
+}
+
+/* Card image একটু refined */
+.category-product-image img {
+  transition: transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* Mobile */
+@media (max-width: 650px) {
+  .category-product-card {
+    height: auto;
+  }
+
+  .category-product-body h3 {
+    flex: none;
+  }
+
+  .category-product-price {
+    min-height: 25px;
+  }
+}
