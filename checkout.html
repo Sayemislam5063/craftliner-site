@@ -12,35 +12,7 @@
 
 <body>
 
-  <header>
-    <nav class="nav">
-
-      <a href="index.html" class="brand">
-        <div class="logo-balloon-wrapper">
-          <img
-            src="assets/logo.png"
-            alt="Sharee Craftline"
-            class="balloon-logo"
-          >
-        </div>
-
-        <div class="brand-name">
-          Sharee Craftline
-          <span>ন্যায্য দামে সঠিক পণ্য</span>
-        </div>
-      </a>
-
-      <div class="nav-right">
-        <a href="index.html">Collection</a>
-
-        <div class="cart-icon-btn">
-          🛒
-        </div>
-      </div>
-
-    </nav>
-  </header>
-
+  <div id="shared-header"></div>
 
   <main class="checkout-page">
 
@@ -177,6 +149,14 @@
         document.getElementById('shared-bottom-nav').innerHTML = data;
       });
   </script>
+
+  <script>
+  fetch('header.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('shared-header').innerHTML = data;
+    });
+</script>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="config.js"></script>
