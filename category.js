@@ -206,3 +206,103 @@ document.addEventListener('click', () => {
     cartPanel.classList.remove('open');
   }
 });
+let cartItems = JSON.parse(
+  localStorage.getItem('shareeCraftlineCart') || '[]'
+);
+
+function updateCategoryCartBadge() {
+  const badge = document.getElementById('cartBadge');
+
+  if (badge) {
+    badge.textContent = cartItems.length;
+    badge.style.display = cartItems.length > 0 ? 'flex' : 'none';
+  }
+}
+
+function renderCategoryCart() {
+  const itemsEl = document.getElementById('cartItems');
+  const emptyEl = document.getElementById('cartEmpty');
+  const footerEl = document.getElementById('cartFooter');
+  const totalEl = document.getElementById('cartTotal');
+
+  if (!itemsEl || !emptyEl || !footerEl || !totalEl) return;
+
+  if (!cartItems.length) {
+    itemsEl.innerHTML = '';
+    emptyEl.style.display = 'block';
+    footerEl.style.display = 'none';
+    totalEl.textContent = '৳0';
+    return;
+  }
+
+  emptyEl.style.display = 'none';
+  footerEl.style.display = 'block';
+
+  itemsEl.innerHTML = cartItems.map((item, index) => `
+    <div class="cart-item">
+
+      <img
+        src="${item.image_url || 'assets/logo.png'}"
+        alt="${escapeHtml(item.name)}"
+        class="cart-item-image"
+      >
+
+      <div class="cart-item-info">
+
+        <h4>${escapeHtml(item.name)}</h4>
+
+        <div class="cart-item-bottom">
+          <span>পরিমাণ: ${item.qty}</span>
+
+          <strong class="cart-item-price">
+            ৳${(
+              Number(item.price) * Number(item.qty)
+            ).toLocaleString('en-BD')}
+          </strong>
+        </div>
+
+      </div>
+
+      <button
+        type="button"
+        class="cart-remove-btn"
+        data-index="${index}"
+        title="সরিয়ে দিন">
+        ×
+      </button>
+
+    </div>
+  `).join('');
+
+  const total = cartItems.reduce(
+    (sum, item) =>
+      sum + (Number(item.price) * Number(item.qty)),
+    0
+  );
+
+  totalEl.textContent = `৳${total.toLocaleString('en-BD')}`;
+
+  itemsEl.querySelectorAll('.cart-remove-btn').forEach(button => {
+
+    button.addEventListener('click', () => {
+
+      const index = Number(button.dataset.index);
+
+      if (Number.isNaN(index)) return;
+
+      cartItems.splice(index, 1);
+
+      localStorage.setItem(
+        'shareeCraftlineCart',
+        JSON.stringify(cartItems)
+      );
+
+      updateCategoryCartBadge();
+      renderCategoryCart();
+    });
+
+  });
+}
+
+updateCategoryCartBadge();
+renderCategoryCart();
