@@ -53,15 +53,38 @@ function renderCheckout() {
           : ''
         }
 
-        <div class="checkout-item-meta">
-          <span>৳${Number(item.price).toLocaleString('en-BD')} × ${item.qty}</span>
+<div class="checkout-item-meta">
 
-          <strong>
-            ৳${(
-              Number(item.price) * Number(item.qty)
-            ).toLocaleString('en-BD')}
-          </strong>
-        </div>
+  <div class="checkout-item-qty">
+
+    <button
+      type="button"
+      class="checkout-qty-btn"
+      data-index="${cartItems.indexOf(item)}"
+      data-action="minus">
+      −
+    </button>
+
+    <span>${item.qty}</span>
+
+    <button
+      type="button"
+      class="checkout-qty-btn"
+      data-index="${cartItems.indexOf(item)}"
+      data-action="plus">
+      +
+    </button>
+
+  </div>
+
+  <strong>
+    ৳${(
+      Number(item.price) * Number(item.qty)
+    ).toLocaleString('en-BD')}
+  </strong>
+
+</div>
+
       </div>
 
     </div>
