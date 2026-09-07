@@ -631,6 +631,11 @@ function addToCart(product) {
     });
   }
 
+  localStorage.setItem(
+    'shareeCraftlineCart',
+    JSON.stringify(cartItems)
+  );
+
   updateCartBadge();
   renderCart();
 }
