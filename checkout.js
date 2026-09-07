@@ -186,4 +186,137 @@ document.getElementById('placeOrderBtn').addEventListener('click', async () => {
   window.location.href = 'index.html';
 });
 
+function renderHeaderCart() {
+  const itemsEl = document.getElementById('cartItems');
+  const emptyEl = document.getElementById('cartEmpty');
+  const footerEl = document.getElementById('cartFooter');
+  const totalEl = document.getElementById('cartTotal');
+  const badge = document.getElementById('cartBadge');
+
+  if (!itemsEl || !emptyEl || !footerEl || !totalEl) return;
+
+  badge.textContent = cartItems.length;
+  badge.style.display = cartItems.length > 0 ? 'flex' : 'none';
+
+  if (!cartItems.length) {
+    itemsEl.innerHTML = '';
+    emptyEl.style.display = 'block';
+    footerEl.style.display = 'none';
+    totalEl.textContent = '৳0';
+    return;
+  }
+
+  emptyEl.style.display = 'none';
+  footerEl.style.display = 'block';
+
+  itemsEl.innerHTML = cartItems.map((item, index) => `
+    <div class="cart-item">
+
+      <img
+        src="${item.image_url || 'assets/logo.png'}"
+        alt="${escapeHtml(item.name)}"
+        class="cart-item-image"
+      >
+
+      <div class="cart-item-info">
+
+        <h4>${escapeHtml(item.name)}</h4>
+
+        ${item.color
+          ? `<div class="cart-item-option">
+              রঙ: ${escapeHtml(item.color)}
+            </div>`
+          : ''
+        }
+
+        ${item.blouse
+          ? `<div class="cart-item-option">
+              ${item.blouse === 'with'
+                ? 'ব্লাউজ পিস সহ'
+                : 'ব্লাউজ পিস ছাড়া'}
+            </div>`
+          : ''
+        }
+
+        <div class="cart-item-bottom">
+          <span>পরিমাণ: ${item.qty}</span>
+
+          <strong class="cart-item-price">
+            ৳${(
+              Number(item.price) * Number(item.qty)
+            ).toLocaleString('en-BD')}
+          </strong>
+        </div>
+
+      </div>
+
+      <button
+        type="button"
+        class="cart-remove-btn"
+        data-index="${index}"
+        title="সরিয়ে দিন">
+        ×
+      </button>
+
+    </div>
+  `).join('');
+
+  const total = cartItems.reduce(
+    (sum, item) =>
+      sum + (Number(item.price) * Number(item.qty)),
+    0
+  );
+
+  totalEl.textContent =
+    `৳${total.toLocaleString('en-BD')}`;
+
+  itemsEl.querySelectorAll('.cart-remove-btn').forEach(button => {
+    button.addEventListener('click', () => {
+      const index = Number(button.dataset.index);
+
+      if (Number.isNaN(index)) return;
+
+      cartItems.splice(index, 1);
+
+      localStorage.setItem(
+        'shareeCraftlineCart',
+        JSON.stringify(cartItems)
+      );
+
+      renderHeaderCart();
+      renderCheckout();
+    });
+  });
+}
+
+
+const cartBtn = document.getElementById('cartBtn');
+const cartPanel = document.getElementById('cartPanel');
+const closeCartBtn = document.getElementById('closeCartBtn');
+
+if (cartBtn && cartPanel) {
+  cartBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    cartPanel.classList.toggle('open');
+  });
+
+  cartPanel.addEventListener('click', (e) => {
+    e.stopPropagation();
+  });
+}
+
+if (closeCartBtn && cartPanel) {
+  closeCartBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    cartPanel.classList.remove('open');
+  });
+}
+
+document.addEventListener('click', () => {
+  if (cartPanel) {
+    cartPanel.classList.remove('open');
+  }
+});
+
 renderCheckout();
+renderHeaderCart();
