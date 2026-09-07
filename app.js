@@ -590,21 +590,6 @@ function init3DSliderLogic() {
   updateSlider();
 }
 
-// ---------- লোগো হোভার ----------
-const logoBox = document.getElementById('logoBalloon');
-if (logoBox) {
-  const logoImg = logoBox.querySelector('.balloon-logo');
-  logoBox.addEventListener('mousemove', (e) => {
-    const rect = logoBox.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
-    const stretchX = 1 + Math.abs(x) / 100;
-    logoImg.style.transform = `translate3d(${x * 0.4}px, ${y * 0.4}px, 0) scale(${stretchX}, ${1 / stretchX}) rotate(${x * 0.2}deg)`;
-  });
-  logoBox.addEventListener('mouseleave', () => {
-    logoImg.style.transform = 'translate3d(0, 0, 0) scale(1, 1) rotate(0deg)';
-  });
-}
 
 function escapeHtml(str) {
   const d = document.createElement('div');
