@@ -180,6 +180,7 @@ if (cartBtn && cartPanel && closeCartBtn) {
 }
 
 updateProductCartBadge();
+renderProductCart();
 
 const loadingEl = document.getElementById('productLoading');
 const detailsEl = document.getElementById('productDetails');
