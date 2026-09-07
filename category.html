@@ -55,17 +55,20 @@
     });
 </script>
 
-  <script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+
+<script>
   fetch('header.html')
     .then(response => response.text())
     .then(data => {
       document.getElementById('shared-header').innerHTML = data;
+
+      const categoryScript = document.createElement('script');
+      categoryScript.src = 'category.js';
+      document.body.appendChild(categoryScript);
     });
 </script>
-  
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="config.js"></script>
-<script src="category.js"></script>
 
 </body>
 </html>
