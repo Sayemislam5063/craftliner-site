@@ -1713,6 +1713,7 @@ min-width: 100px;
    ========================================================= */
 
 .checkout-item {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 13px;
