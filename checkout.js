@@ -158,6 +158,24 @@ checkoutItemsEl.addEventListener('click', async (e) => {
   renderHeaderCart();
 });
 
+checkoutItemsEl.addEventListener('click', (e) => {
+  const button = e.target.closest('.checkout-remove-btn');
+  if (!button) return;
+
+  const index = Number(button.dataset.index);
+  if (Number.isNaN(index)) return;
+
+  cartItems.splice(index, 1);
+
+  localStorage.setItem(
+    'shareeCraftlineCart',
+    JSON.stringify(cartItems)
+  );
+
+  renderCheckout();
+  renderHeaderCart();
+});
+
 zoneEl.addEventListener('change', renderCheckout);
 
 function escapeHtml(str) {
