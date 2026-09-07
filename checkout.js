@@ -86,8 +86,17 @@ function renderCheckout() {
 </div>
 
       </div>
-
+      
+      <button
+        type="button"
+        class="cart-remove-btn checkout-remove-btn"
+        data-index="${cartItems.indexOf(item)}"
+        title="সরিয়ে দিন">
+        ×
+      </button>
+      
     </div>
+    
   `).join('');
 
   const subtotal = cartItems.reduce(
