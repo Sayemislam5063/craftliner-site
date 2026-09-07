@@ -56,27 +56,6 @@ itemsEl.innerHTML = cartItems.map((item, index) => `
         : ''
       }
 
-      <div class="cart-item-bottom">
-
-        <div class="cart-item-qty">
-          <button
-            type="button"
-            class="cart-qty-btn"
-            data-index="${index}"
-            data-action="minus">
-            −
-          </button>
-
-          <span>${item.qty}</span>
-
-          <button
-            type="button"
-            class="cart-qty-btn"
-            data-index="${index}"
-            data-action="plus">
-            +
-          </button>
-        </div>
 
         <strong class="cart-item-price">
           ৳${(Number(item.price) * Number(item.qty)).toLocaleString('en-BD')}
@@ -103,38 +82,6 @@ itemsEl.innerHTML = cartItems.map((item, index) => `
   );
 
   totalEl.textContent = `৳${total.toLocaleString('en-BD')}`;
-
-itemsEl.querySelectorAll('.cart-qty-btn').forEach(button => {
-  button.addEventListener('click', () => {
-    const index = Number(button.dataset.index);
-    const action = button.dataset.action;
-    const item = cartItems[index];
-
-    if (!item) return;
-
-    if (action === 'minus') {
-      if (item.qty > 1) {
-        item.qty -= 1;
-      }
-    }
-
-if (action === 'plus') {
-  const stock = Number(currentDetailProduct?.stock ?? 0);
-
-  if (item.id === currentDetailProduct?.id && item.qty < stock) {
-    item.qty += 1;
-  }
-}
-
-    localStorage.setItem(
-      'shareeCraftlineCart',
-      JSON.stringify(cartItems)
-    );
-
-    renderProductCart();
-    updateProductCartBadge();
-  });
-});
 
 itemsEl.querySelectorAll('.cart-remove-btn').forEach(button => {
   button.addEventListener('click', () => {
