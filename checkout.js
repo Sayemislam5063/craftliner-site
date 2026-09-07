@@ -262,33 +262,13 @@ function renderHeaderCart() {
         }
 
 <div class="cart-item-bottom">
-
-  <div class="cart-item-qty">
-    <button
-      type="button"
-      class="cart-qty-btn"
-      data-index="${index}"
-      data-action="minus">
-      −
-    </button>
-
-    <span>${item.qty}</span>
-
-    <button
-      type="button"
-      class="cart-qty-btn"
-      data-index="${index}"
-      data-action="plus">
-      +
-    </button>
-  </div>
+  <span>পরিমাণ: ${item.qty}</span>
 
   <strong class="cart-item-price">
     ৳${(
       Number(item.price) * Number(item.qty)
     ).toLocaleString('en-BD')}
   </strong>
-
 </div>
 
       </div>
