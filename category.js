@@ -178,3 +178,31 @@ function escapeHtml(str) {
 }
 
 loadCategory();
+
+const cartBtn = document.getElementById('cartBtn');
+const cartPanel = document.getElementById('cartPanel');
+const closeCartBtn = document.getElementById('closeCartBtn');
+
+if (cartBtn && cartPanel) {
+  cartBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    cartPanel.classList.toggle('open');
+  });
+
+  cartPanel.addEventListener('click', (e) => {
+    e.stopPropagation();
+  });
+}
+
+if (closeCartBtn && cartPanel) {
+  closeCartBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    cartPanel.classList.remove('open');
+  });
+}
+
+document.addEventListener('click', () => {
+  if (cartPanel) {
+    cartPanel.classList.remove('open');
+  }
+});
