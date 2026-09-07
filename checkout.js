@@ -109,6 +109,46 @@ function renderCheckout() {
     `৳${total.toLocaleString('en-BD')}`;
 }
 
+checkoutItemsEl.addEventListener('click', async (e) => {
+  const button = e.target.closest('.checkout-qty-btn');
+
+  if (!button) return;
+
+  const index = Number(button.dataset.index);
+  const action = button.dataset.action;
+  const item = cartItems[index];
+
+  if (!item) return;
+
+  if (action === 'minus') {
+    if (item.qty > 1) {
+      item.qty -= 1;
+    }
+  }
+
+  if (action === 'plus') {
+    const { data: product } = await supabaseClient
+      .from('products')
+      .select('stock')
+      .eq('id', item.id)
+      .single();
+
+    const stock = Number(product?.stock ?? 0);
+
+    if (item.qty < stock) {
+      item.qty += 1;
+    }
+  }
+
+  localStorage.setItem(
+    'shareeCraftlineCart',
+    JSON.stringify(cartItems)
+  );
+
+  renderCheckout();
+  renderHeaderCart();
+});
+
 zoneEl.addEventListener('change', renderCheckout);
 
 function escapeHtml(str) {
