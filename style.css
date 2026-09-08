@@ -446,19 +446,19 @@ header {
 
 
 .card-3d {
-  width: 195px;
-  height: 280px;
+  width: 180px;
+  height: 250px;
 
-  top: 25px;
+  top: 35px;
   margin-top: 0;
 
-  padding: 11px;
+  padding: 10px;
   border-radius: 13px;
 }
 
 
   .card-img-wrapper {
-    height: 160px;
+    height: 135px;
   }
 
 
