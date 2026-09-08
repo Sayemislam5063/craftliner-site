@@ -1029,43 +1029,6 @@ window.addEventListener('scroll', () => {
   lastScrollY = currentScrollY;
 });
 
-// ---------- Auto Header Color ----------
-const autoHeader = document.querySelector('header');
-
-function updateHeaderColor() {
-  if (!autoHeader) return;
-
-  const headerHeight = autoHeader.getBoundingClientRect().height;
-  const x = window.innerWidth / 2;
-  const y = headerHeight + 10;
-
-  const element = document.elementFromPoint(x, y);
-
-  if (!element) return;
-
-  const section = element.closest('section');
-
-  if (!section) {
-    autoHeader.classList.remove('dark-header');
-    return;
-  }
-
-  const background = getComputedStyle(section).backgroundColor;
-
-  if (
-    background.includes('59, 13, 26') ||
-    background.includes('110, 27, 50')
-  ) {
-    autoHeader.classList.remove('dark-header');
-  } else {
-    autoHeader.classList.add('dark-header');
-  }
-}
-
-window.addEventListener('scroll', updateHeaderColor);
-window.addEventListener('resize', updateHeaderColor);
-
-setTimeout(updateHeaderColor, 300);
 
 loadProducts();
 updateCartBadge();
