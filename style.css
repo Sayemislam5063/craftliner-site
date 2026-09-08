@@ -50,6 +50,7 @@ header {
   background: rgba(243, 234, 217, 0.94);
   backdrop-filter: blur(8px);
   z-index: 50;
+  transition: transform 0.3s ease;
   border-bottom: 1px solid var(--rose-line);
 }
 
