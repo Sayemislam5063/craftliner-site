@@ -408,15 +408,8 @@ header {
 
 /* Dots */
 .dots-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  gap: 8px;
-
-  min-height: 18px;
+  display: none !important;
 }
-
 
 .dot {
   width: 8px;
@@ -455,6 +448,9 @@ header {
   .card-3d {
     width: 195px;
     height: 280px;
+
+      top: 50%;
+      margin-top: -140px;
 
     padding: 11px;
 
