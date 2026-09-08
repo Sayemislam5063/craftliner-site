@@ -445,17 +445,16 @@ header {
   }
 
 
-  .card-3d {
-    width: 195px;
-    height: 280px;
+.card-3d {
+  width: 195px;
+  height: 280px;
 
-      top: 50%;
-      margin-top: -140px;
+  top: 25px;
+  margin-top: 0;
 
-    padding: 11px;
-
-    border-radius: 13px;
-  }
+  padding: 11px;
+  border-radius: 13px;
+}
 
 
   .card-img-wrapper {
