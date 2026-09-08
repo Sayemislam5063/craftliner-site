@@ -1020,10 +1020,10 @@ window.addEventListener('scroll', () => {
 
   if (currentScrollY > lastScrollY && currentScrollY > 80) {
     // নিচে scroll করলে header hide
-    siteHeader.style.transform = 'translateY(-100%)';
+    siteHeader.style.transform = 'translateX(-50%) translateY(-120%)';
   } else {
     // উপরে scroll করলে header show
-    siteHeader.style.transform = 'translateY(0)';
+    siteHeader.style.transform = 'translateX(-50%) translateY(0)';
   }
 
   lastScrollY = currentScrollY;
