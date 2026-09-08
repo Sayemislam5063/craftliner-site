@@ -238,8 +238,8 @@ box-shadow:
 
 .card-3d {
   position: absolute;
-  width: 230px;
-  height: 325px;
+  width: 210px;
+  height: 295px;
   border-radius: 16px;
   background: var(--maroon-deep);
   border: 1px solid rgba(185, 138, 78, 0.4);
