@@ -564,29 +564,102 @@ function renderAllProductsSection(bestSellingProducts = []) {
 function init3DSliderLogic() {
   const cards = document.querySelectorAll('.card-3d');
   const bgTitle = document.getElementById('bgTitle');
-  const prevBtn = document.getElementById('prevBtn');
-  const nextBtn = document.getElementById('nextBtn');
   const dots = document.querySelectorAll('#dotsContainer .dot');
-  if (!cards.length) return;
+  const slider = document.getElementById('hero3dSlider');
+
+  if (!cards.length || !slider) return;
 
   let currentIndex = 0;
+  let startX = 0;
+  let isDragging = false;
+
   function updateSlider() {
     cards.forEach((card, index) => {
       card.classList.remove('active', 'prev', 'next');
+
       if (index === currentIndex) {
         card.classList.add('active');
-        if (bgTitle) bgTitle.innerText = card.getAttribute('data-title');
-      } else if (index === (currentIndex - 1 + cards.length) % cards.length) {
+
+        if (bgTitle) {
+          bgTitle.innerText = card.getAttribute('data-title');
+        }
+
+      } else if (
+        index === (currentIndex - 1 + cards.length) % cards.length
+      ) {
         card.classList.add('prev');
-      } else if (index === (currentIndex + 1) % cards.length) {
+
+      } else if (
+        index === (currentIndex + 1) % cards.length
+      ) {
         card.classList.add('next');
       }
     });
-    dots.forEach((dot, idx) => dot.classList.toggle('active', idx === currentIndex));
+
+    dots.forEach((dot, idx) => {
+      dot.classList.toggle('active', idx === currentIndex);
+    });
   }
-  if (nextBtn) nextBtn.onclick = () => { currentIndex = (currentIndex + 1) % cards.length; updateSlider(); };
-  if (prevBtn) prevBtn.onclick = () => { currentIndex = (currentIndex - 1 + cards.length) % cards.length; updateSlider(); };
-  setInterval(() => { currentIndex = (currentIndex + 1) % cards.length; updateSlider(); }, 4500);
+
+  function nextSlide() {
+    currentIndex = (currentIndex + 1) % cards.length;
+    updateSlider();
+  }
+
+  function prevSlide() {
+    currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+    updateSlider();
+  }
+
+  // ---------- Touch Swipe ----------
+  slider.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+  }, { passive: true });
+
+  slider.addEventListener('touchend', (e) => {
+    const endX = e.changedTouches[0].clientX;
+    const difference = endX - startX;
+
+    if (Math.abs(difference) < 50) return;
+
+    if (difference < 0) {
+      nextSlide();
+    } else {
+      prevSlide();
+    }
+  }, { passive: true });
+
+  // ---------- Mouse Drag ----------
+  slider.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    startX = e.clientX;
+  });
+
+  slider.addEventListener('mouseup', (e) => {
+    if (!isDragging) return;
+
+    isDragging = false;
+
+    const difference = e.clientX - startX;
+
+    if (Math.abs(difference) < 50) return;
+
+    if (difference < 0) {
+      nextSlide();
+    } else {
+      prevSlide();
+    }
+  });
+
+  slider.addEventListener('mouseleave', () => {
+    isDragging = false;
+  });
+
+  // ---------- Auto Slide ----------
+  setInterval(() => {
+    nextSlide();
+  }, 4500);
+
   updateSlider();
 }
 
