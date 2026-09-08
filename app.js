@@ -1009,6 +1009,26 @@ document.getElementById('confirmOrderBtn').addEventListener('click', async () =>
   confirmWrap.style.display = 'block';
 });
 
+// ---------- Smart Header ----------
+let lastScrollY = window.scrollY;
+const siteHeader = document.querySelector('header');
+
+window.addEventListener('scroll', () => {
+  if (!siteHeader) return;
+
+  const currentScrollY = window.scrollY;
+
+  if (currentScrollY > lastScrollY && currentScrollY > 80) {
+    // নিচে scroll করলে header hide
+    siteHeader.style.transform = 'translateY(-100%)';
+  } else {
+    // উপরে scroll করলে header show
+    siteHeader.style.transform = 'translateY(0)';
+  }
+
+  lastScrollY = currentScrollY;
+});
+
 loadProducts();
 updateCartBadge();
 renderCart();
