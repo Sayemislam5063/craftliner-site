@@ -449,8 +449,7 @@ header {
   width: 180px;
   height: 250px;
 
-  top: 35px;
-  margin-top: 0;
+  box-sizing: border-box;
 
   padding: 10px;
   border-radius: 13px;
