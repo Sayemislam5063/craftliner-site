@@ -54,36 +54,6 @@ header {
   border-bottom: 1px solid var(--rose-line);
 }
 
-/* ---------- Header Color Switch ---------- */
-header.dark-header {
-  background: rgba(78, 18, 36, 0.96);
-  border-bottom-color: rgba(243, 234, 217, 0.25);
-}
-
-header.dark-header .brand-name {
-  color: var(--cream);
-}
-
-header.dark-header .brand-name span {
-  color: #ecdcd2;
-}
-
-header.dark-header .nav-links a {
-  color: var(--cream);
-}
-
-header.dark-header .nav-links a::after {
-  background: var(--cream);
-}
-
-header.dark-header .cart-icon-btn {
-  color: var(--cream);
-}
-
-header.dark-header .menu-toggle {
-  color: var(--cream);
-}
-
 .nav {
   display: flex;
   align-items: center;
