@@ -3613,61 +3613,64 @@ min-width: 100px;
     font-size: 12px;
   }
 }
-/* ---------- Mobile Header Gap & 3D Hero Size ---------- */
+/* ---------- Mobile 3D Hero ---------- */
 @media (max-width: 720px) {
 
   body {
-    padding-top: 140px;
+    padding-top: 92px;
   }
 
   .hero-3d-section {
-    padding: 20px 0 18px;
+    padding: 12px 0 14px;
   }
 
   .slider-container {
-    height: 350px;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    min-height: 0;
   }
 
   .card-3d {
-    width: 220px;
-    height: 310px;
-    padding: 12px;
-    border-radius: 14px;
+    width: 190px;
+    height: 270px;
+    padding: 10px;
+    border-radius: 13px;
   }
 
   .card-3d.prev {
-    transform: translateX(-145px) scale(0.72) rotateY(22deg);
+    transform: translateX(-125px) scale(0.68) rotateY(22deg);
   }
 
   .card-3d.next {
-    transform: translateX(145px) scale(0.72) rotateY(-22deg);
+    transform: translateX(125px) scale(0.68) rotateY(-22deg);
   }
 
   .card-img-wrapper {
-    height: 185px;
+    height: 155px;
   }
 
   .card-info {
-    margin-top: 6px;
+    margin-top: 4px;
   }
 
   .card-info h3 {
-    font-size: 15px;
+    font-size: 14px;
   }
 
   .card-3d-btn {
-    padding: 7px;
-    font-size: 12px;
+    padding: 6px;
+    font-size: 11px;
   }
 
   .slider-controls {
-    margin-top: 0;
-    gap: 14px;
+    margin-top: 2px;
+    gap: 12px;
   }
 
   .nav-btn {
-    width: 36px;
-    height: 36px;
-    font-size: 16px;
+    width: 34px;
+    height: 34px;
+    font-size: 15px;
   }
 }
