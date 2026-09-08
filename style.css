@@ -43,7 +43,7 @@ a { color: inherit; text-decoration: none; }
 
 /* ---------- Header & Water Balloon Logo ---------- */
 header {
-  position: sticky;
+  position: fixed;
   top: 0;
   background: rgba(243, 234, 217, 0.94);
   backdrop-filter: blur(8px);
