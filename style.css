@@ -854,7 +854,7 @@ footer .foot-note {
     font-size: clamp(1.4rem, 8.5vw, 2.4rem);
   }
 
-  .slider-container { height: 300px; }
+  .slider-container { height: 325px; }
 
   .slider-loading { font-size: 15px; }
 
