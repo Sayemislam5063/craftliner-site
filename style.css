@@ -4561,3 +4561,52 @@ header {
   box-shadow: none !important;
   transform: scale(1.12);
 }
+/* =========================================================
+   TRACKING ICON POSITION
+   ========================================================= */
+
+.tracking-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 4px 6px !important;
+  margin: 0 !important;
+  font-size: 20px;
+  line-height: 1;
+  color: var(--maroon);
+  cursor: pointer;
+}
+
+/* Mobile tracking button - initially hidden */
+.mobile-tracking-btn {
+  display: none;
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 720px) {
+
+  /* PC-এর tracking icon mobile header থেকে hide */
+  .tracking-icon-btn {
+    display: none !important;
+  }
+
+  /* Menu-এর ভিতরের tracking */
+  .mobile-tracking-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: var(--maroon);
+    font-family: inherit;
+    font-size: 14px;
+    padding: 10px 0;
+    cursor: pointer;
+    text-align: left;
+  }
+
+}
