@@ -4484,32 +4484,9 @@ header .nav {
   }
 
 }
-/* =========================================================
-   FINAL SMART HEADER + 3D SLIDER GAP FIX
-   ========================================================= */
-
-header {
-  position: sticky !important;
-  top: 8px !important;
-  left: 50% !important;
-
-  z-index: 1000 !important;
-
-  margin-top: 0 !important;
-  margin-bottom: 18px !important;
-}
-
-/* Mobile */
+/* Header → 3D Slider small gap */
 @media (max-width: 720px) {
-
-  header {
-    position: sticky !important;
-    top: 8px !important;
-    margin-bottom: 18px !important;
-  }
-
   .hero-3d-section {
-    margin-top: 0 !important;
+    margin-top: 8px !important;
   }
-
 }
