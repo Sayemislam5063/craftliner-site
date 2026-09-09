@@ -4512,3 +4512,12 @@ header {
     margin-top: 153px !important;
   }
 }
+/* =========================================================
+   DESKTOP HEADER → 3D SLIDER GAP
+   ========================================================= */
+
+@media (min-width: 721px) {
+  .hero-3d-section {
+    margin-top: 150px !important;
+  }
+}
