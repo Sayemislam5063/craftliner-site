@@ -187,24 +187,38 @@ function renderCategoryFilter() {
     let autoSlideTimer = null;
     let resumeTimer = null;
 
-    const getClosestIndex = () => {
+    const getCurrentIndex = () => {
 
       const chips = [...bar.querySelectorAll('.cat-chip')];
+
+      if (!chips.length) return 0;
+
+      const maxScroll =
+        bar.scrollWidth - bar.clientWidth;
+
+      // একদম শেষে থাকলে এটাকে শেষ bubble ধরবে
+      if (bar.scrollLeft >= maxScroll - 5) {
+        return chips.length - 1;
+      }
 
       let closestIndex = 0;
       let closestDistance = Infinity;
 
       chips.forEach((chip, index) => {
 
-        const targetPosition = chip.offsetLeft - 10;
+        const target =
+          Math.min(
+            Math.max(0, chip.offsetLeft - 10),
+            maxScroll
+          );
+
         const distance =
-          Math.abs(targetPosition - bar.scrollLeft);
+          Math.abs(target - bar.scrollLeft);
 
         if (distance < closestDistance) {
           closestDistance = distance;
           closestIndex = index;
         }
-
       });
 
       return closestIndex;
@@ -216,9 +230,9 @@ function renderCategoryFilter() {
 
       if (chips.length < 2) return;
 
-      autoIndex = getClosestIndex() + 1;
+      autoIndex = getCurrentIndex() + 1;
 
-      // শেষ bubble শেষ হলে আবার ১ নম্বর bubble
+      // শেষ bubble-এর পর আবার প্রথম bubble
       if (autoIndex >= chips.length) {
 
         autoIndex = 0;
@@ -231,11 +245,17 @@ function renderCategoryFilter() {
         return;
       }
 
+      const maxScroll =
+        bar.scrollWidth - bar.clientWidth;
+
+      const target =
+        Math.min(
+          Math.max(0, chips[autoIndex].offsetLeft - 10),
+          maxScroll
+        );
+
       bar.scrollTo({
-        left: Math.max(
-          0,
-          chips[autoIndex].offsetLeft - 10
-        ),
+        left: target,
         behavior: 'smooth'
       });
     };
@@ -261,7 +281,6 @@ function renderCategoryFilter() {
 
     startAutoSlide();
 
-    // Manual swipe / mouse / wheel
     bar.addEventListener('touchstart', pauseAndResume, {
       passive: true
     });
