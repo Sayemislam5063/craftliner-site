@@ -184,6 +184,7 @@ function renderCategoryFilter() {
     bar.dataset.autoSlideStarted = 'true';
 
     let autoSlideTimer = null;
+    let resumeTimer = null;
 
     const startAutoSlide = () => {
 
@@ -193,28 +194,25 @@ function renderCategoryFilter() {
 
       autoSlideTimer = setInterval(() => {
 
-        const chips = bar.querySelectorAll('.cat-chip');
+        const chips = [...bar.querySelectorAll('.cat-chip')];
 
         if (chips.length < 2) return;
 
-        const maxScroll =
-          bar.scrollWidth - bar.clientWidth;
-
-        if (maxScroll <= 0) return;
-
         const currentScroll = bar.scrollLeft;
 
-        let nextChip = null;
+        let currentIndex = 0;
 
-        for (const chip of chips) {
-          if (chip.offsetLeft > currentScroll + 10) {
-            nextChip = chip;
-            break;
+        chips.forEach((chip, index) => {
+          if (chip.offsetLeft <= currentScroll + 20) {
+            currentIndex = index;
           }
-        }
+        });
 
-        // শেষের দিকে গেলে আবার শুরু
-        if (!nextChip) {
+        const nextIndex = currentIndex + 1;
+
+        // শেষ bubble → আবার প্রথম bubble
+        if (nextIndex >= chips.length) {
+
           bar.scrollTo({
             left: 0,
             behavior: 'smooth'
@@ -224,30 +222,24 @@ function renderCategoryFilter() {
         }
 
         bar.scrollTo({
-          left: nextChip.offsetLeft - 10,
+          left: Math.max(0, chips[nextIndex].offsetLeft - 10),
           behavior: 'smooth'
         });
 
       }, 2500);
     };
 
-    startAutoSlide();
-
-    // হাতে swipe করলে কিছুক্ষণ অপেক্ষা করে আবার auto-slide
-    let resumeTimer = null;
-
     const pauseAndResume = () => {
 
-      if (autoSlideTimer) {
-        clearInterval(autoSlideTimer);
-      }
-
+      clearInterval(autoSlideTimer);
       clearTimeout(resumeTimer);
 
       resumeTimer = setTimeout(() => {
         startAutoSlide();
       }, 3500);
     };
+
+    startAutoSlide();
 
     bar.addEventListener('touchstart', pauseAndResume, {
       passive: true
