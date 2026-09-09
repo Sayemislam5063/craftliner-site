@@ -4373,3 +4373,24 @@ header .nav {
     display: none !important;
   }
 }
+/* =========================================================
+   FINAL MOBILE 3D SECTION SIZE OVERRIDE
+   ========================================================= */
+
+@media (max-width: 720px) {
+
+  .hero-3d-section {
+    width: calc(100% - 20px) !important;
+    padding: 5px 0 5px !important;
+    margin: 0 auto !important;
+    border-radius: 18px !important;
+  }
+
+  .hero-3d-section .slider-container {
+    width: 100% !important;
+    height: 270px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+}
