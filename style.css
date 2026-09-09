@@ -4521,3 +4521,22 @@ header {
     margin-top: 180px !important;
   }
 }
+/* =========================================================
+   FINAL: SPACE BELOW FIXED HEADER FOR OTHER PAGES
+   ========================================================= */
+
+@media (min-width: 721px) {
+
+  body:not(:has(.hero-3d-section)) {
+    padding-top: 155px !important;
+  }
+
+}
+
+@media (max-width: 720px) {
+
+  body:not(:has(.hero-3d-section)) {
+    padding-top: 235px !important;
+  }
+
+}
