@@ -665,57 +665,6 @@ function init3DSliderLogic() {
   updateSlider();
 }
 
-  // ---------- Touch Swipe ----------
-  slider.addEventListener('touchstart', (e) => {
-    startX = e.touches[0].clientX;
-  }, { passive: true });
-
-  slider.addEventListener('touchend', (e) => {
-    const endX = e.changedTouches[0].clientX;
-    const difference = endX - startX;
-
-    if (Math.abs(difference) < 50) return;
-
-    if (difference < 0) {
-      nextSlide();
-    } else {
-      prevSlide();
-    }
-  }, { passive: true });
-
-  // ---------- Mouse Drag ----------
-  slider.addEventListener('mousedown', (e) => {
-    isDragging = true;
-    startX = e.clientX;
-  });
-
-  slider.addEventListener('mouseup', (e) => {
-    if (!isDragging) return;
-
-    isDragging = false;
-
-    const difference = e.clientX - startX;
-
-    if (Math.abs(difference) < 50) return;
-
-    if (difference < 0) {
-      nextSlide();
-    } else {
-      prevSlide();
-    }
-  });
-
-  slider.addEventListener('mouseleave', () => {
-    isDragging = false;
-  });
-
-  // ---------- Auto Slide ----------
-  setInterval(() => {
-    nextSlide();
-  }, 4500);
-
-  updateSlider();
-}
 
 
 function escapeHtml(str) {
