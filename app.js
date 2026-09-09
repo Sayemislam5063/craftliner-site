@@ -648,6 +648,217 @@ function escapeHtml(str) {
   return d.innerHTML;
 }
 
+// =========================================================
+// SITE SEARCH
+// =========================================================
+
+const siteSearchInput =
+  document.getElementById('siteSearchInput');
+
+const siteSearchResults =
+  document.getElementById('siteSearchResults');
+
+const siteSearchClear =
+  document.getElementById('siteSearchClear');
+
+function renderSearchResults(query) {
+
+  if (!siteSearchResults) return;
+
+  const searchText = query.trim().toLowerCase();
+
+  if (!searchText) {
+    siteSearchResults.innerHTML = '';
+    siteSearchResults.style.display = 'none';
+    return;
+  }
+
+  const matchedProducts = allProducts
+    .filter(product => {
+
+      const productName =
+        String(product.name || '').toLowerCase();
+
+      const description =
+        String(product.description || '').toLowerCase();
+
+      const category =
+        allCategories.find(
+          c => c.id === product.category_id
+        );
+
+      const categoryName =
+        String(category?.name || '').toLowerCase();
+
+      return (
+        productName.includes(searchText) ||
+        description.includes(searchText) ||
+        categoryName.includes(searchText)
+      );
+
+    })
+    .slice(0, 8);
+
+  if (!matchedProducts.length) {
+
+    siteSearchResults.innerHTML = `
+      <div class="site-search-empty">
+        কোনো প্রোডাক্ট পাওয়া যায়নি।
+      </div>
+    `;
+
+    siteSearchResults.style.display = 'block';
+    return;
+  }
+
+  siteSearchResults.innerHTML =
+    matchedProducts.map(product => {
+
+      const category =
+        allCategories.find(
+          c => c.id === product.category_id
+        );
+
+      const price =
+        Number(
+          product.offer_price ||
+          product.price ||
+          0
+        ).toLocaleString('en-BD');
+
+      const images =
+        Array.isArray(product.images) &&
+        product.images.length
+          ? product.images
+          : [
+              product.image_url ||
+              'assets/logo.png'
+            ];
+
+      return `
+        <button
+          type="button"
+          class="site-search-result"
+          data-product-id="${product.id}"
+        >
+
+          <img
+            src="${images[0]}"
+            alt="${escapeHtml(product.name)}"
+          >
+
+          <div class="site-search-result-info">
+
+            <h4>
+              ${escapeHtml(product.name)}
+            </h4>
+
+            <p>
+              ${category
+                ? escapeHtml(category.name)
+                : 'Collection'}
+            </p>
+
+          </div>
+
+          <div class="site-search-result-price">
+            ৳${price}
+          </div>
+
+        </button>
+      `;
+
+    }).join('');
+
+  siteSearchResults.style.display = 'block';
+
+  siteSearchResults
+    .querySelectorAll('.site-search-result')
+    .forEach(result => {
+
+      result.addEventListener('click', () => {
+
+        const productId =
+          result.dataset.productId;
+
+        if (!productId) return;
+
+        window.location.href =
+          `product.html?id=${productId}`;
+
+      });
+
+    });
+}
+
+
+if (siteSearchInput) {
+
+  siteSearchInput.addEventListener(
+    'input',
+    () => {
+
+      const value =
+        siteSearchInput.value;
+
+      if (siteSearchClear) {
+        siteSearchClear.style.display =
+          value ? 'block' : 'none';
+      }
+
+      renderSearchResults(value);
+
+    }
+  );
+
+}
+
+
+if (siteSearchClear) {
+
+  siteSearchClear.addEventListener(
+    'click',
+    () => {
+
+      siteSearchInput.value = '';
+
+      siteSearchClear.style.display =
+        'none';
+
+      siteSearchResults.innerHTML = '';
+
+      siteSearchResults.style.display =
+        'none';
+
+      siteSearchInput.focus();
+
+    }
+  );
+
+}
+
+
+document.addEventListener('click', (event) => {
+
+  const searchSection =
+    document.querySelector(
+      '.site-search-section'
+    );
+
+  if (
+    searchSection &&
+    !searchSection.contains(event.target)
+  ) {
+
+    if (siteSearchResults) {
+      siteSearchResults.style.display =
+        'none';
+    }
+
+  }
+
+});
+
 let cartItems = JSON.parse(localStorage.getItem('shareeCraftlineCart') || '[]');
 
 function addToCart(product) {
