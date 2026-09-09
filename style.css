@@ -3824,3 +3824,43 @@ min-width: 100px;
     font-size: 15px;
   }
 }
+/* ---------- Desktop 3D Slider Compact Fix ---------- */
+@media (min-width: 721px) {
+
+  .hero-3d-section {
+    width: calc(100% - 80px);
+    max-width: 1180px;
+    margin: 0 auto;
+
+    padding: 25px 0 20px;
+  }
+
+  .slider-container {
+    width: 100%;
+    max-width: 850px;
+    height: 320px;
+  }
+
+  .card-3d {
+    width: 215px;
+    height: 300px;
+  }
+
+  .card-3d.prev {
+    transform:
+      translateX(-155px)
+      scale(0.72)
+      rotateY(20deg);
+  }
+
+  .card-3d.next {
+    transform:
+      translateX(155px)
+      scale(0.72)
+      rotateY(-20deg);
+  }
+
+  .dots-wrapper {
+    display: none !important;
+  }
+}
