@@ -537,16 +537,15 @@ header {
   .hero-3d-section {
     width: calc(100% - 20px);
 
-    padding: 20px 0 20px;
+    padding: 10px 0 10px;
 
     border-radius: 18px;
   }
 
 
   .slider-container {
-    width: 100%;
-
-    height: 285px;
+  width: 100%;
+  height: 270px;
   }
 
 
