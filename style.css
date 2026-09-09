@@ -3973,3 +3973,194 @@ min-width: 100px;
     font-size: 15px;
   }
 }
+/* =========================================================
+   SITE SEARCH
+   ========================================================= */
+
+.site-search-section {
+  position: relative;
+  z-index: 50;
+  padding: 18px 20px;
+  background: var(--cream);
+}
+
+.site-search-section .container {
+  position: relative;
+  max-width: 850px;
+}
+
+.site-search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  background: #fff;
+  border: 1px solid var(--rose-line);
+  border-radius: 999px;
+  box-shadow: 0 5px 18px rgba(78, 18, 36, 0.07);
+  overflow: hidden;
+}
+
+.site-search-icon {
+  flex: 0 0 auto;
+  margin-left: 18px;
+  color: var(--maroon);
+  font-size: 25px;
+  line-height: 1;
+  transform: rotate(-20deg);
+}
+
+#siteSearchInput {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  padding: 0 12px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--ink);
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 14px;
+}
+
+#siteSearchInput::placeholder {
+  color: var(--maroon-soft);
+  opacity: 0.75;
+}
+
+.site-search-clear {
+  display: none;
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  margin-right: 8px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--maroon-soft);
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.site-search-clear:hover {
+  background: var(--cream);
+  color: var(--maroon);
+}
+
+/* Search Results */
+
+.site-search-results {
+  position: absolute;
+  top: calc(100% + 7px);
+  left: 20px;
+  right: 20px;
+  display: none;
+  max-height: 420px;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid var(--rose-line);
+  box-shadow: 0 15px 35px rgba(78, 18, 36, 0.14);
+}
+
+.site-search-result {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  border-bottom: 1px solid var(--rose-line);
+  background: #fff;
+  text-align: left;
+  cursor: pointer;
+}
+
+.site-search-result:last-child {
+  border-bottom: none;
+}
+
+.site-search-result:hover {
+  background: var(--cream);
+}
+
+.site-search-result img {
+  width: 52px;
+  height: 64px;
+  flex: 0 0 52px;
+  object-fit: cover;
+}
+
+.site-search-result-info {
+  min-width: 0;
+  flex: 1;
+}
+
+.site-search-result-info h4 {
+  margin: 0 0 3px;
+  color: var(--maroon-deep);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.site-search-result-info p {
+  margin: 0;
+  color: var(--maroon-soft);
+  font-size: 11px;
+}
+
+.site-search-result-price {
+  flex: 0 0 auto;
+  color: var(--maroon-deep);
+  font-family: 'Noto Serif Bengali', serif;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.site-search-empty {
+  padding: 22px 15px;
+  text-align: center;
+  color: var(--maroon-soft);
+  font-size: 13px;
+}
+
+/* Mobile */
+
+@media (max-width: 650px) {
+  .site-search-section {
+    padding: 12px 14px;
+  }
+
+  .site-search-box {
+    height: 46px;
+  }
+
+  .site-search-icon {
+    margin-left: 14px;
+    font-size: 22px;
+  }
+
+  #siteSearchInput {
+    font-size: 13px;
+  }
+
+  .site-search-results {
+    left: 14px;
+    right: 14px;
+    max-height: 360px;
+  }
+
+  .site-search-result img {
+    width: 46px;
+    height: 58px;
+    flex-basis: 46px;
+  }
+
+  .site-search-result-info h4 {
+    font-size: 12px;
+  }
+
+  .site-search-result-price {
+    font-size: 12px;
+  }
+}
