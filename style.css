@@ -1009,44 +1009,6 @@ footer .foot-note {
   .field-row { flex-direction: column; gap: 0; }
 }
 
-@media (max-width: 560px) {
-  .hero-3d-section { padding: 24px 0 16px; }
-
-  .bg-text-behind {
-    top: 6px;
-    font-size: clamp(1.4rem, 8.5vw, 2.4rem);
-  }
-
-  .slider-container { height: 325px; }
-
-  .slider-loading { font-size: 15px; }
-
-  .card-3d {
-    width: 205px;
-    height: 300px;
-    padding: 12px;
-    border-radius: 12px;
-  }
-
-  .card-img-wrapper { height: 175px; }
-
-  .card-3d.prev { transform: translateX(-88px) scale(0.72) rotateY(20deg); }
-  .card-3d.next { transform: translateX(88px) scale(0.72) rotateY(-20deg); }
-
-  .card-info h3 { font-size: 14.5px; }
-  .card-tag { font-size: 9px; }
-  .card-3d-btn { font-size: 11.5px; padding: 7px; }
-
-  .nav-btn { width: 34px; height: 34px; font-size: 15px; }
-  .slider-controls { gap: 14px; }
-
-  .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px; }
-  .card-body { padding: 14px 14px 16px; }
-  .card-body h3 { font-size: 17px; }
-  .price { font-size: 17px; }
-  .buy-btn { padding: 7px 14px; font-size: 12px; }
-}
-
 /* =========================================================
    CATEGORY BUBBLES
    ========================================================= */
