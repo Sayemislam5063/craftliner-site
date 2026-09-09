@@ -552,30 +552,39 @@ function init3DSliderLogic() {
   let isDragging = false;
 
   function updateSlider() {
+    const total = cards.length;
+
     cards.forEach((card, index) => {
       card.classList.remove('active', 'prev', 'next');
 
-      if (index === currentIndex) {
+      let diff = index - currentIndex;
+
+      // Circular position
+      if (diff > total / 2) {
+        diff -= total;
+      }
+
+      if (diff < -total / 2) {
+        diff += total;
+      }
+
+      if (diff === 0) {
         card.classList.add('active');
-
-        if (bgTitle) {
-          bgTitle.innerText = card.getAttribute('data-title');
-        }
-
-      } else if (
-        index === (currentIndex - 1 + cards.length) % cards.length
-      ) {
+      } else if (diff === -1) {
         card.classList.add('prev');
-
-      } else if (
-        index === (currentIndex + 1) % cards.length
-      ) {
+      } else if (diff === 1) {
         card.classList.add('next');
       }
     });
 
-    dots.forEach((dot, idx) => {
-      dot.classList.toggle('active', idx === currentIndex);
+    const activeCard = cards[currentIndex];
+
+    if (bgTitle && activeCard) {
+      bgTitle.innerText = activeCard.getAttribute('data-title') || '';
+    }
+
+    dots.forEach((dot, index) => {
+      dot.classList.toggle('active', index === currentIndex);
     });
   }
 
@@ -585,9 +594,76 @@ function init3DSliderLogic() {
   }
 
   function prevSlide() {
-    currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+    currentIndex =
+      (currentIndex - 1 + cards.length) % cards.length;
+
     updateSlider();
   }
+
+  // ---------- Touch Swipe ----------
+  slider.addEventListener(
+    'touchstart',
+    (e) => {
+      startX = e.touches[0].clientX;
+      isDragging = true;
+    },
+    { passive: true }
+  );
+
+  slider.addEventListener(
+    'touchend',
+    (e) => {
+      if (!isDragging) return;
+
+      isDragging = false;
+
+      const endX = e.changedTouches[0].clientX;
+      const difference = endX - startX;
+
+      if (Math.abs(difference) < 50) return;
+
+      if (difference < 0) {
+        nextSlide();
+      } else {
+        prevSlide();
+      }
+    },
+    { passive: true }
+  );
+
+  // ---------- Mouse Drag ----------
+  slider.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    startX = e.clientX;
+  });
+
+  slider.addEventListener('mouseup', (e) => {
+    if (!isDragging) return;
+
+    isDragging = false;
+
+    const difference = e.clientX - startX;
+
+    if (Math.abs(difference) < 50) return;
+
+    if (difference < 0) {
+      nextSlide();
+    } else {
+      prevSlide();
+    }
+  });
+
+  slider.addEventListener('mouseleave', () => {
+    isDragging = false;
+  });
+
+  // ---------- Auto Slide ----------
+  setInterval(() => {
+    nextSlide();
+  }, 4500);
+
+  updateSlider();
+}
 
   // ---------- Touch Swipe ----------
   slider.addEventListener('touchstart', (e) => {
