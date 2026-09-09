@@ -178,7 +178,7 @@ header {
 .hero-3d-section {
   position: relative;
   width: 100%;
-  padding: 24px 0 18px;
+  padding: 25px 0 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -3763,107 +3763,8 @@ min-width: 100px;
     font-size: 12px;
   }
 }
-/* ---------- Mobile 3D Hero ---------- */
-@media (max-width: 720px) {
 
-  body {
-    padding-top: 92px;
-  }
 
-  .hero-3d-section {
-    padding: 12px 0 14px;
-  }
-
-  .slider-container {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 16 / 9;
-    min-height: 0;
-  }
-
-  .card-3d {
-    width: 190px;
-    height: 270px;
-    padding: 10px;
-    border-radius: 13px;
-  }
-
-  .card-3d.prev {
-    transform: translateX(-125px) scale(0.68) rotateY(22deg);
-  }
-
-  .card-3d.next {
-    transform: translateX(125px) scale(0.68) rotateY(-22deg);
-  }
-
-  .card-img-wrapper {
-    height: 155px;
-  }
-
-  .card-info {
-    margin-top: 4px;
-  }
-
-  .card-info h3 {
-    font-size: 14px;
-  }
-
-  .card-3d-btn {
-    padding: 6px;
-    font-size: 11px;
-  }
-
-  .slider-controls {
-    margin-top: 2px;
-    gap: 12px;
-  }
-
-  .nav-btn {
-    width: 34px;
-    height: 34px;
-    font-size: 15px;
-  }
-}
-/* ---------- Desktop 3D Slider Compact Fix ---------- */
-@media (min-width: 721px) {
-
-  .hero-3d-section {
-    width: calc(100% - 80px);
-    max-width: 1180px;
-    margin: 0 auto;
-
-    padding: 25px 0 20px;
-  }
-
-  .slider-container {
-    width: 100%;
-    max-width: 850px;
-    height: 320px;
-  }
-
-  .card-3d {
-    width: 215px;
-    height: 300px;
-  }
-
-  .card-3d.prev {
-    transform:
-      translateX(-155px)
-      scale(0.72)
-      rotateY(20deg);
-  }
-
-  .card-3d.next {
-    transform:
-      translateX(155px)
-      scale(0.72)
-      rotateY(-20deg);
-  }
-
-  .dots-wrapper {
-    display: none !important;
-  }
-}
 /* ---------- Desktop Compact Header ---------- */
 @media (min-width: 721px) {
 
@@ -4284,58 +4185,6 @@ header {
 
 header .nav {
   margin-top: 0 !important;
-}
-/* ---------- FINAL 3D CARD FRAME FIX ---------- */
-
-.hero-3d-section {
-  width: calc(100% - 40px);
-  margin: 0 auto;
-  border-radius: 22px;
-  overflow: hidden;
-
-  padding: 32px 0 28px;
-}
-
-.slider-container {
-  width: 100%;
-  max-width: 900px;
-  height: 360px;
-
-  margin: 0 auto;
-}
-
-/* Center card */
-.card-3d.active {
-  top: 50%;
-  left: 50%;
-  margin: 0;
-
-  transform:
-    translate(-50%, -50%)
-    scale(1)
-    translateZ(0)
-    rotateY(0deg);
-}
-
-/* Side cards */
-.card-3d.prev {
-  top: 50%;
-  left: 50%;
-
-  transform:
-    translate(calc(-50% - 165px), -50%)
-    scale(0.72)
-    rotateY(20deg);
-}
-
-.card-3d.next {
-  top: 50%;
-  left: 50%;
-
-  transform:
-    translate(calc(-50% + 165px), -50%)
-    scale(0.72)
-    rotateY(-20deg);
 }
 
 
