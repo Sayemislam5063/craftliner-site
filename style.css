@@ -4276,3 +4276,48 @@ header .nav {
   }
 
 }
+/* =========================================================
+   FINAL HEADER + SEARCH + SLIDER SPACING FIX
+   ========================================================= */
+
+header {
+  margin-top: 0 !important;
+  margin-bottom: 18px !important;
+  position: relative;
+  z-index: 1000;
+}
+
+header .nav {
+  margin-top: 0 !important;
+}
+
+/* Search header-এর ভেতরেই থাকবে */
+.header-search {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* Slider header-এর পরে থাকবে */
+.hero-3d-section {
+  margin-top: 0 !important;
+  position: relative;
+  z-index: 1;
+}
+
+/* Desktop */
+@media (min-width: 651px) {
+  header {
+    margin-bottom: 20px !important;
+  }
+}
+
+/* Mobile */
+@media (max-width: 650px) {
+  header {
+    margin-bottom: 10px !important;
+  }
+
+  .hero-3d-section {
+    margin-top: 0 !important;
+  }
+}
