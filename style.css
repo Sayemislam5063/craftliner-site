@@ -4487,6 +4487,6 @@ header .nav {
 /* Header → 3D Slider small gap */
 @media (max-width: 720px) {
   .hero-3d-section {
-    margin-top: 8px !important;
+    margin-top: 10px !important;
   }
 }
