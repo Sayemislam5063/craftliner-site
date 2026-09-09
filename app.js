@@ -533,31 +533,9 @@ function renderAllProductsSection(bestSellingProducts = []) {
 
   if (!showAllBtn || !fullGrid) return;
 
-  showAllBtn.addEventListener('click', () => {
-
-    const isHidden = fullGrid.style.display === 'none';
-
-    if (isHidden) {
-      fullGrid.style.display = 'grid';
-      showAllBtn.innerHTML = `
-        সব প্রোডাক্ট বন্ধ করুন
-        <span>↑</span>
-      `;
-
-      fullGrid.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
-
-    } else {
-      fullGrid.style.display = 'none';
-
-      showAllBtn.innerHTML = `
-        সকল প্রোডাক্ট দেখুন
-        <span>→</span>
-      `;
-    }
-  });
+showAllBtn.addEventListener('click', () => {
+  window.location.href = 'all-products.html';
+});
 }
 
 // ---------- 3D Slider ----------
