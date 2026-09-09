@@ -4502,3 +4502,13 @@ header {
     margin-top: 18px !important;
   }
 }
+
+/* =========================================================
+   MOBILE HEADER → 3D SLIDER SPACE
+   ========================================================= */
+
+@media (max-width: 720px) {
+  .hero-3d-section {
+    margin-top: 210px !important;
+  }
+}
