@@ -4578,6 +4578,7 @@ header {
   line-height: 1;
   color: var(--maroon);
   cursor: pointer;
+  filter: grayscale(1) brightness(0.35);
 }
 
 /* Mobile tracking button - initially hidden */
