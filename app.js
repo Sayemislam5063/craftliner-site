@@ -1401,6 +1401,52 @@ window.addEventListener('scroll', () => {
   lastScrollY = currentScrollY;
 });
 
+// =========================================================
+// SIDE MENU
+// =========================================================
+
+const menuToggle = document.getElementById('menuToggle');
+const sideMenu = document.getElementById('sideMenu');
+const sideMenuClose = document.getElementById('sideMenuClose');
+const sideMenuOverlay = document.getElementById('sideMenuOverlay');
+
+function openSideMenu() {
+  if (!sideMenu || !sideMenuOverlay) return;
+
+  sideMenu.classList.add('open');
+  sideMenuOverlay.classList.add('open');
+
+  document.body.style.overflow = 'hidden';
+}
+
+function closeSideMenu() {
+  if (!sideMenu || !sideMenuOverlay) return;
+
+  sideMenu.classList.remove('open');
+  sideMenuOverlay.classList.remove('open');
+
+  document.body.style.overflow = '';
+}
+
+if (menuToggle) {
+  menuToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    openSideMenu();
+  });
+}
+
+if (sideMenuClose) {
+  sideMenuClose.addEventListener('click', (e) => {
+    e.stopPropagation();
+    closeSideMenu();
+  });
+}
+
+if (sideMenuOverlay) {
+  sideMenuOverlay.addEventListener('click', () => {
+    closeSideMenu();
+  });
+}
 
 loadProducts();
 updateCartBadge();
