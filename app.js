@@ -183,49 +183,69 @@ function renderCategoryFilter() {
 
     bar.dataset.autoSlideStarted = 'true';
 
+    let autoIndex = 0;
     let autoSlideTimer = null;
     let resumeTimer = null;
 
-    const startAutoSlide = () => {
+    const getClosestIndex = () => {
 
-      if (autoSlideTimer) {
-        clearInterval(autoSlideTimer);
-      }
+      const chips = [...bar.querySelectorAll('.cat-chip')];
 
-      autoSlideTimer = setInterval(() => {
+      let closestIndex = 0;
+      let closestDistance = Infinity;
 
-        const chips = [...bar.querySelectorAll('.cat-chip')];
+      chips.forEach((chip, index) => {
 
-        if (chips.length < 2) return;
+        const targetPosition = chip.offsetLeft - 10;
+        const distance =
+          Math.abs(targetPosition - bar.scrollLeft);
 
-        const currentScroll = bar.scrollLeft;
-
-        let currentIndex = 0;
-
-        chips.forEach((chip, index) => {
-          if (chip.offsetLeft <= currentScroll + 20) {
-            currentIndex = index;
-          }
-        });
-
-        const nextIndex = currentIndex + 1;
-
-        // শেষ bubble → আবার প্রথম bubble
-        if (nextIndex >= chips.length) {
-
-          bar.scrollTo({
-            left: 0,
-            behavior: 'smooth'
-          });
-
-          return;
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestIndex = index;
         }
 
+      });
+
+      return closestIndex;
+    };
+
+    const slideToNext = () => {
+
+      const chips = [...bar.querySelectorAll('.cat-chip')];
+
+      if (chips.length < 2) return;
+
+      autoIndex = getClosestIndex() + 1;
+
+      // শেষ bubble শেষ হলে আবার ১ নম্বর bubble
+      if (autoIndex >= chips.length) {
+
+        autoIndex = 0;
+
         bar.scrollTo({
-          left: Math.max(0, chips[nextIndex].offsetLeft - 10),
+          left: 0,
           behavior: 'smooth'
         });
 
+        return;
+      }
+
+      bar.scrollTo({
+        left: Math.max(
+          0,
+          chips[autoIndex].offsetLeft - 10
+        ),
+        behavior: 'smooth'
+      });
+    };
+
+    const startAutoSlide = () => {
+
+      clearInterval(autoSlideTimer);
+
+      autoSlideTimer = setInterval(() => {
+        slideToNext();
       }, 2500);
     };
 
@@ -241,6 +261,7 @@ function renderCategoryFilter() {
 
     startAutoSlide();
 
+    // Manual swipe / mouse / wheel
     bar.addEventListener('touchstart', pauseAndResume, {
       passive: true
     });
@@ -252,7 +273,6 @@ function renderCategoryFilter() {
     });
   }
 }
-
 // ---------- প্রোডাক্ট গ্রিড (ফিল্টার সহ) ----------
 function renderGrid() {
   const grid = document.getElementById('product-grid');
