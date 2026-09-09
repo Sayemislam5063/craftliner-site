@@ -4394,3 +4394,57 @@ header .nav {
   }
 
 }
+/* =========================================================
+   FINAL MOBILE 3D CARD — SMOOTH PROFESSIONAL SLIDE
+   ========================================================= */
+
+@media (max-width: 720px) {
+
+  .hero-3d-section .card-3d {
+    width: 180px !important;
+    height: 250px !important;
+    padding: 10px !important;
+    border-radius: 13px !important;
+
+    transition:
+      transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.5s ease,
+      box-shadow 0.5s ease !important;
+
+    will-change: transform, opacity;
+  }
+
+  .hero-3d-section .card-3d.active {
+    transform:
+      translateX(0)
+      scale(1)
+      rotateY(0deg)
+      translateZ(0) !important;
+
+    opacity: 1 !important;
+    z-index: 10 !important;
+  }
+
+  .hero-3d-section .card-3d.prev {
+    transform:
+      translateX(-105px)
+      scale(0.72)
+      rotateY(18deg)
+      translateZ(-30px) !important;
+
+    opacity: 0.45 !important;
+    z-index: 5 !important;
+  }
+
+  .hero-3d-section .card-3d.next {
+    transform:
+      translateX(105px)
+      scale(0.72)
+      rotateY(-18deg)
+      translateZ(-30px) !important;
+
+    opacity: 0.45 !important;
+    z-index: 5 !important;
+  }
+
+}
