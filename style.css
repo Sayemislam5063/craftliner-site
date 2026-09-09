@@ -4221,3 +4221,58 @@ header .nav {
     height: 42px;
   }
 }
+/* =========================================================
+   HEADER + 3D SLIDER POSITION FIX
+   ========================================================= */
+
+header {
+  position: relative;
+  z-index: 1000;
+}
+
+header .nav {
+  position: relative;
+  z-index: 1001;
+}
+
+/* Slider যেন header-এর ভিতরে/উপরে উঠে না আসে */
+.hero-3d-section {
+  position: relative;
+  z-index: 1;
+  top: auto !important;
+  margin-top: 0 !important;
+  clear: both;
+}
+
+/* Slider content-এর stacking ঠিক রাখা */
+.hero-3d-section .slider-container {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-3d-section .slider-controls {
+  position: relative;
+  z-index: 2;
+}
+
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 650px) {
+
+  header {
+    z-index: 1000;
+  }
+
+  .hero-3d-section {
+    margin-top: 0 !important;
+    padding-top: 10px;
+  }
+
+  .hero-3d-section .slider-container {
+    margin-top: 0 !important;
+  }
+
+}
