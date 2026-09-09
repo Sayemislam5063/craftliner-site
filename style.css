@@ -3878,3 +3878,125 @@ min-width: 100px;
   }
 
 }
+/* =========================================================
+   1. GLOBAL GLASS & CURVE BASE STYLES
+   ========================================================= */
+body {
+  background-color: #f7f2ea !important; /* প্রিমিয়াম সফট ক্রিম ব্যাকগ্রাউন্ড */
+}
+
+/* ২. হেডার গ্লাস ইফেক্ট */
+header, .header-container, .main-header {
+  background: rgba(255, 253, 248, 0.75) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.8) !important;
+  border-radius: 20px !important;
+  margin: 10px 12px !important;
+  box-shadow: 0 8px 24px rgba(88, 24, 37, 0.06) !important;
+}
+
+/* ৩. বেস্ট সেলিং ৩ডি স্লাইডার কার্ড (Hero Slider Glass & Soft Curves) */
+.slider-card, .best-selling-card, .swiper-slide {
+  border-radius: 20px !important;
+  overflow: hidden !important;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18) !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+.slider-card img, .best-selling-card img {
+  border-radius: 16px 16px 0 0 !important;
+}
+
+/* স্লাইডার বাটন ও ব্যাজ */
+.slider-card .choose-btn, .best-selling-card button {
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+  backdrop-filter: blur(4px) !important;
+}
+
+/* ৪. ক্যাটাগরি বাবল কার্ড ফ্রেম (Category Glass Container) */
+.category-bubbles-card, .collection-bubbles, .category-bubbles-container {
+  background: rgba(255, 255, 255, 0.65) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.8) !important;
+  border-radius: 20px !important;
+  padding: 14px !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04) !important;
+}
+
+.category-bubble-item .bubble-img-wrap {
+  border: 2px solid rgba(128, 0, 32, 0.2) !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08) !important;
+  transition: transform 0.2s ease, border-color 0.2s ease !important;
+}
+
+.category-bubble-item:hover .bubble-img-wrap {
+  transform: scale(1.05);
+  border-color: #800020 !important;
+}
+
+/* ৫. সেকশন হেডিং ও পিল বাটন (Section Title & Pill Buttons) */
+.section-title h2, .category-title {
+  font-weight: 700 !important;
+  letter-spacing: 0.5px !important;
+}
+
+.see-all-btn, .see-category-btn, .category-hero-banner-card .category-title-badge {
+  border-radius: 30px !important; /* ফুল কার্ভড পিল শেপ */
+  box-shadow: 0 4px 15px rgba(128, 0, 32, 0.2) !important;
+  transition: all 0.3s ease !important;
+}
+
+/* ৬. প্রোডাক্ট কার্ড (Product Grid Glass & Curve) */
+.category-product-card, .product-card {
+  background: rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border-radius: 18px !important;
+  border: 1px solid rgba(255, 255, 255, 0.9) !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05) !important;
+  overflow: hidden !important;
+  transition: transform 0.25s ease, box-shadow 0.25s ease !important;
+}
+
+.category-product-card:hover, .product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(88, 24, 37, 0.12) !important;
+}
+
+/* প্রোডাক্ট অফার ব্যাজ গ্লাস স্টাইল */
+.offer-badge {
+  background: rgba(128, 0, 32, 0.85) !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: 30px !important;
+  padding: 4px 12px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* বেছে নিন বাটন স্টাইল */
+.choose-product-btn {
+  border-radius: 12px !important;
+  background: #800020 !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  transition: background 0.2s ease, transform 0.2s ease !important;
+}
+
+.choose-product-btn:active {
+  transform: scale(0.97);
+}
+
+/* ৭. মোবাইল নেভিগেশন বার (Bottom Nav Glass Effect) */
+.bottom-nav, #bottomNavPlaceholder {
+  background: rgba(255, 253, 248, 0.85) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.8) !important;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06) !important;
+}
