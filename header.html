@@ -130,6 +130,150 @@
 
         </div>
       </div>
+<!-- =========================================================
+     SIDE MENU
+     ========================================================= -->
 
+<aside class="side-menu" id="sideMenu">
+
+  <div class="side-menu-head">
+
+    <div class="side-menu-title">
+      <span>MENU</span>
+      <h3>শপিং অপশন</h3>
+    </div>
+
+    <button
+      type="button"
+      class="side-menu-close"
+      id="sideMenuClose"
+      aria-label="Close Menu">
+      ×
+    </button>
+
+  </div>
+
+  <!-- Tracking -->
+  <button
+    type="button"
+    class="side-menu-tracking"
+    id="sideMenuTracking">
+
+    <span class="side-menu-tracking-icon">
+      <svg
+        width="22"
+        height="22"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+
+        <path
+          d="M3 6.5C3 5.67 3.67 5 4.5 5H14C14.55 5 15 5.45 15 6V17H3V6.5Z"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linejoin="round"/>
+
+        <path
+          d="M15 9H18.2L21 12.2V17H15V9Z"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linejoin="round"/>
+
+        <circle
+          cx="7"
+          cy="17.5"
+          r="1.8"
+          stroke="currentColor"
+          stroke-width="2"/>
+
+        <circle
+          cx="18"
+          cy="17.5"
+          r="1.8"
+          stroke="currentColor"
+          stroke-width="2"/>
+
+      </svg>
+    </span>
+
+    <span>অর্ডার ট্র্যাক করুন</span>
+
+  </button>
+
+  <!-- Categories -->
+  <div class="side-menu-section">
+
+    <div class="side-menu-section-title">
+      <span>COLLECTION</span>
+      <h4>ক্যাটাগরি</h4>
+    </div>
+
+    <div
+      class="side-menu-categories"
+      id="sideMenuCategories">
+    </div>
+
+  </div>
+
+  <!-- Price Filter -->
+  <div class="side-menu-section price-filter-section">
+
+    <div class="side-menu-section-title">
+      <span>PRICE FILTER</span>
+      <h4>দাম অনুযায়ী খুঁজুন</h4>
+    </div>
+
+    <div class="price-filter-fields">
+
+      <div class="price-filter-field">
+        <label for="minPriceFilter">
+          সর্বনিম্ন
+        </label>
+
+        <input
+          type="number"
+          id="minPriceFilter"
+          placeholder="যেমন 500"
+          min="0">
+      </div>
+
+      <div class="price-filter-field">
+        <label for="maxPriceFilter">
+          সর্বোচ্চ
+        </label>
+
+        <input
+          type="number"
+          id="maxPriceFilter"
+          placeholder="যেমন 5000"
+          min="0">
+      </div>
+
+    </div>
+
+    <button
+      type="button"
+      class="price-filter-apply-btn"
+      id="priceFilterApply">
+      Apply Filter
+    </button>
+
+    <button
+      type="button"
+      class="price-filter-reset-btn"
+      id="priceFilterReset">
+      Reset
+    </button>
+
+  </div>
+
+</aside>
+
+<!-- Sidebar Overlay -->
+<div
+  class="side-menu-overlay"
+  id="sideMenuOverlay">
+</div>
+    
   </nav>
 </header>
