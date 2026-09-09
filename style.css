@@ -4484,16 +4484,21 @@ header .nav {
   }
 
 }
+
+/* =========================================================
+   FINAL SMART HEADER + MOBILE 3D GAP
+   ========================================================= */
+
+header {
+  position: fixed !important;
+  top: 8px !important;
+  left: 50% !important;
+  z-index: 1000 !important;
+}
+
+/* Mobile: header-এর নিচে 3D section একটু দূরে থাকবে */
 @media (max-width: 720px) {
-
-  header {
-    position: sticky !important;
-    top: 8px !important;
-    margin-bottom: 18px !important;
-  }
-
   .hero-3d-section {
-    margin-top: 0 !important;
+    margin-top: 18px !important;
   }
-
 }
