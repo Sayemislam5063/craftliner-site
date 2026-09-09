@@ -166,16 +166,99 @@ function renderCategoryFilter() {
     </button>
   `).join('');
 
-bar.querySelectorAll('.cat-chip').forEach(btn => {
-  btn.addEventListener('click', () => {
+  // ---------- Category Click ----------
+  bar.querySelectorAll('.cat-chip').forEach(btn => {
+    btn.addEventListener('click', () => {
 
-    const categoryId = btn.dataset.cat;
+      const categoryId = btn.dataset.cat;
 
-    if (!categoryId) return;
+      if (!categoryId) return;
 
-    window.location.href = `category.html?id=${categoryId}`;
+      window.location.href = `category.html?id=${categoryId}`;
+    });
   });
-});
+
+  // ---------- Auto Category Slide ----------
+  if (!bar.dataset.autoSlideStarted) {
+
+    bar.dataset.autoSlideStarted = 'true';
+
+    let autoSlideTimer = null;
+
+    const startAutoSlide = () => {
+
+      if (autoSlideTimer) {
+        clearInterval(autoSlideTimer);
+      }
+
+      autoSlideTimer = setInterval(() => {
+
+        const chips = bar.querySelectorAll('.cat-chip');
+
+        if (chips.length < 2) return;
+
+        const maxScroll =
+          bar.scrollWidth - bar.clientWidth;
+
+        if (maxScroll <= 0) return;
+
+        const currentScroll = bar.scrollLeft;
+
+        let nextChip = null;
+
+        for (const chip of chips) {
+          if (chip.offsetLeft > currentScroll + 10) {
+            nextChip = chip;
+            break;
+          }
+        }
+
+        // শেষের দিকে গেলে আবার শুরু
+        if (!nextChip) {
+          bar.scrollTo({
+            left: 0,
+            behavior: 'smooth'
+          });
+
+          return;
+        }
+
+        bar.scrollTo({
+          left: nextChip.offsetLeft - 10,
+          behavior: 'smooth'
+        });
+
+      }, 2500);
+    };
+
+    startAutoSlide();
+
+    // হাতে swipe করলে কিছুক্ষণ অপেক্ষা করে আবার auto-slide
+    let resumeTimer = null;
+
+    const pauseAndResume = () => {
+
+      if (autoSlideTimer) {
+        clearInterval(autoSlideTimer);
+      }
+
+      clearTimeout(resumeTimer);
+
+      resumeTimer = setTimeout(() => {
+        startAutoSlide();
+      }, 3500);
+    };
+
+    bar.addEventListener('touchstart', pauseAndResume, {
+      passive: true
+    });
+
+    bar.addEventListener('mousedown', pauseAndResume);
+
+    bar.addEventListener('wheel', pauseAndResume, {
+      passive: true
+    });
+  }
 }
 
 // ---------- প্রোডাক্ট গ্রিড (ফিল্টার সহ) ----------
