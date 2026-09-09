@@ -3864,3 +3864,17 @@ min-width: 100px;
     display: none !important;
   }
 }
+/* ---------- Desktop Compact Header ---------- */
+@media (min-width: 721px) {
+
+  header {
+    width: calc(100% - 80px);
+    max-width: 1180px;
+  }
+
+  .nav {
+    max-width: 100%;
+    padding: 10px 24px;
+  }
+
+}
