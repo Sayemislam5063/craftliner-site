@@ -178,116 +178,87 @@ function renderCategoryFilter() {
     });
   });
 
-  // ---------- Auto Category Slide ----------
+  // ---------- Continuous Auto Category Slide ----------
   if (!bar.dataset.autoSlideStarted) {
 
     bar.dataset.autoSlideStarted = 'true';
 
-    let autoIndex = 0;
+    const originalHTML = bar.innerHTML;
+
+    // একই bubble আবার যোগ করা হবে যাতে শেষ থেকে প্রথমে
+    // একই দিকে continuous ভাবে slide করা যায়
+    bar.innerHTML = originalHTML + originalHTML;
+
+    let currentIndex = 0;
     let autoSlideTimer = null;
-    let resumeTimer = null;
 
-    const getCurrentIndex = () => {
+    const chips = () =>
+      [...bar.querySelectorAll('.cat-chip')];
 
-      const chips = [...bar.querySelectorAll('.cat-chip')];
+    const slideNext = () => {
 
-      if (!chips.length) return 0;
+      const allChips = chips();
 
-      const maxScroll =
-        bar.scrollWidth - bar.clientWidth;
+      if (allChips.length < 2) return;
 
-      // একদম শেষে থাকলে এটাকে শেষ bubble ধরবে
-      if (bar.scrollLeft >= maxScroll - 5) {
-        return chips.length - 1;
-      }
+      currentIndex++;
 
-      let closestIndex = 0;
-      let closestDistance = Infinity;
+      const targetChip = allChips[currentIndex];
 
-      chips.forEach((chip, index) => {
-
-        const target =
-          Math.min(
-            Math.max(0, chip.offsetLeft - 10),
-            maxScroll
-          );
-
-        const distance =
-          Math.abs(target - bar.scrollLeft);
-
-        if (distance < closestDistance) {
-          closestDistance = distance;
-          closestIndex = index;
-        }
-      });
-
-      return closestIndex;
-    };
-
-    const slideToNext = () => {
-
-      const chips = [...bar.querySelectorAll('.cat-chip')];
-
-      if (chips.length < 2) return;
-
-      autoIndex = getCurrentIndex() + 1;
-
-      // শেষ bubble-এর পর আবার প্রথম bubble
-      if (autoIndex >= chips.length) {
-
-        autoIndex = 0;
-
-        bar.scrollTo({
-          left: 0,
-          behavior: 'smooth'
-        });
-
-        return;
-      }
-
-      const maxScroll =
-        bar.scrollWidth - bar.clientWidth;
-
-      const target =
-        Math.min(
-          Math.max(0, chips[autoIndex].offsetLeft - 10),
-          maxScroll
-        );
+      if (!targetChip) return;
 
       bar.scrollTo({
-        left: target,
+        left: Math.max(0, targetChip.offsetLeft - 10),
         behavior: 'smooth'
       });
+
+      // প্রথম set শেষ হলে দ্বিতীয় set-এর একই position-এ
+      // invisible ভাবে reset হবে
+      if (currentIndex >= allCategories.length) {
+
+        setTimeout(() => {
+
+          bar.style.scrollBehavior = 'auto';
+
+          currentIndex = 0;
+
+          bar.scrollLeft =
+            allChips[0].offsetLeft - 10;
+
+          bar.style.scrollBehavior = '';
+
+        }, 700);
+      }
     };
 
-    const startAutoSlide = () => {
+    autoSlideTimer = setInterval(() => {
+      slideNext();
+    }, 2500);
 
-      clearInterval(autoSlideTimer);
+    // Manual swipe করলে auto slide বন্ধ
+    let resumeTimer = null;
 
-      autoSlideTimer = setInterval(() => {
-        slideToNext();
-      }, 2500);
-    };
-
-    const pauseAndResume = () => {
+    const pauseAutoSlide = () => {
 
       clearInterval(autoSlideTimer);
       clearTimeout(resumeTimer);
 
       resumeTimer = setTimeout(() => {
-        startAutoSlide();
+
+        autoSlideTimer = setInterval(() => {
+          slideNext();
+        }, 2500);
+
       }, 3500);
     };
 
-    startAutoSlide();
-
-    bar.addEventListener('touchstart', pauseAndResume, {
+    bar.addEventListener('touchstart', pauseAutoSlide, {
       passive: true
     });
 
-    bar.addEventListener('mousedown', pauseAndResume);
+    bar.addEventListener('mousedown', pauseAutoSlide);
 
-    bar.addEventListener('wheel', pauseAndResume, {
+    bar.addEventListener('wheel', pauseAutoSlide, {
       passive: true
     });
   }
