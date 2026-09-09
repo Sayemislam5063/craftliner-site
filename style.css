@@ -4540,26 +4540,31 @@ header {
   }
 
 }
-/* ---------- Tracking Icon ---------- */
 .tracking-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: none !important;
   outline: none !important;
   background: transparent !important;
   box-shadow: none !important;
-  padding: 4px 8px !important;
+  padding: 4px 6px !important;
   margin: 0 !important;
-  font-size: 20px;
-  line-height: 1;
+  color: var(--maroon) !important;
   cursor: pointer;
-  color: var(--maroon);
-  appearance: none;
-  -webkit-appearance: none;
+  line-height: 0;
+  transition: transform 0.2s ease;
+}
+
+.tracking-icon-btn svg {
+  width: 22px;
+  height: 22px;
+  display: block;
 }
 
 .tracking-icon-btn:hover {
   background: transparent !important;
-  box-shadow: none !important;
-  transform: scale(1.12);
+  transform: scale(1.1);
 }
 /* =========================================================
    TRACKING ICON POSITION
