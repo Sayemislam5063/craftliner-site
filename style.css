@@ -4536,7 +4536,7 @@ header {
 @media (max-width: 720px) {
 
   body:not(:has(.hero-3d-section)) {
-    padding-top: 200px !important;
+    padding-top: 153px !important;
   }
 
 }
