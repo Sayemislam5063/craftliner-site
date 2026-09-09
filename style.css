@@ -4540,3 +4540,24 @@ header {
   }
 
 }
+/* ---------- Tracking Icon ---------- */
+.tracking-icon-btn {
+  border: none !important;
+  outline: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 4px 8px !important;
+  margin: 0 !important;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--maroon);
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.tracking-icon-btn:hover {
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: scale(1.12);
+}
