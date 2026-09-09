@@ -4448,3 +4448,39 @@ header .nav {
   }
 
 }
+/* =========================================================
+   FINAL MOBILE 3D CARD POSITION FIX
+   ========================================================= */
+
+@media (max-width: 720px) {
+
+  .hero-3d-section .card-3d {
+    top: 50% !important;
+    left: 50% !important;
+  }
+
+  .hero-3d-section .card-3d.active {
+    transform:
+      translate(-50%, -50%)
+      scale(1)
+      translateZ(0)
+      rotateY(0deg) !important;
+  }
+
+  .hero-3d-section .card-3d.prev {
+    transform:
+      translate(calc(-50% - 105px), -50%)
+      scale(0.68)
+      rotateY(20deg)
+      translateZ(-30px) !important;
+  }
+
+  .hero-3d-section .card-3d.next {
+    transform:
+      translate(calc(-50% + 105px), -50%)
+      scale(0.68)
+      rotateY(-20deg)
+      translateZ(-30px) !important;
+  }
+
+}
