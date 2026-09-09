@@ -4484,9 +4484,16 @@ header .nav {
   }
 
 }
-/* Header → 3D Slider small gap */
 @media (max-width: 720px) {
-  .hero-3d-section {
-    margin-top: 10px !important;
+
+  header {
+    position: sticky !important;
+    top: 8px !important;
+    margin-bottom: 18px !important;
   }
+
+  .hero-3d-section {
+    margin-top: 0 !important;
+  }
+
 }
