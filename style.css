@@ -537,7 +537,7 @@ header {
   .hero-3d-section {
     width: calc(100% - 20px);
 
-    padding: 5px 0 5px;
+    padding: 20px 0 20px;
 
     border-radius: 18px;
   }
